@@ -9,12 +9,8 @@
   <style>
     :root{
       --brown:#2f1f12;
-      --brown-2:#4b321a;
       --gold:#d8ad42;
       --gold-2:#b8831f;
-      --gold-3:#f4d983;
-      --cream:#fff8e7;
-      --paper:#fffdf8;
       --muted:#7d6b55;
       --line:#06c755;
       --blue:#2878d8;
@@ -203,11 +199,6 @@
       right:-38px;
       top:-42px;
       background:rgba(216,173,66,.14);
-    }
-
-    .service:hover{
-      transform:translateY(-2px);
-      box-shadow:0 16px 32px rgba(48,31,18,.12);
     }
 
     .service:active{transform:scale(.98)}
@@ -1264,21 +1255,23 @@
       const d = lastFareData;
 
       const msg =
-`【維尼車隊｜車資試算】
+`🧮【維尼車隊｜車資試算】
 
-姓名：${val("fareName")}
-上車：${document.getElementById("fareStart").value.trim() || d.start}
-下車：${document.getElementById("fareEnd").value.trim() || d.end}
-時間：${val("fareTime")}
-人數：${val("farePeople")}
-備註：${val("fareNote")}
+👤 姓名：${val("fareName")}
 
-試算路線：${d.routeLabel}
-預估距離：${d.distanceKm.toFixed(1)} km
-預估時間：${Math.round(d.durationMin)} 分鐘
-預估車資：約 ${d.fare} 元
+📍 上車：${document.getElementById("fareStart").value.trim() || d.start}
+🏁 下車：${document.getElementById("fareEnd").value.trim() || d.end}
 
-想請派車小姐協助確認車資與是否可派車，謝謝。`;
+🕒 時間：${val("fareTime")}
+👥 人數：${val("farePeople")}
+📝 備註：${val("fareNote")}
+
+🛣️ 試算路線：${d.routeLabel}
+📏 預估距離：${d.distanceKm.toFixed(1)} km
+⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘
+💰 預估車資：約 ${d.fare} 元
+
+🙏 想請派車小姐協助確認車資與是否可派車，謝謝。`;
 
       renderOutput("fare", msg);
     }
@@ -1291,54 +1284,64 @@
 
       if(type === "ride"){
         msg =
-`【維尼車隊｜立即叫車】
+`🚖【維尼車隊｜立即叫車】
 
-姓名：${getValue(fd,"name")}
-電話：${getValue(fd,"phone")}
-上車：${getValue(fd,"from")}
-下車：${getValue(fd,"to")}
-時間：${getValue(fd,"time")}
-人數：${getValue(fd,"people")}
-行李：${getValue(fd,"luggage")}
-車型需求：${getValue(fd,"carType")}
-備註：${getValue(fd,"note")}
+👤 姓名：${getValue(fd,"name")}
+📞 電話：${getValue(fd,"phone")}
 
-請派車小姐協助確認，謝謝。`;
+📍 上車：${getValue(fd,"from")}
+🏁 下車：${getValue(fd,"to")}
+
+🕒 時間：${getValue(fd,"time")}
+👥 人數：${getValue(fd,"people")}
+🧳 行李：${getValue(fd,"luggage")}
+🚗 車型需求：${getValue(fd,"carType")}
+
+📝 備註：${getValue(fd,"note")}
+
+🙏 請派車小姐協助確認，謝謝。`;
       }
 
       if(type === "airport"){
         msg =
-`【維尼車隊｜機場接送詢價】
+`✈️【維尼車隊｜機場接送詢價】
 
-姓名：${getValue(fd,"name")}
-電話：${getValue(fd,"phone")}
-接送方向：${getValue(fd,"direction")}
-機場：${getValue(fd,"airport")}
-上車：${getValue(fd,"from")}
-下車：${getValue(fd,"to")}
-日期時間：${getValue(fd,"time")}
-人數：${getValue(fd,"people")}
-行李：${getValue(fd,"luggage")}
-航班：${getValue(fd,"flight")}
-備註：${getValue(fd,"note")}
+👤 姓名：${getValue(fd,"name")}
+📞 電話：${getValue(fd,"phone")}
 
-想詢問機場接送報價與預約，謝謝。`;
+🔁 接送方向：${getValue(fd,"direction")}
+🛫 機場：${getValue(fd,"airport")}
+
+📍 上車：${getValue(fd,"from")}
+🏁 下車：${getValue(fd,"to")}
+
+📅 日期時間：${getValue(fd,"time")}
+👥 人數：${getValue(fd,"people")}
+🧳 行李：${getValue(fd,"luggage")}
+🛩️ 航班：${getValue(fd,"flight")}
+
+📝 備註：${getValue(fd,"note")}
+
+🙏 想詢問機場接送報價與預約，謝謝。`;
       }
 
       if(type === "driver"){
         msg =
-`【維尼車隊｜司機應徵】
+`📝【維尼車隊｜司機應徵】
 
-姓名：${getValue(fd,"name")}
-電話：${getValue(fd,"phone")}
-地區：${getValue(fd,"area")}
-車型：${getValue(fd,"car")}
-車牌：${getValue(fd,"plate")}
-可服務時段：${getValue(fd,"time")}
-派車經驗：${getValue(fd,"experience")}
-備註：${getValue(fd,"note")}
+👤 姓名：${getValue(fd,"name")}
+📞 電話：${getValue(fd,"phone")}
 
-想了解加入維尼車隊，謝謝。`;
+📍 地區：${getValue(fd,"area")}
+🚗 車型：${getValue(fd,"car")}
+🔢 車牌：${getValue(fd,"plate")}
+
+🕒 可服務時段：${getValue(fd,"time")}
+🧭 派車經驗：${getValue(fd,"experience")}
+
+📝 備註：${getValue(fd,"note")}
+
+🙏 想了解加入維尼車隊，謝謝。`;
       }
 
       renderOutput(type,msg);
@@ -1425,70 +1428,70 @@
     }
 
     async function sendOrCopyLineMessage(btn){
-  const output = btn.closest(".output");
-  const text = output.querySelector("textarea").value;
+      const output = btn.closest(".output");
+      const text = output.querySelector("textarea").value;
 
-  const originalText = btn.textContent;
-  btn.textContent = "送出中...";
-  btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = "送出中...";
+      btn.disabled = true;
 
-  try{
-    if(!window.liff){
-      alert("LIFF SDK 沒有載入，改用複製模式。");
-      btn.disabled = false;
-      await copyText(btn);
-      return;
-    }
-
-    if(!liffReady){
-      alert("LIFF 尚未初始化完成，請等 1 秒後再按一次。");
-      btn.textContent = originalText || "LINE 內一鍵送出";
-      btn.disabled = false;
-      return;
-    }
-
-    if(!liff.isInClient()){
-      alert("目前不是在 LINE App 內開啟，改用複製模式。");
-      btn.disabled = false;
-      await copyText(btn);
-      return;
-    }
-
-    await liff.sendMessages([
-      {
-        type: "text",
-        text: text
-      }
-    ]);
-
-    btn.disabled = false;
-    btn.textContent = "已送出";
-    showToast("已送出到 LINE 聊天室");
-
-    alert("已成功送出到 LINE 聊天室");
-
-    setTimeout(() => {
       try{
-        liff.closeWindow();
-      }catch(e){}
-    }, 800);
+        if(!window.liff){
+          alert("LIFF SDK 沒有載入，改用複製模式。");
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
 
-  }catch(err){
-    console.error("LIFF sendMessages error:", err);
+        if(!liffReady){
+          alert("LIFF 尚未初始化完成，請等 1 秒後再按一次。");
+          btn.textContent = originalText || "LINE 內一鍵送出";
+          btn.disabled = false;
+          return;
+        }
 
-    btn.disabled = false;
+        if(!liff.isInClient()){
+          alert("目前不是在 LINE App 內開啟，改用複製模式。");
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
 
-    alert(
-      "LINE 一鍵送出失敗\n\n" +
-      "錯誤內容：\n" +
-      (err.message || JSON.stringify(err)) + "\n\n" +
-      "請確認是從 LINE 官方聊天室的圖文選單開啟。"
-    );
+        await liff.sendMessages([
+          {
+            type:"text",
+            text:text
+          }
+        ]);
 
-    btn.textContent = "改用複製訊息";
-    await copyText(btn);
-  }
-}
+        btn.disabled = false;
+        btn.textContent = "已送出";
+        showToast("已送出到 LINE 聊天室");
+
+        alert("已成功送出到 LINE 聊天室");
+
+        setTimeout(() => {
+          try{
+            liff.closeWindow();
+          }catch(e){}
+        },800);
+
+      }catch(err){
+        console.error("LIFF sendMessages error:", err);
+
+        btn.disabled = false;
+
+        alert(
+          "LINE 一鍵送出失敗\n\n" +
+          "錯誤內容：\n" +
+          (err.message || JSON.stringify(err)) + "\n\n" +
+          "請確認是從 LINE 官方聊天室的圖文選單開啟。"
+        );
+
+        btn.textContent = "改用複製訊息";
+        await copyText(btn);
+      }
+    }
 
     async function copyText(btn){
       const text = btn.closest(".output").querySelector("textarea").value;
