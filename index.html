@@ -24,7 +24,6 @@
     }
 
     *{box-sizing:border-box}
-
     html{scroll-behavior:smooth}
 
     body{
@@ -1413,41 +1412,99 @@
           status.classList.toggle("warn", !isInLineClient);
         }
       }catch(err){
-        console.error(err);
+        console.error("LIFF init error:", err);
         status.textContent = "LIFF 初始化失敗，請確認 LIFF ID 與 Endpoint URL 是否正確。";
         status.classList.add("warn");
+
+        alert(
+          "LIFF 初始化失敗\n\n" +
+          "錯誤內容：\n" +
+          (err.message || JSON.stringify(err))
+        );
       }
     }
 
     async function sendOrCopyLineMessage(btn){
-      const text = btn.closest(".output").querySelector("textarea").value;
+      const output = btn.closest(".output");
+      const text = output.querySelector("textarea").value;
 
-      if(liffReady && isInLineClient && liff.isApiAvailable("sendMessages")){
-        try{
-          await liff.sendMessages([
-            {
-              type:"text",
-              text:text
-            }
-          ]);
+      const originalText = btn.textContent;
+      btn.textContent = "送出中...";
+      btn.disabled = true;
 
-          showToast("已送出到 LINE 聊天室");
-          btn.textContent = "已送出";
-
-          setTimeout(() => {
-            try{
-              liff.closeWindow();
-            }catch(e){}
-          },650);
-
+      try{
+        if(!window.liff){
+          alert("LIFF SDK 沒有載入，改用複製模式。");
+          btn.disabled = false;
+          await copyText(btn);
           return;
-        }catch(err){
-          console.error(err);
-          showToast("送出失敗，已改用複製模式");
         }
-      }
 
-      await copyText(btn);
+        if(!liffReady){
+          alert("LIFF 尚未初始化完成，請等 1 秒後再按一次。");
+          btn.textContent = originalText || "LINE 內一鍵送出";
+          btn.disabled = false;
+          return;
+        }
+
+        const inClient = liff.isInClient();
+        const canSend = liff.isApiAvailable("sendMessages");
+
+        if(!inClient){
+          alert("目前不是在 LINE App 內開啟，改用複製模式。");
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
+
+        if(!canSend){
+          alert(
+            "目前環境無法使用 sendMessages。\n\n" +
+            "請確認：\n" +
+            "1. LIFF Scopes 有 chat_message.write\n" +
+            "2. 是從官方帳號聊天室的圖文選單開啟\n" +
+            "3. 不是從外部瀏覽器或轉傳連結開啟"
+          );
+
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
+
+        await liff.sendMessages([
+          {
+            type:"text",
+            text:text
+          }
+        ]);
+
+        btn.disabled = false;
+        btn.textContent = "已送出";
+        showToast("已送出到 LINE 聊天室");
+
+        alert("已成功送出到 LINE 聊天室");
+
+        setTimeout(() => {
+          try{
+            liff.closeWindow();
+          }catch(e){}
+        },800);
+
+      }catch(err){
+        console.error("LIFF sendMessages error:", err);
+
+        btn.disabled = false;
+
+        alert(
+          "LINE 一鍵送出失敗\n\n" +
+          "錯誤內容：\n" +
+          (err.message || JSON.stringify(err)) + "\n\n" +
+          "這代表 LIFF 有開啟，但 LINE 不允許本次 sendMessages。"
+        );
+
+        btn.textContent = "改用複製訊息";
+        await copyText(btn);
+      }
     }
 
     async function copyText(btn){
