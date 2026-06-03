@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#3A2614" />
-  <title>維尼線上服務中心｜叫車・車資試算・機場接送・司機應徵</title>
+  <title>維尼線上服務中心</title>
   <style>
     :root{
       --brown:#2f1f12;
@@ -16,12 +16,12 @@
       --paper:#fffdf8;
       --muted:#7d6b55;
       --line:#06c755;
-      --blue:#2878d8;
       --border:rgba(184,131,31,.28);
       --shadow:0 18px 48px rgba(48,31,18,.14);
       --shadow-soft:0 10px 24px rgba(48,31,18,.08);
       --radius:24px;
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
@@ -34,263 +34,787 @@
         linear-gradient(180deg,#fff9eb 0%,#fffdf8 46%,#f6ead1 100%);
       min-height:100vh;
     }
-    .app{width:min(980px,100%);margin:0 auto;padding:16px 14px 44px}
-    .hero{
-      position:relative;overflow:hidden;min-height:250px;border-radius:30px;
-      background:linear-gradient(135deg,rgba(47,31,18,.96),rgba(78,51,23,.96) 54%,rgba(193,137,31,.96));
-      color:white;padding:26px 18px;box-shadow:var(--shadow);isolation:isolate;
-    }
-    .hero::before{content:"";position:absolute;inset:auto -100px -180px auto;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.12);z-index:-1}
-    .topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-    .logo{display:flex;align-items:center;gap:10px;min-width:0}.mark{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#f7dc83,#b98422);color:#3a2614;font-size:25px;font-weight:950;box-shadow:0 10px 22px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55);flex:0 0 auto}.brand{min-width:0}.brand-title{font-size:16px;letter-spacing:.18em;font-weight:850;opacity:.98;white-space:nowrap}.brand-sub{font-size:12px;color:#f5df9a;margin-top:2px;letter-spacing:.12em}.badge{padding:9px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.12);color:#fff6d8;font-size:12px;white-space:nowrap}
-    .hero h1{margin:0;font-size:clamp(30px,7vw,52px);line-height:1.12;letter-spacing:.04em;font-weight:950}.hero p{max-width:680px;margin:12px 0 0;color:#fff2c4;line-height:1.75;font-size:15px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;max-width:560px}.hero-btn{border:0;border-radius:999px;padding:14px 16px;font-size:16px;font-weight:900;text-align:center;text-decoration:none;cursor:pointer;transition:.16s ease;display:flex;align-items:center;justify-content:center;gap:8px}.hero-btn:active{transform:scale(.98)}.hero-btn.primary{background:linear-gradient(135deg,#f4d983,#b98422);color:#2f1f12}.hero-btn.secondary{background:rgba(255,255,255,.14);color:white;border:1px solid rgba(255,255,255,.24)}
-    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.service{border:1px solid var(--border);background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-radius:24px;padding:16px 12px;box-shadow:var(--shadow-soft);min-height:168px;cursor:pointer;transition:.16s ease;position:relative;overflow:hidden}.service::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-38px;top:-42px;background:rgba(216,173,66,.14)}.service:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(48,31,18,.12)}.service:active{transform:scale(.98)}.service .ico{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#fff2bf,#d4a13a);font-size:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6);margin-bottom:14px}.service h2{margin:0 0 5px;font-size:22px;line-height:1.15;font-weight:950}.service p{margin:0;line-height:1.55;color:var(--muted);font-size:13px}.service .go{margin-top:12px;color:var(--gold-2);font-weight:900;font-size:14px}
-    .section{display:none;margin-top:14px;border:1px solid var(--border);background:rgba(255,255,255,.92);border-radius:30px;padding:20px;box-shadow:var(--shadow)}.section.active{display:block}.section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(184,131,31,.18)}.section h3{margin:0;font-size:28px;line-height:1.15;font-weight:950}.section .desc{margin:7px 0 0;color:var(--muted);line-height:1.65;font-size:14px}.tag{flex:0 0 auto;border-radius:999px;background:#fff4cf;border:1px solid rgba(184,131,31,.25);color:#7b5416;padding:8px 10px;font-size:12px;font-weight:900}
-    form{display:grid;gap:12px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field.full{grid-column:1/-1}label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px;font-size:14px;font-weight:900;color:#2c1d10}.req{color:#b56d00;font-size:12px;font-weight:950}input,select,textarea{width:100%;border:1px solid #dfc789;background:#fffdf8;color:var(--brown);border-radius:16px;padding:13px 13px;font-size:16px;outline:none;transition:.14s ease;font-family:inherit}textarea{min-height:92px;resize:vertical;line-height:1.6}input:focus,select:focus,textarea:focus{border-color:var(--gold-2);box-shadow:0 0 0 4px rgba(216,173,66,.17);background:white}.tips{border-radius:18px;background:#fff7dd;border:1px solid rgba(184,131,31,.18);padding:12px;color:#70572b;font-size:13px;line-height:1.7}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}button,.btn{border:0;border-radius:16px;padding:15px 14px;font-size:16px;font-weight:950;cursor:pointer;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:.15s ease}button:active,.btn:active{transform:scale(.985)}.gold{background:linear-gradient(135deg,#f4d983,#b98422);color:#2f1f12;box-shadow:0 10px 20px rgba(184,131,31,.18)}.soft{background:#fff6d4;color:#3a2614;border:1px solid rgba(184,131,31,.28)}.line{background:var(--line);color:white;box-shadow:0 10px 20px rgba(6,199,85,.18)}.blue{background:#eaf3ff;color:#154d8d;border:1px solid rgba(40,120,216,.25)}
-    .fare-card{display:grid;gap:12px}.map-wrap{border-radius:24px;overflow:hidden;border:1px solid rgba(184,131,31,.22);box-shadow:var(--shadow-soft);background:#fff7dd}.map-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.map-box{width:100%;height:420px;min-height:360px;background:#f1e1bd}.route-list{display:none;margin-top:12px;border:1px solid rgba(40,120,216,.18);background:#f5faff;border-radius:20px;padding:12px}.route-list.active{display:block}.route-title{font-weight:950;color:#154d8d;margin-bottom:8px}.route-list button{width:100%;margin-top:8px;background:white;color:#154d8d;border:1px solid rgba(40,120,216,.22);justify-content:space-between;text-align:left}.fare-result{display:none;margin-top:14px;border-radius:22px;padding:14px;border:1px solid rgba(184,131,31,.25);background:linear-gradient(180deg,#fff9e8,#fffdf8);box-shadow:var(--shadow-soft)}.fare-result.active{display:block}.fare-price{font-size:34px;font-weight:950;color:#b56d00;margin:4px 0}.fare-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.fare-meta div{background:white;border:1px solid rgba(184,131,31,.16);border-radius:16px;padding:10px;text-align:center}.fare-meta b{display:block;font-size:18px}.fare-meta span{display:block;font-size:12px;color:var(--muted);margin-top:2px}.fare-note{margin-top:10px;color:#76582c;font-size:13px;line-height:1.7}.mini-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-    .output{display:none;margin-top:16px;border:1px dashed rgba(184,131,31,.5);background:#fff7dd;border-radius:22px;padding:14px}.output.active{display:block}.output-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-weight:950}.output textarea{min-height:290px;background:white;font-size:15px;line-height:1.65}.small{margin-top:10px;color:#8a6230;font-size:13px;line-height:1.7}.floating{position:sticky;bottom:12px;display:none;margin-top:14px;z-index:10}.floating.show{display:block}.floating button{width:100%;background:rgba(47,31,18,.94);color:white;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 30px rgba(0,0,0,.18);backdrop-filter:blur(10px)}.footer{text-align:center;margin:26px 0 0;color:#7f6a47;line-height:1.75;font-size:13px}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#2f1f12;color:white;padding:12px 16px;border-radius:999px;box-shadow:0 14px 30px rgba(0,0,0,.22);font-weight:850;transition:.2s ease;z-index:99;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    .liff-status{margin-top:12px;border:1px solid rgba(6,199,85,.22);background:rgba(6,199,85,.08);color:#1f4d2f;border-radius:18px;padding:10px 12px;font-size:13px;line-height:1.55;font-weight:800}
-    .liff-status.warn{border-color:rgba(184,131,31,.28);background:#fff7dd;color:#70572b}
-    @media (max-width:820px){.quick{grid-template-columns:repeat(2,1fr)}.hero-actions,.map-toolbar{grid-template-columns:1fr}.service{min-height:150px}.fare-meta{grid-template-columns:1fr 1fr}}
-    @media (max-width:560px){.app{padding:10px 10px 34px}.hero{border-radius:24px;padding:22px 16px;min-height:240px}.badge{display:none}.mark{width:44px;height:44px;font-size:23px}.brand-title{font-size:14px}.hero h1{font-size:31px}.quick{gap:9px}.service{border-radius:20px;padding:14px 10px;min-height:142px}.service .ico{width:46px;height:46px;border-radius:16px;font-size:25px;margin-bottom:10px}.service h2{font-size:19px}.section{border-radius:24px;padding:16px 12px}.section-head{display:block}.tag{display:inline-flex;margin-top:10px}.form-grid,.actions,.mini-actions{grid-template-columns:1fr;gap:10px}.map-box{height:360px}.fare-meta{grid-template-columns:1fr}.fare-price{font-size:30px}}
+    .app{
+      width:min(980px,100%);
+      margin:0 auto;
+      padding:16px 14px 44px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      min-height:250px;
+      border-radius:30px;
+      background:
+        linear-gradient(135deg,rgba(47,31,18,.96),rgba(78,51,23,.96) 54%,rgba(193,137,31,.96)),
+        radial-gradient(circle at right top,rgba(255,255,255,.18),transparent 35%);
+      color:white;
+      padding:26px 18px;
+      box-shadow:var(--shadow);
+      isolation:isolate;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:auto -100px -180px auto;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      background:rgba(255,255,255,.12);
+      z-index:-1;
+    }
+
+    .topline{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .mark{
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#f7dc83,#b98422);
+      color:#3a2614;
+      font-size:25px;
+      font-weight:950;
+      box-shadow:0 10px 22px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55);
+      flex:0 0 auto;
+    }
+
+    .brand{
+      min-width:0;
+    }
+
+    .brand-title{
+      font-size:16px;
+      letter-spacing:.18em;
+      font-weight:850;
+      opacity:.98;
+      white-space:nowrap;
+    }
+
+    .brand-sub{
+      font-size:12px;
+      color:#f5df9a;
+      margin-top:2px;
+      letter-spacing:.12em;
+    }
+
+    .badge{
+      padding:9px 12px;
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      color:#fff6d8;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:clamp(30px,7vw,52px);
+      line-height:1.12;
+      letter-spacing:.04em;
+      font-weight:950;
+    }
+
+    .hero p{
+      max-width:640px;
+      margin:12px 0 0;
+      color:#fff2c4;
+      line-height:1.75;
+      font-size:15px;
+    }
+
+    .hero-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:18px;
+      max-width:520px;
+    }
+
+    .hero-btn{
+      border:0;
+      border-radius:999px;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:900;
+      text-align:center;
+      text-decoration:none;
+      cursor:pointer;
+      transition:.16s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .hero-btn:active{transform:scale(.98)}
+    .hero-btn.primary{
+      background:linear-gradient(135deg,#f4d983,#b98422);
+      color:#2f1f12;
+    }
+    .hero-btn.secondary{
+      background:rgba(255,255,255,.14);
+      color:white;
+      border:1px solid rgba(255,255,255,.24);
+    }
+
+    .quick{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin:16px 0;
+    }
+
+    .service{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.8);
+      backdrop-filter:blur(8px);
+      border-radius:24px;
+      padding:16px 12px;
+      box-shadow:var(--shadow-soft);
+      min-height:168px;
+      cursor:pointer;
+      transition:.16s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .service::after{
+      content:"";
+      position:absolute;
+      width:90px;height:90px;border-radius:50%;
+      right:-38px;top:-42px;
+      background:rgba(216,173,66,.14);
+    }
+
+    .service:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(48,31,18,.12)}
+    .service:active{transform:scale(.98)}
+    .service .ico{
+      width:52px;
+      height:52px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#fff2bf,#d4a13a);
+      font-size:28px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+      margin-bottom:14px;
+    }
+
+    .service h2{
+      margin:0 0 5px;
+      font-size:22px;
+      line-height:1.15;
+      font-weight:950;
+    }
+
+    .service p{
+      margin:0;
+      line-height:1.55;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .service .go{
+      margin-top:12px;
+      color:var(--gold-2);
+      font-weight:900;
+      font-size:14px;
+    }
+
+    .section{
+      display:none;
+      margin-top:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.92);
+      border-radius:30px;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    .section.active{display:block}
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+      margin-bottom:14px;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(184,131,31,.18);
+    }
+    .section h3{
+      margin:0;
+      font-size:28px;
+      line-height:1.15;
+      font-weight:950;
+    }
+    .section .desc{
+      margin:7px 0 0;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+    .tag{
+      flex:0 0 auto;
+      border-radius:999px;
+      background:#fff4cf;
+      border:1px solid rgba(184,131,31,.25);
+      color:#7b5416;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    form{
+      display:grid;
+      gap:12px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .field.full{grid-column:1/-1}
+    label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:7px;
+      font-size:14px;
+      font-weight:900;
+      color:#2c1d10;
+    }
+    .req{color:#b56d00;font-size:12px;font-weight:950}
+    input,select,textarea{
+      width:100%;
+      border:1px solid #dfc789;
+      background:#fffdf8;
+      color:var(--brown);
+      border-radius:16px;
+      padding:13px 13px;
+      font-size:16px;
+      outline:none;
+      transition:.14s ease;
+      font-family:inherit;
+    }
+    textarea{min-height:92px;resize:vertical;line-height:1.6}
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--gold-2);
+      box-shadow:0 0 0 4px rgba(216,173,66,.17);
+      background:white;
+    }
+
+    .tips{
+      border-radius:18px;
+      background:#fff7dd;
+      border:1px solid rgba(184,131,31,.18);
+      padding:12px;
+      color:#70572b;
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    button,.btn{
+      border:0;
+      border-radius:16px;
+      padding:15px 14px;
+      font-size:16px;
+      font-weight:950;
+      cursor:pointer;
+      text-decoration:none;
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      font-family:inherit;
+      transition:.15s ease;
+    }
+    button:active,.btn:active{transform:scale(.985)}
+    .gold{
+      background:linear-gradient(135deg,#f4d983,#b98422);
+      color:#2f1f12;
+      box-shadow:0 10px 20px rgba(184,131,31,.18);
+    }
+    .soft{
+      background:#fff6d4;
+      color:#3a2614;
+      border:1px solid rgba(184,131,31,.28);
+    }
+    .line{
+      background:var(--line);
+      color:white;
+      box-shadow:0 10px 20px rgba(6,199,85,.18);
+    }
+
+    .output{
+      display:none;
+      margin-top:16px;
+      border:1px dashed rgba(184,131,31,.5);
+      background:#fff7dd;
+      border-radius:22px;
+      padding:14px;
+    }
+    .output.active{display:block}
+    .output-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+      font-weight:950;
+    }
+    .output textarea{
+      min-height:290px;
+      background:white;
+      font-size:15px;
+      line-height:1.65;
+    }
+    .small{
+      margin-top:10px;
+      color:#8a6230;
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .floating{
+      position:sticky;
+      bottom:12px;
+      display:none;
+      margin-top:14px;
+      z-index:10;
+    }
+    .floating.show{display:block}
+    .floating button{
+      width:100%;
+      background:rgba(47,31,18,.94);
+      color:white;
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 12px 30px rgba(0,0,0,.18);
+      backdrop-filter:blur(10px);
+    }
+
+    .footer{
+      text-align:center;
+      margin:26px 0 0;
+      color:#7f6a47;
+      line-height:1.75;
+      font-size:13px;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%) translateY(20px);
+      opacity:0;
+      pointer-events:none;
+      background:#2f1f12;
+      color:white;
+      padding:12px 16px;
+      border-radius:999px;
+      box-shadow:0 14px 30px rgba(0,0,0,.22);
+      font-weight:850;
+      transition:.2s ease;
+      z-index:99;
+      white-space:nowrap;
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    @media (max-width:820px){
+      .quick{grid-template-columns:repeat(2,1fr)}
+      .hero-actions{grid-template-columns:1fr}
+      .service{min-height:150px}
+    }
+
+    @media (max-width:560px){
+      .app{padding:10px 10px 34px}
+      .hero{border-radius:24px;padding:22px 16px;min-height:240px}
+      .badge{display:none}
+      .mark{width:44px;height:44px;font-size:23px}
+      .brand-title{font-size:14px}
+      .hero h1{font-size:31px}
+      .quick{gap:9px}
+      .service{border-radius:20px;padding:14px 10px;min-height:142px}
+      .service .ico{width:46px;height:46px;border-radius:16px;font-size:25px;margin-bottom:10px}
+      .service h2{font-size:19px}
+      .section{border-radius:24px;padding:16px 12px}
+      .section-head{display:block}
+      .tag{display:inline-flex;margin-top:10px}
+      .form-grid{grid-template-columns:1fr;gap:10px}
+      .actions{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
   <main class="app">
     <header class="hero">
       <div class="topline">
-        <div class="logo"><div class="mark">W</div><div class="brand"><div class="brand-title">WINNIE CAR SERVICE</div><div class="brand-sub">線上服務中心</div></div></div>
-        <div class="badge">網頁叫車 × 車資試算</div>
+        <div class="logo">
+          <div class="mark">W</div>
+          <div class="brand">
+            <div class="brand-title">WINNIE CAR SERVICE</div>
+            <div class="brand-sub">線上服務中心</div>
+          </div>
+        </div>
+        <div class="badge">LINE 網頁填單</div>
       </div>
+
       <h1>維尼線上服務中心</h1>
-      <p>叫車、車資試算、機場接送與司機應徵整合在同一個網頁。客人填完後可一鍵整理訊息，在 LINE 內可一鍵送出給客服聊天室。</p>
-      <div class="liff-status warn" id="liffStatus">LIFF 初始化中；若尚未填入 LIFF ID，會自動使用複製貼上模式。</div>
+      <p>選擇您需要的服務，填寫完成後系統會自動整理成清楚訊息，方便您傳送給維尼車隊客服協助確認。</p>
+
       <div class="hero-actions">
         <button class="hero-btn primary" type="button" onclick="showPanel('ride')">🚗 立即叫車</button>
-        <button class="hero-btn secondary" type="button" onclick="showPanel('fare')">🧮 車資試算</button>
+        <button class="hero-btn secondary" type="button" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">查看全部服務</button>
       </div>
     </header>
 
     <section class="quick" id="menu">
-      <article class="service" onclick="showPanel('ride')"><div class="ico">🚗</div><h2>立即叫車</h2><p>線上填單，快速整理派車資料。</p><div class="go">前往叫車 ›</div></article>
-      <article class="service" onclick="showPanel('fare')"><div class="ico">🧮</div><h2>車資試算</h2><p>直接在本頁輸入起訖點，顯示地圖路線與預估費用。</p><div class="go">開始試算 ›</div></article>
-      <article class="service" onclick="showPanel('airport')"><div class="ico">✈️</div><h2>機場接送</h2><p>報價預約，行程時間更好安排。</p><div class="go">查看方案 ›</div></article>
-      <article class="service" onclick="showPanel('driver')"><div class="ico">📝</div><h2>司機應徵</h2><p>加入車隊，線上填寫基本資料。</p><div class="go">立即應徵 ›</div></article>
+      <article class="service" onclick="showPanel('ride')">
+        <div class="ico">🚗</div>
+        <h2>立即叫車</h2>
+        <p>線上填單，快速整理派車資料。</p>
+        <div class="go">前往叫車 ›</div>
+      </article>
+
+      <article class="service" onclick="showPanel('fare')">
+        <div class="ico">🧮</div>
+        <h2>車資試算</h2>
+        <p>輸入上下車地點，線上整理試算需求。</p>
+        <div class="go">前往試算 ›</div>
+      </article>
+
+      <article class="service" onclick="showPanel('airport')">
+        <div class="ico">✈️</div>
+        <h2>機場接送</h2>
+        <p>報價預約，行程時間更好安排。</p>
+        <div class="go">查看方案 ›</div>
+      </article>
+
+      <article class="service" onclick="showPanel('driver')">
+        <div class="ico">📝</div>
+        <h2>司機應徵</h2>
+        <p>加入車隊，線上填寫基本資料。</p>
+        <div class="go">立即應徵 ›</div>
+      </article>
     </section>
 
     <section class="section" id="ride">
-      <div class="section-head"><div><h3>立即叫車</h3><p class="desc">請盡量填寫完整上下車資訊，客服收到後可更快協助確認派車。</p></div><div class="tag">快速派車表單</div></div>
-      <form onsubmit="makeMessage(event,'ride')"><div class="form-grid">
-        <div class="field"><label>姓名 / 稱呼</label><input name="name" placeholder="例如：王先生 / 陳小姐"></div>
-        <div class="field"><label>聯絡電話</label><input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx"></div>
-        <div class="field full"><label>上車地點 <span class="req">必填</span></label><input name="from" required placeholder="請輸入完整上車地址或明顯地標"></div>
-        <div class="field full"><label>下車地點 <span class="req">必填</span></label><input name="to" required placeholder="請輸入完整下車地址或明顯地標"></div>
-        <div class="field"><label>搭乘時間</label><input name="time" placeholder="例如：現在 / 今天 18:30"></div>
-        <div class="field"><label>人數</label><input name="people" inputmode="numeric" placeholder="例如：2人"></div>
-        <div class="field"><label>行李</label><input name="luggage" placeholder="例如：無 / 2件"></div>
-        <div class="field"><label>車型需求</label><select name="carType"><option value="">無特別需求</option><option>一般車</option><option>七人座</option><option>九人座</option></select></div>
-        <div class="field full"><label>備註</label><textarea name="note" placeholder="例如：需協助搬行李、門口等候、寵物同行、長者同行等"></textarea></div>
-      </div><div class="tips">提醒：送出後會先產生整理好的文字，您可以一鍵複製並傳送給客服。</div><div class="actions"><button class="gold" type="submit">產生叫車訊息</button><button class="soft" type="reset">清除重填</button></div></form><div class="output" id="out-ride"></div>
+      <div class="section-head">
+        <div>
+          <h3>立即叫車</h3>
+          <p class="desc">請盡量填寫完整上下車資訊，客服收到後可更快協助確認派車。</p>
+        </div>
+        <div class="tag">快速派車表單</div>
+      </div>
+
+      <form onsubmit="makeMessage(event,'ride')">
+        <div class="form-grid">
+          <div class="field"><label>姓名 / 稱呼</label><input name="name" placeholder="例如：王先生 / 陳小姐"></div>
+          <div class="field"><label>聯絡電話</label><input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx"></div>
+          <div class="field full"><label>上車地點 <span class="req">必填</span></label><input name="from" required placeholder="請輸入完整上車地址或明顯地標"></div>
+          <div class="field full"><label>下車地點 <span class="req">必填</span></label><input name="to" required placeholder="請輸入完整下車地址或明顯地標"></div>
+          <div class="field"><label>搭乘時間</label><input name="time" placeholder="例如：現在 / 今天 18:30"></div>
+          <div class="field"><label>人數</label><input name="people" inputmode="numeric" placeholder="例如：2人"></div>
+          <div class="field"><label>行李</label><input name="luggage" placeholder="例如：無 / 2件"></div>
+          <div class="field"><label>車型需求</label><select name="carType"><option value="">無特別需求</option><option>一般車</option><option>七人座</option><option>九人座</option></select></div>
+          <div class="field full"><label>備註</label><textarea name="note" placeholder="例如：需協助搬行李、門口等候、寵物同行、長者同行等"></textarea></div>
+        </div>
+        <div class="tips">提醒：送出後會先產生整理好的文字，您可以一鍵複製並傳送給客服。</div>
+        <div class="actions">
+          <button class="gold" type="submit">產生叫車訊息</button>
+          <button class="soft" type="reset">清除重填</button>
+        </div>
+      </form>
+      <div class="output" id="out-ride"></div>
     </section>
 
     <section class="section" id="fare">
-      <div class="section-head"><div><h3>車資試算</h3><p class="desc">輸入上下車地點後，可選擇一般路線或平面道路試算。試算完成後可直接整理訊息給 LINE 客服確認。</p></div><div class="tag">本頁內建試算</div></div>
-      <div class="fare-card">
-        <div class="form-grid">
-          <div class="field full"><label>上車地點 <span class="req">必填</span></label><input id="fareStart" placeholder="請輸入上車地址或地標"></div>
-          <div class="field full"><label>下車地點 <span class="req">必填</span></label><input id="fareEnd" placeholder="請輸入下車地址或地標"></div>
-          <div class="field"><label>姓名 / 稱呼</label><input id="fareName" placeholder="例如：王先生 / 陳小姐"></div>
-          <div class="field"><label>搭乘時間</label><input id="fareTime" placeholder="例如：現在 / 今天 18:30"></div>
-          <div class="field"><label>人數</label><input id="farePeople" inputmode="numeric" placeholder="例如：2人"></div>
-          <div class="field"><label>備註</label><input id="fareNote" placeholder="例如：有行李、需九人座、來回等"></div>
+      <div class="section-head">
+        <div>
+          <h3>車資試算</h3>
+          <p class="desc">請輸入上下車地點與搭乘需求，系統會整理成車資試算訊息，方便傳給客服確認。</p>
         </div>
-        <div class="map-toolbar">
-          <button class="gold" type="button" onclick="calcFareRoute(false)">一般路線試算</button>
-          <button class="blue" type="button" onclick="calcFareRoute(true)">平面道路試算</button>
-        </div>
-        <div class="map-wrap"><div id="map" class="map-box"></div></div>
-        <div id="routeButtons" class="route-list"></div>
-        <div id="fareResult" class="fare-result"></div>
-        <div class="tips">※ 一般路線以 Google 建議路線為主。平面道路會盡量避開高速公路／快速道路。實際價格仍以司機現場跳錶與派車客服確認為準。</div>
+        <div class="tag">先估車資</div>
       </div>
+
+      <form onsubmit="makeMessage(event,'fare')">
+        <div class="form-grid">
+          <div class="field"><label>姓名 / 稱呼</label><input name="name" placeholder="例如：王先生 / 陳小姐"></div>
+          <div class="field"><label>人數</label><input name="people" inputmode="numeric" placeholder="例如：2人"></div>
+          <div class="field full"><label>上車地點 <span class="req">必填</span></label><input name="from" required placeholder="請輸入上車地址或地標"></div>
+          <div class="field full"><label>下車地點 <span class="req">必填</span></label><input name="to" required placeholder="請輸入下車地址或地標"></div>
+          <div class="field full"><label>搭乘時間</label><input name="time" placeholder="例如：今天晚上 / 明天早上 / 指定日期時間"></div>
+          <div class="field full"><label>備註</label><textarea name="note" placeholder="例如：是否有行李、是否需要大車、是否來回等"></textarea></div>
+        </div>
+        <div class="actions">
+          <button class="gold" type="submit">產生試算訊息</button>
+          <button class="soft" type="reset">清除重填</button>
+        </div>
+      </form>
       <div class="output" id="out-fare"></div>
     </section>
 
     <section class="section" id="airport">
-      <div class="section-head"><div><h3>機場接送</h3><p class="desc">填寫航班、時間、人數與行李，客服可更快協助報價與安排車型。</p></div><div class="tag">機場報價預約</div></div>
-      <form onsubmit="makeMessage(event,'airport')"><div class="form-grid">
-        <div class="field"><label>姓名 / 稱呼</label><input name="name" placeholder="例如：王先生 / 陳小姐"></div><div class="field"><label>聯絡電話</label><input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx"></div><div class="field"><label>接送方向</label><select name="direction"><option>去機場</option><option>機場回程</option><option>來回接送</option></select></div><div class="field"><label>機場</label><select name="airport"><option>桃園機場</option><option>清泉崗機場</option><option>高雄機場</option><option>其他機場</option></select></div><div class="field full"><label>上車地點 <span class="req">必填</span></label><input name="from" required placeholder="請輸入上車地址或地標"></div><div class="field full"><label>下車地點 <span class="req">必填</span></label><input name="to" required placeholder="請輸入下車地址、機場或航廈"></div><div class="field"><label>日期時間</label><input name="time" placeholder="例如：6/10 05:30"></div><div class="field"><label>人數</label><input name="people" inputmode="numeric" placeholder="例如：4人"></div><div class="field"><label>行李</label><input name="luggage" placeholder="例如：2大2小"></div><div class="field"><label>航班資訊</label><input name="flight" placeholder="例如：BRxxx / 不確定"></div><div class="field full"><label>備註</label><textarea name="note" placeholder="例如：需要兒童座椅、九人座、回程日期、紅眼航班等"></textarea></div>
-      </div><div class="actions"><button class="gold" type="submit">產生機場接送訊息</button><button class="soft" type="reset">清除重填</button></div></form><div class="output" id="out-airport"></div>
+      <div class="section-head">
+        <div>
+          <h3>機場接送</h3>
+          <p class="desc">填寫航班、時間、人數與行李，客服可更快協助報價與安排車型。</p>
+        </div>
+        <div class="tag">機場報價預約</div>
+      </div>
+
+      <form onsubmit="makeMessage(event,'airport')">
+        <div class="form-grid">
+          <div class="field"><label>姓名 / 稱呼</label><input name="name" placeholder="例如：王先生 / 陳小姐"></div>
+          <div class="field"><label>聯絡電話</label><input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx"></div>
+          <div class="field"><label>接送方向</label><select name="direction"><option>去機場</option><option>機場回程</option><option>來回接送</option></select></div>
+          <div class="field"><label>機場</label><select name="airport"><option>桃園機場</option><option>清泉崗機場</option><option>高雄機場</option><option>其他機場</option></select></div>
+          <div class="field full"><label>上車地點 <span class="req">必填</span></label><input name="from" required placeholder="請輸入上車地址或地標"></div>
+          <div class="field full"><label>下車地點 <span class="req">必填</span></label><input name="to" required placeholder="請輸入下車地址、機場或航廈"></div>
+          <div class="field"><label>日期時間</label><input name="time" placeholder="例如：6/10 05:30"></div>
+          <div class="field"><label>人數</label><input name="people" inputmode="numeric" placeholder="例如：4人"></div>
+          <div class="field"><label>行李</label><input name="luggage" placeholder="例如：2大2小"></div>
+          <div class="field"><label>航班資訊</label><input name="flight" placeholder="例如：BRxxx / 不確定"></div>
+          <div class="field full"><label>備註</label><textarea name="note" placeholder="例如：需要兒童座椅、九人座、回程日期、紅眼航班等"></textarea></div>
+        </div>
+        <div class="actions">
+          <button class="gold" type="submit">產生機場接送訊息</button>
+          <button class="soft" type="reset">清除重填</button>
+        </div>
+      </form>
+      <div class="output" id="out-airport"></div>
     </section>
 
     <section class="section" id="driver">
-      <div class="section-head"><div><h3>司機應徵</h3><p class="desc">填寫基本資料後，請將整理好的訊息傳給客服，車隊將協助後續了解。</p></div><div class="tag">加入車隊</div></div>
-      <form onsubmit="makeMessage(event,'driver')"><div class="form-grid">
-        <div class="field"><label>姓名 <span class="req">必填</span></label><input name="name" required placeholder="請輸入姓名"></div><div class="field"><label>聯絡電話 <span class="req">必填</span></label><input name="phone" required inputmode="tel" placeholder="例如：09xxxxxxxx"></div><div class="field"><label>居住 / 服務地區</label><input name="area" placeholder="例如：台中西屯、北屯、彰化等"></div><div class="field"><label>車型</label><input name="car" placeholder="例如：Altis、RAV4、九人座等"></div><div class="field"><label>車牌前四碼</label><input name="plate" placeholder="例如：ABC-1"></div><div class="field"><label>可服務時段</label><input name="time" placeholder="例如：晚上 / 假日 / 全日"></div><div class="field full"><label>是否有派車 / 接送經驗</label><select name="experience"><option>有經驗</option><option>無經驗</option><option>想先了解</option></select></div><div class="field full"><label>備註</label><textarea name="note" placeholder="可補充車況、可跑區域、可配合時段等"></textarea></div>
-      </div><div class="actions"><button class="gold" type="submit">產生應徵訊息</button><button class="soft" type="reset">清除重填</button></div></form><div class="output" id="out-driver"></div>
+      <div class="section-head">
+        <div>
+          <h3>司機應徵</h3>
+          <p class="desc">填寫基本資料後，請將整理好的訊息傳給客服，車隊將協助後續了解。</p>
+        </div>
+        <div class="tag">加入車隊</div>
+      </div>
+
+      <form onsubmit="makeMessage(event,'driver')">
+        <div class="form-grid">
+          <div class="field"><label>姓名 <span class="req">必填</span></label><input name="name" required placeholder="請輸入姓名"></div>
+          <div class="field"><label>聯絡電話 <span class="req">必填</span></label><input name="phone" required inputmode="tel" placeholder="例如：09xxxxxxxx"></div>
+          <div class="field"><label>居住 / 服務地區</label><input name="area" placeholder="例如：台中西屯、北屯、彰化等"></div>
+          <div class="field"><label>車型</label><input name="car" placeholder="例如：Altis、RAV4、九人座等"></div>
+          <div class="field"><label>車牌前四碼</label><input name="plate" placeholder="例如：ABC-1"></div>
+          <div class="field"><label>可服務時段</label><input name="time" placeholder="例如：晚上 / 假日 / 全日"></div>
+          <div class="field full"><label>是否有派車 / 接送經驗</label><select name="experience"><option>有經驗</option><option>無經驗</option><option>想先了解</option></select></div>
+          <div class="field full"><label>備註</label><textarea name="note" placeholder="可補充車況、可跑區域、可配合時段等"></textarea></div>
+        </div>
+        <div class="actions">
+          <button class="gold" type="submit">產生應徵訊息</button>
+          <button class="soft" type="reset">清除重填</button>
+        </div>
+      </form>
+      <div class="output" id="out-driver"></div>
     </section>
 
-    <div class="floating" id="floating"><button type="button" onclick="goMenu()">返回服務選單</button></div>
-    <footer class="footer">維尼線上服務中心｜LIFF 版本｜本頁面不顯示客服電話，請透過 LINE 官方聯繫。<br>車資試算為預估參考，實際價格依派車客服與司機跳錶為準。</footer>
+    <div class="floating" id="floating">
+      <button type="button" onclick="goMenu()">返回服務選單</button>
+    </div>
+
+    <footer class="footer">
+      維尼線上服務中心｜填寫完成後，請將整理好的訊息傳給客服<br>
+      四大服務皆可在本頁操作｜本頁面不顯示客服電話，請透過 LINE 官方聯繫。
+    </footer>
   </main>
+
   <div class="toast" id="toast">已複製訊息</div>
 
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    const LIFF_ID = "請貼上你的 LIFF ID";
     const LINE_URL = "https://lin.ee/vQN5z35";
-    const BACKUP_FARE_URL = "https://q23361117.github.io/fare/";
-    const titles = { ride:"立即叫車", fare:"車資試算", airport:"機場接送", driver:"司機應徵" };
-    let liffReady = false;
-    let isInLineClient = false;
-    let map, directionsService, directionsRenderer, startMarker=null, endMarker=null, currentResult=null, lastFareData=null;
 
-    function initMap(){
-      map = new google.maps.Map(document.getElementById("map"), { zoom:12, center:{lat:24.1477,lng:120.6736}, mapId:"c5b92407e1dbcc2a3d20b950" });
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer({ map, suppressMarkers:true, draggable:true });
-      directionsRenderer.addListener("directions_changed", function(){
-        const result = directionsRenderer.getDirections();
-        if(result){ const leg = result.routes[directionsRenderer.getRouteIndex()].legs[0]; drawMarkers(leg); updateFare(leg, "手動調整路線"); }
-      });
-    }
+    const titles = {
+      ride: "立即叫車",
+      fare: "車資試算",
+      airport: "機場接送",
+      driver: "司機應徵"
+    };
 
     function showPanel(id){
       document.querySelectorAll('.section').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       document.getElementById('floating').classList.add('show');
-      history.replaceState(null,"","#"+id);
-      setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'}),50);
-      if(id === 'fare' && map){ setTimeout(()=>google.maps.event.trigger(map,'resize'),180); }
+      history.replaceState(null, "", "#" + id);
+      setTimeout(() => document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'}), 50);
     }
-    function goMenu(){ document.querySelectorAll('.section').forEach(p=>p.classList.remove('active')); document.getElementById('floating').classList.remove('show'); history.replaceState(null,"",location.pathname); document.getElementById('menu').scrollIntoView({behavior:'smooth',block:'start'}); }
-    function getValue(fd,key){ const val=(fd.get(key)||'').toString().trim(); return val || '未填'; }
-    function val(id){ return (document.getElementById(id)?.value || '').trim() || '未填'; }
 
-    function calcFareRoute(avoidHighways){
-      const start = document.getElementById("fareStart").value.trim();
-      const end = document.getElementById("fareEnd").value.trim();
-      if(!start || !end){ alert("請輸入完整上下車地點"); return; }
-      if(!directionsService){ alert("地圖尚未載入完成，請稍後再試"); return; }
-      directionsService.route({ origin:start, destination:end, travelMode:'DRIVING', provideRouteAlternatives:true, avoidHighways }, function(result,status){
-        if(status === 'OK'){
-          currentResult = result; directionsRenderer.setDirections(result); directionsRenderer.setRouteIndex(0); createRouteButtons(result); const leg=result.routes[0].legs[0]; drawMarkers(leg); updateFare(leg, avoidHighways ? "平面道路" : "一般路線");
-        }else{ alert("距離計算失敗，請確認地址是否完整"); }
-      });
+    function goMenu(){
+      document.querySelectorAll('.section').forEach(p => p.classList.remove('active'));
+      document.getElementById('floating').classList.remove('show');
+      history.replaceState(null, "", location.pathname);
+      document.getElementById('menu').scrollIntoView({behavior:'smooth',block:'start'});
     }
-    function createRouteButtons(result){
-      const container=document.getElementById("routeButtons"); container.classList.add('active'); container.innerHTML='<div class="route-title">選擇路線</div>';
-      result.routes.forEach((route,index)=>{ const distance=route.legs[0].distance.text; const duration=route.legs[0].duration.text; const btn=document.createElement('button'); btn.type='button'; btn.innerHTML=`<span>路線 ${index+1}</span><span>${distance} / ${duration}</span>`; btn.onclick=()=>selectRoute(index); container.appendChild(btn); });
+
+    function getValue(fd,key){
+      const val = (fd.get(key) || '').toString().trim();
+      return val || '未填';
     }
-    function selectRoute(index){ directionsRenderer.setRouteIndex(index); const leg=currentResult.routes[index].legs[0]; drawMarkers(leg); updateFare(leg, `路線 ${index+1}`); }
-    function drawMarkers(leg){
-      if(startMarker) startMarker.setMap(null); if(endMarker) endMarker.setMap(null);
-      startMarker = new google.maps.marker.AdvancedMarkerElement({ map, position:leg.start_location, content:new google.maps.marker.PinElement({background:"#2fb344", glyphColor:"white", glyph:"上"}).element });
-      endMarker = new google.maps.marker.AdvancedMarkerElement({ map, position:leg.end_location, content:new google.maps.marker.PinElement({background:"#d92d20", glyphColor:"white", glyph:"下"}).element });
-    }
-    function updateFare(leg, routeLabel){
-      const distanceKm = leg.distance.value / 1000;
-      const durationMin = leg.duration.value / 60;
-      let fare = 80 + (distanceKm * 15) + (durationMin * 3);
-      let longAdd = 0;
-      if(distanceKm > 15){ longAdd = (distanceKm - 15) * 10; fare += longAdd; }
-      const now = new Date(); const hour = now.getHours(); let nightAddText = "無";
-      if(hour >= 23 || hour < 6){ fare *= 1.2; nightAddText = "已套用夜間 1.2 倍"; }
-      if(fare < 120){ fare = 120; }
-      fare = Math.round(fare);
-      lastFareData = { start:leg.start_address, end:leg.end_address, distanceKm, durationMin, fare, routeLabel, longAdd, nightAddText };
-      document.getElementById("fareResult").classList.add('active');
-      document.getElementById("fareResult").innerHTML = `
-        <div style="font-weight:950;color:#7b5416;">${routeLabel || '試算結果'}</div>
-        <div class="fare-price">約 ${fare.toLocaleString()} 元</div>
-        <div class="fare-meta">
-          <div><b>${distanceKm.toFixed(1)} km</b><span>預估距離</span></div>
-          <div><b>${Math.round(durationMin)} 分</b><span>預估時間</span></div>
-          <div><b>${longAdd > 0 ? '有' : '無'}</b><span>15公里加成</span></div>
-        </div>
-        <div class="fare-note">夜間加成：${nightAddText}<br>計算方式：起跳 80 元 + 每公里 15 元 + 每分鐘 3 元；超過 15 公里，每公里另加 10 元；低消 120 元。</div>
-        <div class="mini-actions">
-          <button class="gold" type="button" onclick="makeFareLineMessage()">整理試算訊息</button>
-          <a class="btn soft" href="${BACKUP_FARE_URL}" target="_blank" rel="noopener">開啟原試算頁</a>
-        </div>`;
-    }
-    function makeFareLineMessage(){
-      if(!lastFareData){ alert('請先完成車資試算'); return; }
-      const d = lastFareData;
-      const msg = `【維尼車隊｜車資試算】\n\n姓名：${val('fareName')}\n上車：${document.getElementById('fareStart').value.trim() || d.start}\n下車：${document.getElementById('fareEnd').value.trim() || d.end}\n時間：${val('fareTime')}\n人數：${val('farePeople')}\n備註：${val('fareNote')}\n\n試算路線：${d.routeLabel}\n預估距離：${d.distanceKm.toFixed(1)} km\n預估時間：${Math.round(d.durationMin)} 分鐘\n預估車資：約 ${d.fare} 元\n\n想請派車小姐協助確認車資與是否可派車，謝謝。`;
-      renderOutput('fare', msg);
-    }
+
     function makeMessage(e,type){
-      e.preventDefault(); const fd=new FormData(e.target); let msg="";
-      if(type === "ride") msg = `【維尼車隊｜立即叫車】\n\n姓名：${getValue(fd,'name')}\n電話：${getValue(fd,'phone')}\n上車：${getValue(fd,'from')}\n下車：${getValue(fd,'to')}\n時間：${getValue(fd,'time')}\n人數：${getValue(fd,'people')}\n行李：${getValue(fd,'luggage')}\n車型需求：${getValue(fd,'carType')}\n備註：${getValue(fd,'note')}\n\n請派車小姐協助確認，謝謝。`;
-      if(type === "airport") msg = `【維尼車隊｜機場接送詢價】\n\n姓名：${getValue(fd,'name')}\n電話：${getValue(fd,'phone')}\n接送方向：${getValue(fd,'direction')}\n機場：${getValue(fd,'airport')}\n上車：${getValue(fd,'from')}\n下車：${getValue(fd,'to')}\n日期時間：${getValue(fd,'time')}\n人數：${getValue(fd,'people')}\n行李：${getValue(fd,'luggage')}\n航班：${getValue(fd,'flight')}\n備註：${getValue(fd,'note')}\n\n想詢問機場接送報價與預約，謝謝。`;
-      if(type === "driver") msg = `【維尼車隊｜司機應徵】\n\n姓名：${getValue(fd,'name')}\n電話：${getValue(fd,'phone')}\n地區：${getValue(fd,'area')}\n車型：${getValue(fd,'car')}\n車牌：${getValue(fd,'plate')}\n可服務時段：${getValue(fd,'time')}\n派車經驗：${getValue(fd,'experience')}\n備註：${getValue(fd,'note')}\n\n想了解加入維尼車隊，謝謝。`;
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      let msg = "";
+
+      if(type === "ride"){
+        msg =
+`【維尼車隊｜立即叫車】
+
+姓名：${getValue(fd,'name')}
+電話：${getValue(fd,'phone')}
+上車：${getValue(fd,'from')}
+下車：${getValue(fd,'to')}
+時間：${getValue(fd,'time')}
+人數：${getValue(fd,'people')}
+行李：${getValue(fd,'luggage')}
+車型需求：${getValue(fd,'carType')}
+備註：${getValue(fd,'note')}
+
+請派車小姐協助確認，謝謝。`;
+      }
+
+      if(type === "fare"){
+        msg =
+`【維尼車隊｜車資試算】
+
+姓名：${getValue(fd,'name')}
+上車：${getValue(fd,'from')}
+下車：${getValue(fd,'to')}
+時間：${getValue(fd,'time')}
+人數：${getValue(fd,'people')}
+備註：${getValue(fd,'note')}
+
+想先詢問預估車資，謝謝。`;
+      }
+
+      if(type === "airport"){
+        msg =
+`【維尼車隊｜機場接送詢價】
+
+姓名：${getValue(fd,'name')}
+電話：${getValue(fd,'phone')}
+接送方向：${getValue(fd,'direction')}
+機場：${getValue(fd,'airport')}
+上車：${getValue(fd,'from')}
+下車：${getValue(fd,'to')}
+日期時間：${getValue(fd,'time')}
+人數：${getValue(fd,'people')}
+行李：${getValue(fd,'luggage')}
+航班：${getValue(fd,'flight')}
+備註：${getValue(fd,'note')}
+
+想詢問機場接送報價與預約，謝謝。`;
+      }
+
+      if(type === "driver"){
+        msg =
+`【維尼車隊｜司機應徵】
+
+姓名：${getValue(fd,'name')}
+電話：${getValue(fd,'phone')}
+地區：${getValue(fd,'area')}
+車型：${getValue(fd,'car')}
+車牌：${getValue(fd,'plate')}
+可服務時段：${getValue(fd,'time')}
+派車經驗：${getValue(fd,'experience')}
+備註：${getValue(fd,'note')}
+
+想了解加入維尼車隊，謝謝。`;
+      }
+
       renderOutput(type,msg);
     }
+
     function renderOutput(type,msg){
-      const out=document.getElementById("out-"+type); out.classList.add("active");
-      const liffBtnText = liffReady && isInLineClient ? "LINE 內一鍵送出" : "一鍵複製訊息";
-      const helpText = liffReady && isInLineClient
-        ? "目前已在 LINE LIFF 內開啟，可直接按「LINE 內一鍵送出」把整理好的訊息送到目前客服聊天室。"
-        : "目前不是 LINE LIFF 送出模式，請先按「一鍵複製訊息」，再前往 LINE 官方貼上傳送。";
-      out.innerHTML = `<div class="output-title"><span>已整理好的「${titles[type]}」訊息</span><span style="color:#b8831f;font-size:13px;">LIFF 訊息模式</span></div><textarea readonly>${escapeHtml(msg)}</textarea><div class="actions"><button class="gold" type="button" onclick="sendOrCopyLineMessage(this)">${liffBtnText}</button><a class="btn line" href="${LINE_URL}" target="_blank" rel="noopener">前往 LINE 官方</a></div><div class="small">${helpText}</div>`;
+      const out = document.getElementById("out-" + type);
+      out.classList.add("active");
+      out.innerHTML = `
+        <div class="output-title">
+          <span>已整理好的「${titles[type]}」訊息</span>
+          <span style="color:#b8831f;font-size:13px;">可複製貼上</span>
+        </div>
+        <textarea readonly>${escapeHtml(msg)}</textarea>
+        <div class="actions">
+          <button class="gold" type="button" onclick="copyText(this)">一鍵複製訊息</button>
+          <a class="btn line" href="${LINE_URL}" target="_blank" rel="noopener">前往 LINE 官方傳送</a>
+        </div>
+        <div class="small">提醒：一般網頁無法強制自動把文字送到 LINE 聊天室。請先按「一鍵複製訊息」，再到 LINE 官方貼上傳送。若之後升級 LIFF，可改成在 LINE 內一鍵送出。</div>
+      `;
       out.scrollIntoView({behavior:'smooth',block:'start'});
     }
 
-    async function initLiffApp(){
-      const status = document.getElementById('liffStatus');
-      if(!window.liff){
-        status.textContent = 'LIFF SDK 尚未載入，會使用複製貼上模式。';
-        status.classList.add('warn');
-        return;
-      }
-      if(!LIFF_ID || LIFF_ID.includes('請貼上')){
-        status.textContent = '尚未填入 LIFF ID：目前可正常試算與複製訊息；填入 LIFF ID 後即可啟用 LINE 內一鍵送出。';
-        status.classList.add('warn');
-        return;
-      }
-      try{
-        await liff.init({ liffId: LIFF_ID });
-        liffReady = true;
-        isInLineClient = liff.isInClient();
-        if(!liff.isLoggedIn() && !isInLineClient){
-          status.textContent = '外部瀏覽器開啟：可登入 LINE 或改由 LINE 官方選單開啟。';
-          status.classList.add('warn');
-        }else{
-          status.textContent = isInLineClient ? '已啟用 LIFF：可在 LINE 內一鍵送出訊息。' : 'LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。';
-          status.classList.toggle('warn', !isInLineClient);
-        }
-      }catch(err){
-        console.error(err);
-        status.textContent = 'LIFF 初始化失敗，請確認 LIFF ID 與 Endpoint URL 是否正確。';
-        status.classList.add('warn');
+    function copyText(btn){
+      const text = btn.closest('.output').querySelector('textarea').value;
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(() => copied(btn)).catch(() => fallbackCopy(btn,text));
+      }else{
+        fallbackCopy(btn,text);
       }
     }
 
-    async function sendOrCopyLineMessage(btn){
-      const text = btn.closest('.output').querySelector('textarea').value;
-      if(liffReady && isInLineClient && liff.isApiAvailable('sendMessages')){
-        try{
-          await liff.sendMessages([{ type:'text', text }]);
-          showToast('已送出到 LINE 聊天室');
-          btn.textContent = '已送出';
-          setTimeout(()=>{ try{ liff.closeWindow(); }catch(e){} }, 650);
-          return;
-        }catch(err){
-          console.error(err);
-          showToast('送出失敗，已改用複製模式');
-        }
-      }
-      await copyText(btn);
+    function fallbackCopy(btn,text){
+      const ta = btn.closest('.output').querySelector('textarea');
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      copied(btn);
     }
-    async function copyText(btn){ const text=btn.closest('.output').querySelector('textarea').value; if(navigator.clipboard && window.isSecureContext){ try{ await navigator.clipboard.writeText(text); copied(btn); }catch(e){ fallbackCopy(btn,text); } }else{ fallbackCopy(btn,text); } }
-    function fallbackCopy(btn,text){ const ta=btn.closest('.output').querySelector('textarea'); ta.focus(); ta.select(); document.execCommand('copy'); copied(btn); }
-    function copied(btn){ btn.textContent="已複製，請前往 LINE 貼上"; showToast("已複製訊息"); }
-    function showToast(text){ const toast=document.getElementById("toast"); toast.textContent=text; toast.classList.add("show"); setTimeout(()=>toast.classList.remove("show"),1800); }
-    function escapeHtml(str){ return str.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
-    window.addEventListener("load",()=>{ initLiffApp(); const hash=location.hash.replace("#",""); if(["ride","fare","airport","driver"].includes(hash)){ showPanel(hash); } });
+
+    function copied(btn){
+      btn.textContent = "已複製，請前往 LINE 貼上";
+      showToast("已複製訊息");
+    }
+
+    function showToast(text){
+      const toast = document.getElementById("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[m]));
+    }
+
+    window.addEventListener("load", () => {
+      const hash = location.hash.replace("#","");
+      if(["ride","fare","airport","driver"].includes(hash)){
+        showPanel(hash);
+      }
+    });
   </script>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMi3iCO0lZuw3XfaUoKxBrQJMGFbiz5po&callback=initMap&libraries=marker"></script>
 </body>
 </html>
