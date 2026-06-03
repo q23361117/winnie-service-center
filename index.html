@@ -10,18 +10,17 @@
     :root{
       --brown:#2f1f12;
       --gold:#d8ad42;
-      --gold-2:#b8831f;
+      --gold2:#b8831f;
       --muted:#7d6b55;
       --line:#06c755;
       --blue:#2878d8;
       --border:rgba(184,131,31,.28);
       --shadow:0 18px 48px rgba(48,31,18,.14);
-      --shadow-soft:0 10px 24px rgba(48,31,18,.08);
+      --soft:0 10px 24px rgba(48,31,18,.08);
     }
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
@@ -33,11 +32,7 @@
       min-height:100vh;
     }
 
-    .app{
-      width:min(980px,100%);
-      margin:0 auto;
-      padding:16px 14px 44px;
-    }
+    .app{width:min(980px,100%);margin:0 auto;padding:16px 14px 44px}
 
     .hero{
       position:relative;
@@ -51,190 +46,78 @@
       isolation:isolate;
     }
 
-    .hero::before{
+    .hero:before{
       content:"";
       position:absolute;
       inset:auto -100px -180px auto;
-      width:320px;
-      height:320px;
-      border-radius:50%;
+      width:320px;height:320px;border-radius:50%;
       background:rgba(255,255,255,.12);
       z-index:-1;
     }
 
-    .topline{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
-
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
-
+    .topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .logo{display:flex;align-items:center;gap:10px;min-width:0}
     .mark{
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      display:grid;
-      place-items:center;
+      width:50px;height:50px;border-radius:50%;
+      display:grid;place-items:center;
       background:linear-gradient(135deg,#f7dc83,#b98422);
-      color:#3a2614;
-      font-size:25px;
-      font-weight:950;
+      color:#3a2614;font-size:25px;font-weight:950;
       box-shadow:0 10px 22px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55);
       flex:0 0 auto;
     }
-
-    .brand-title{
-      font-size:16px;
-      letter-spacing:.18em;
-      font-weight:850;
-      opacity:.98;
-      white-space:nowrap;
-    }
-
-    .brand-sub{
-      font-size:12px;
-      color:#f5df9a;
-      margin-top:2px;
-      letter-spacing:.12em;
-    }
-
+    .brand-title{font-size:16px;letter-spacing:.18em;font-weight:850;white-space:nowrap}
+    .brand-sub{font-size:12px;color:#f5df9a;margin-top:2px;letter-spacing:.12em}
     .badge{
-      padding:9px 12px;
-      border:1px solid rgba(255,255,255,.2);
-      border-radius:999px;
-      background:rgba(255,255,255,.12);
-      color:#fff6d8;
-      font-size:12px;
-      white-space:nowrap;
+      padding:9px 12px;border:1px solid rgba(255,255,255,.2);
+      border-radius:999px;background:rgba(255,255,255,.12);
+      color:#fff6d8;font-size:12px;white-space:nowrap;
     }
+    .hero h1{margin:0;font-size:clamp(30px,7vw,52px);line-height:1.12;letter-spacing:.04em;font-weight:950}
+    .hero p{max-width:680px;margin:12px 0 0;color:#fff2c4;line-height:1.75;font-size:15px}
+    .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;max-width:560px}
 
-    .hero h1{
-      margin:0;
-      font-size:clamp(30px,7vw,52px);
-      line-height:1.12;
-      letter-spacing:.04em;
-      font-weight:950;
+    .hero-btn,button,.btn{
+      border:0;border-radius:16px;padding:15px 14px;font-size:16px;font-weight:950;
+      cursor:pointer;text-decoration:none;text-align:center;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      font-family:inherit;transition:.15s ease;
     }
+    .hero-btn{border-radius:999px}
+    button:active,.btn:active,.hero-btn:active{transform:scale(.985)}
+    .primary,.gold{background:linear-gradient(135deg,#f4d983,#b98422);color:#2f1f12;box-shadow:0 10px 20px rgba(184,131,31,.18)}
+    .secondary{background:rgba(255,255,255,.14);color:white;border:1px solid rgba(255,255,255,.24)}
+    .soft{background:#fff6d4;color:#3a2614;border:1px solid rgba(184,131,31,.28)}
+    .line{background:var(--line);color:white;box-shadow:0 10px 20px rgba(6,199,85,.18)}
+    .blue{background:#eaf3ff;color:#154d8d;border:1px solid rgba(40,120,216,.25)}
+    .dark{background:rgba(47,31,18,.94);color:white}
 
-    .hero p{
-      max-width:680px;
-      margin:12px 0 0;
-      color:#fff2c4;
-      line-height:1.75;
-      font-size:15px;
-    }
-
-    .hero-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:18px;
-      max-width:560px;
-    }
-
-    .hero-btn{
-      border:0;
-      border-radius:999px;
-      padding:14px 16px;
-      font-size:16px;
-      font-weight:900;
-      text-align:center;
-      text-decoration:none;
-      cursor:pointer;
-      transition:.16s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-    }
-
-    .hero-btn:active{transform:scale(.98)}
-
-    .hero-btn.primary{
-      background:linear-gradient(135deg,#f4d983,#b98422);
-      color:#2f1f12;
-    }
-
-    .hero-btn.secondary{
-      background:rgba(255,255,255,.14);
-      color:white;
-      border:1px solid rgba(255,255,255,.24);
-    }
-
-    .quick{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:10px;
-      margin:16px 0;
-    }
-
+    .quick{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:16px 0}
     .service{
       border:1px solid var(--border);
       background:rgba(255,255,255,.8);
       backdrop-filter:blur(8px);
       border-radius:24px;
       padding:16px 12px;
-      box-shadow:var(--shadow-soft);
+      box-shadow:var(--soft);
       min-height:168px;
       cursor:pointer;
-      transition:.16s ease;
       position:relative;
       overflow:hidden;
     }
-
-    .service::after{
-      content:"";
-      position:absolute;
-      width:90px;
-      height:90px;
-      border-radius:50%;
-      right:-38px;
-      top:-42px;
-      background:rgba(216,173,66,.14);
+    .service:after{
+      content:"";position:absolute;width:90px;height:90px;border-radius:50%;
+      right:-38px;top:-42px;background:rgba(216,173,66,.14);
     }
-
-    .service:active{transform:scale(.98)}
-
     .service .ico{
-      width:52px;
-      height:52px;
-      border-radius:18px;
-      display:grid;
-      place-items:center;
+      width:52px;height:52px;border-radius:18px;
+      display:grid;place-items:center;
       background:linear-gradient(135deg,#fff2bf,#d4a13a);
-      font-size:28px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+      font-size:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
       margin-bottom:14px;
     }
-
-    .service h2{
-      margin:0 0 5px;
-      font-size:21px;
-      line-height:1.15;
-      font-weight:950;
-    }
-
-    .service p{
-      margin:0;
-      line-height:1.55;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .service .go{
-      margin-top:12px;
-      color:var(--gold-2);
-      font-weight:900;
-      font-size:14px;
-    }
+    .service h2{margin:0 0 5px;font-size:20px;line-height:1.15;font-weight:950}
+    .service p{margin:0;line-height:1.55;color:var(--muted);font-size:13px}
+    .service .go{margin-top:12px;color:var(--gold2);font-weight:900;font-size:14px}
 
     .section{
       display:none;
@@ -245,408 +128,129 @@
       padding:20px;
       box-shadow:var(--shadow);
     }
-
     .section.active{display:block}
-
     .section-head{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      align-items:flex-start;
-      margin-bottom:14px;
-      padding-bottom:14px;
-      border-bottom:1px solid rgba(184,131,31,.18);
+      display:flex;justify-content:space-between;gap:14px;align-items:flex-start;
+      margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(184,131,31,.18);
     }
-
-    .section h3{
-      margin:0;
-      font-size:28px;
-      line-height:1.15;
-      font-weight:950;
-    }
-
-    .section .desc{
-      margin:7px 0 0;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:14px;
-    }
-
+    .section h3{margin:0;font-size:28px;line-height:1.15;font-weight:950}
+    .desc{margin:7px 0 0;color:var(--muted);line-height:1.65;font-size:14px}
     .tag{
-      flex:0 0 auto;
-      border-radius:999px;
-      background:#fff4cf;
+      flex:0 0 auto;border-radius:999px;background:#fff4cf;
       border:1px solid rgba(184,131,31,.25);
-      color:#7b5416;
-      padding:8px 10px;
-      font-size:12px;
-      font-weight:900;
+      color:#7b5416;padding:8px 10px;font-size:12px;font-weight:900;
     }
 
     form{display:grid;gap:12px}
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .field.full{grid-column:1/-1}
-
-    label{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:8px;
-      margin-bottom:7px;
-      font-size:14px;
-      font-weight:900;
-      color:#2c1d10;
-    }
-
-    .req{
-      color:#b56d00;
-      font-size:12px;
-      font-weight:950;
-    }
-
+    label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px;font-size:14px;font-weight:900;color:#2c1d10}
+    .req{color:#b56d00;font-size:12px;font-weight:950}
     input,select,textarea{
-      width:100%;
-      border:1px solid #dfc789;
-      background:#fffdf8;
-      color:var(--brown);
-      border-radius:16px;
-      padding:13px 13px;
-      font-size:16px;
-      outline:none;
-      transition:.14s ease;
-      font-family:inherit;
+      width:100%;border:1px solid #dfc789;background:#fffdf8;color:var(--brown);
+      border-radius:16px;padding:13px;font-size:16px;outline:none;transition:.14s ease;font-family:inherit;
     }
-
-    textarea{
-      min-height:92px;
-      resize:vertical;
-      line-height:1.6;
-    }
-
-    input:focus,select:focus,textarea:focus{
-      border-color:var(--gold-2);
-      box-shadow:0 0 0 4px rgba(216,173,66,.17);
-      background:white;
-    }
+    textarea{min-height:92px;resize:vertical;line-height:1.6}
+    input:focus,select:focus,textarea:focus{border-color:var(--gold2);box-shadow:0 0 0 4px rgba(216,173,66,.17);background:white}
 
     .tips{
-      border-radius:18px;
-      background:#fff7dd;
-      border:1px solid rgba(184,131,31,.18);
-      padding:12px;
-      color:#70572b;
-      font-size:13px;
-      line-height:1.7;
+      border-radius:18px;background:#fff7dd;border:1px solid rgba(184,131,31,.18);
+      padding:12px;color:#70572b;font-size:13px;line-height:1.7;
     }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:4px;
-    }
-
-    button,.btn{
-      border:0;
-      border-radius:16px;
-      padding:15px 14px;
-      font-size:16px;
-      font-weight:950;
-      cursor:pointer;
-      text-decoration:none;
-      text-align:center;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      font-family:inherit;
-      transition:.15s ease;
-    }
-
-    button:active,.btn:active{transform:scale(.985)}
-
-    .gold{
-      background:linear-gradient(135deg,#f4d983,#b98422);
-      color:#2f1f12;
-      box-shadow:0 10px 20px rgba(184,131,31,.18);
-    }
-
-    .soft{
-      background:#fff6d4;
-      color:#3a2614;
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{
+      display:inline-flex;align-items:center;gap:6px;
       border:1px solid rgba(184,131,31,.28);
+      background:#fffdf8;
+      border-radius:999px;
+      padding:9px 11px;
+      font-weight:850;
+      font-size:14px;
+      color:#4c3219;
     }
+    .chip input{width:auto}
 
-    .line{
-      background:var(--line);
-      color:white;
-      box-shadow:0 10px 20px rgba(6,199,85,.18);
-    }
-
-    .blue{
-      background:#eaf3ff;
-      color:#154d8d;
-      border:1px solid rgba(40,120,216,.25);
-    }
-
-    .map-toolbar{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:8px;
-    }
-
-    .map-wrap{
-      border-radius:24px;
-      overflow:hidden;
-      border:1px solid rgba(184,131,31,.22);
-      box-shadow:var(--shadow-soft);
-      background:#fff7dd;
-    }
-
-    .map-box{
-      width:100%;
-      height:420px;
-      min-height:360px;
-      background:#f1e1bd;
-    }
-
-    .route-list{
-      display:none;
-      margin-top:12px;
-      border:1px solid rgba(40,120,216,.18);
-      background:#f5faff;
-      border-radius:20px;
-      padding:12px;
-    }
-
-    .route-list.active{display:block}
-
-    .route-title{
-      font-weight:950;
-      color:#154d8d;
-      margin-bottom:8px;
-    }
-
-    .route-list button{
-      width:100%;
-      margin-top:8px;
-      background:white;
-      color:#154d8d;
+    .memory-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .memory-btn{
       border:1px solid rgba(40,120,216,.22);
-      justify-content:space-between;
-      text-align:left;
+      background:#eef6ff;
+      color:#154d8d;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:13px;
+      font-weight:900;
+      cursor:pointer;
     }
 
-    .fare-result{
-      display:none;
-      margin-top:14px;
-      border-radius:22px;
-      padding:14px;
-      border:1px solid rgba(184,131,31,.25);
-      background:linear-gradient(180deg,#fff9e8,#fffdf8);
-      box-shadow:var(--shadow-soft);
-    }
+    .map-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .map-wrap{border-radius:24px;overflow:hidden;border:1px solid rgba(184,131,31,.22);box-shadow:var(--soft);background:#fff7dd}
+    .map-box{width:100%;height:420px;min-height:360px;background:#f1e1bd}
+    .route-list{display:none;margin-top:12px;border:1px solid rgba(40,120,216,.18);background:#f5faff;border-radius:20px;padding:12px}
+    .route-list.active{display:block}
+    .route-title{font-weight:950;color:#154d8d;margin-bottom:8px}
+    .route-list button{width:100%;margin-top:8px;background:white;color:#154d8d;border:1px solid rgba(40,120,216,.22);justify-content:space-between;text-align:left}
 
+    .fare-result{display:none;margin-top:14px;border-radius:22px;padding:14px;border:1px solid rgba(184,131,31,.25);background:linear-gradient(180deg,#fff9e8,#fffdf8);box-shadow:var(--soft)}
     .fare-result.active{display:block}
+    .fare-price{font-size:34px;font-weight:950;color:#b56d00;margin:4px 0}
+    .fare-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+    .fare-meta div{background:white;border:1px solid rgba(184,131,31,.16);border-radius:16px;padding:10px;text-align:center}
+    .fare-meta b{display:block;font-size:18px}
+    .fare-meta span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+    .fare-note{margin-top:10px;color:#76582c;font-size:13px;line-height:1.7}
+    .mini-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 
-    .fare-price{
-      font-size:34px;
-      font-weight:950;
-      color:#b56d00;
-      margin:4px 0;
-    }
-
-    .fare-meta{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .fare-meta div{
-      background:white;
-      border:1px solid rgba(184,131,31,.16);
-      border-radius:16px;
-      padding:10px;
-      text-align:center;
-    }
-
-    .fare-meta b{
-      display:block;
-      font-size:18px;
-    }
-
-    .fare-meta span{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-    }
-
-    .fare-note{
-      margin-top:10px;
-      color:#76582c;
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .mini-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .output{
-      display:none;
-      margin-top:16px;
-      border:1px dashed rgba(184,131,31,.5);
-      background:#fff7dd;
-      border-radius:22px;
-      padding:14px;
-    }
-
+    .output{display:none;margin-top:16px;border:1px dashed rgba(184,131,31,.5);background:#fff7dd;border-radius:22px;padding:14px}
     .output.active{display:block}
-
-    .output-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
-      font-weight:950;
-    }
-
-    .output textarea{
-      min-height:290px;
-      background:white;
-      font-size:15px;
-      line-height:1.65;
-    }
-
-    .small{
-      margin-top:10px;
-      color:#8a6230;
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .floating{
-      position:sticky;
-      bottom:12px;
-      display:none;
-      margin-top:14px;
-      z-index:10;
-    }
-
+    .output-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-weight:950}
+    .output textarea{min-height:290px;background:white;font-size:15px;line-height:1.65}
+    .small{margin-top:10px;color:#8a6230;font-size:13px;line-height:1.7}
+    .floating{position:sticky;bottom:12px;display:none;margin-top:14px;z-index:10}
     .floating.show{display:block}
-
-    .floating button{
-      width:100%;
-      background:rgba(47,31,18,.94);
-      color:white;
-      border:1px solid rgba(255,255,255,.16);
-      box-shadow:0 12px 30px rgba(0,0,0,.18);
-      backdrop-filter:blur(10px);
-    }
+    .floating button{width:100%;background:rgba(47,31,18,.94);color:white;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 30px rgba(0,0,0,.18);backdrop-filter:blur(10px)}
 
     .footer{
-      text-align:center;
-      margin:26px 0 0;
-      color:#7f6a47;
-      line-height:1.75;
-      font-size:13px;
+      text-align:center;margin:26px 0 0;color:#7f6a47;line-height:1.75;font-size:13px;
+      border-top:1px solid rgba(184,131,31,.18);padding-top:18px;
+    }
+
+    .trust{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .trust div{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(184,131,31,.18);
+      border-radius:18px;
+      padding:12px;
+      font-weight:900;
+      color:#5f421d;
     }
 
     .toast{
-      position:fixed;
-      left:50%;
-      bottom:24px;
-      transform:translateX(-50%) translateY(20px);
-      opacity:0;
-      pointer-events:none;
-      background:#2f1f12;
-      color:white;
-      padding:12px 16px;
-      border-radius:999px;
-      box-shadow:0 14px 30px rgba(0,0,0,.22);
-      font-weight:850;
-      transition:.2s ease;
-      z-index:99;
-      white-space:nowrap;
+      position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+      opacity:0;pointer-events:none;background:#2f1f12;color:white;padding:12px 16px;border-radius:999px;
+      box-shadow:0 14px 30px rgba(0,0,0,.22);font-weight:850;transition:.2s ease;z-index:99;white-space:nowrap;
     }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .liff-status{margin-top:12px;border:1px solid rgba(6,199,85,.22);background:rgba(6,199,85,.08);color:#1f4d2f;border-radius:18px;padding:10px 12px;font-size:13px;line-height:1.55;font-weight:800}
+    .liff-status.warn{border-color:rgba(184,131,31,.28);background:#fff7dd;color:#70572b}
 
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
-    }
+    .share-card{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center}
+    .qr-box{background:white;border-radius:24px;border:1px solid rgba(184,131,31,.22);padding:16px;text-align:center;box-shadow:var(--soft)}
+    .qr-box img{width:min(280px,100%);height:auto;border-radius:18px;display:block;margin:0 auto}
+    .link-box{word-break:break-all;border-radius:18px;background:#fff7dd;border:1px solid rgba(184,131,31,.22);padding:12px;font-weight:850;color:#5c3b15}
 
-    .liff-status{
-      margin-top:12px;
-      border:1px solid rgba(6,199,85,.22);
-      background:rgba(6,199,85,.08);
-      color:#1f4d2f;
-      border-radius:18px;
-      padding:10px 12px;
-      font-size:13px;
-      line-height:1.55;
-      font-weight:800;
-    }
-
-    .liff-status.warn{
-      border-color:rgba(184,131,31,.28);
-      background:#fff7dd;
-      color:#70572b;
-    }
-
-    .share-card{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:18px;
-      align-items:center;
-    }
-
-    .qr-box{
-      background:white;
-      border-radius:24px;
-      border:1px solid rgba(184,131,31,.22);
-      padding:16px;
-      text-align:center;
-      box-shadow:var(--shadow-soft);
-    }
-
-    .qr-box img{
-      width:min(280px,100%);
-      height:auto;
-      border-radius:18px;
-      display:block;
-      margin:0 auto;
-    }
-
-    .link-box{
-      word-break:break-all;
-      border-radius:18px;
-      background:#fff7dd;
-      border:1px solid rgba(184,131,31,.22);
-      padding:12px;
-      font-weight:850;
-      color:#5c3b15;
-    }
-
-    @media (max-width:900px){
+    @media (max-width:980px){
       .quick{grid-template-columns:repeat(2,1fr)}
       .hero-actions,.map-toolbar,.share-card{grid-template-columns:1fr}
       .service{min-height:150px}
       .fare-meta{grid-template-columns:1fr 1fr}
+      .trust{grid-template-columns:repeat(2,1fr)}
     }
-
     @media (max-width:560px){
       .app{padding:10px 10px 34px}
       .hero{border-radius:24px;padding:22px 16px;min-height:240px}
@@ -665,6 +269,7 @@
       .actions,.mini-actions{grid-template-columns:1fr}
       .fare-meta{grid-template-columns:1fr}
       .map-box{height:360px}
+      .trust{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -694,16 +299,14 @@
         <button class="hero-btn secondary" type="button" onclick="showPanel('share')">🎁 介紹好友</button>
       </div>
 
-      <div id="liffStatus" class="liff-status warn">
-        LIFF 狀態檢查中...
-      </div>
+      <div id="liffStatus" class="liff-status warn">LIFF 狀態檢查中...</div>
     </header>
 
     <section class="quick" id="menu">
       <article class="service" onclick="showPanel('ride')">
         <div class="ico">🚗</div>
         <h2>立即叫車</h2>
-        <p>線上填單，快速整理派車資料。</p>
+        <p>現在叫車或預約叫車，快速整理派車資料。</p>
         <div class="go">前往叫車 ›</div>
       </article>
 
@@ -717,8 +320,15 @@
       <article class="service" onclick="showPanel('airport')">
         <div class="ico">✈️</div>
         <h2>機場接送</h2>
-        <p>報價預約，行程時間更好安排。</p>
+        <p>含七人座、九人座、航廈與航班資訊。</p>
         <div class="go">查看方案 ›</div>
+      </article>
+
+      <article class="service" onclick="showPanel('feedback')">
+        <div class="ico">💬</div>
+        <h2>意見反應</h2>
+        <p>服務回饋、車資疑問、合作洽詢。</p>
+        <div class="go">我要反應 ›</div>
       </article>
 
       <article class="service" onclick="showPanel('driver')">
@@ -740,7 +350,7 @@
       <div class="section-head">
         <div>
           <h3>立即叫車</h3>
-          <p class="desc">請盡量填寫完整上下車資訊，客服收到後可更快協助確認派車。</p>
+          <p class="desc">可選現在叫車或預約叫車。上車地點會記憶在客人的手機，下次不用重複輸入。</p>
         </div>
         <div class="tag">快速派車表單</div>
       </div>
@@ -757,19 +367,45 @@
             <input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx">
           </div>
 
+          <div class="field">
+            <label>搭乘方式</label>
+            <select name="rideType" onchange="toggleReserveFields(this.value)">
+              <option>現在叫車</option>
+              <option>預約叫車</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>車型需求</label>
+            <select name="carType">
+              <option value="">無特別需求</option>
+              <option>一般車</option>
+              <option>七人座</option>
+              <option>九人座</option>
+              <option>不確定，請客服建議</option>
+            </select>
+          </div>
+
+          <div class="field reserve-field" style="display:none">
+            <label>預約日期</label>
+            <input name="reserveDate" type="date">
+          </div>
+
+          <div class="field reserve-field" style="display:none">
+            <label>預約時間</label>
+            <input name="reserveTime" type="time">
+          </div>
+
           <div class="field full">
             <label>上車地點 <span class="req">必填</span></label>
-            <input name="from" required placeholder="請輸入完整上車地址或明顯地標">
+            <input name="from" id="rideFrom" required placeholder="請輸入完整上車地址或明顯地標" list="pickupList">
+            <datalist id="pickupList"></datalist>
+            <div class="memory-row" id="pickupMemory"></div>
           </div>
 
           <div class="field full">
             <label>下車地點 <span class="req">必填</span></label>
             <input name="to" required placeholder="請輸入完整下車地址或明顯地標">
-          </div>
-
-          <div class="field">
-            <label>搭乘時間</label>
-            <input name="time" placeholder="例如：現在 / 今天 18:30">
           </div>
 
           <div class="field">
@@ -782,14 +418,18 @@
             <input name="luggage" placeholder="例如：無 / 2件">
           </div>
 
-          <div class="field">
-            <label>車型需求</label>
-            <select name="carType">
-              <option value="">無特別需求</option>
-              <option>一般車</option>
-              <option>七人座</option>
-              <option>九人座</option>
-            </select>
+          <div class="field full">
+            <label>常用備註快速勾選</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="quickNote" value="有行李"> 有行李</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要九人座"> 需要九人座</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="寵物同行"> 寵物同行</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="長者同行"> 長者同行</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要協助搬行李"> 協助搬行李</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="門口等候"> 門口等候</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="酒後代駕"> 酒後代駕</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要兒童座椅"> 兒童座椅</label>
+            </div>
           </div>
 
           <div class="field full">
@@ -798,9 +438,7 @@
           </div>
         </div>
 
-        <div class="tips">
-          送出前會先產生整理好的文字，請確認資料正確後再按「LINE 內一鍵送出」。
-        </div>
+        <div class="tips">送出前會先產生整理好的文字，請確認資料正確後再按「LINE 內一鍵送出」。</div>
 
         <div class="actions">
           <button class="gold" type="submit">產生叫車訊息</button>
@@ -833,7 +471,7 @@
 
         <div class="field full">
           <label>上車地點 <span class="req">必填</span></label>
-          <input id="fareStart" placeholder="請輸入上車地址或地標">
+          <input id="fareStart" placeholder="請輸入上車地址或地標" list="pickupList">
         </div>
 
         <div class="field full">
@@ -864,10 +502,7 @@
       <div id="routeButtons" class="route-list"></div>
       <div id="fareResult" class="fare-result"></div>
 
-      <div class="tips">
-        ※ 車資為預估參考，實際價格依現場跳錶、路況、加成與客服確認為準。
-      </div>
-
+      <div class="tips">※ 車資為預估參考，實際價格依現場跳錶、路況、加成、天候、節日與客服確認為準。</div>
       <div class="output" id="out-fare"></div>
     </section>
 
@@ -875,7 +510,7 @@
       <div class="section-head">
         <div>
           <h3>機場接送</h3>
-          <p class="desc">填寫航班、時間、人數與行李，客服可更快協助報價與安排車型。</p>
+          <p class="desc">機場接送可選一般車、七人座、九人座，並可填寫航班方向與航廈。</p>
         </div>
         <div class="tag">機場報價預約</div>
       </div>
@@ -902,6 +537,16 @@
           </div>
 
           <div class="field">
+            <label>航班方向</label>
+            <select name="flightDirection">
+              <option>出國送機</option>
+              <option>入境接機</option>
+              <option>單純機場接送</option>
+              <option>不確定</option>
+            </select>
+          </div>
+
+          <div class="field">
             <label>機場</label>
             <select name="airport">
               <option>桃園機場</option>
@@ -911,19 +556,41 @@
             </select>
           </div>
 
-          <div class="field full">
-            <label>上車地點 <span class="req">必填</span></label>
-            <input name="from" required placeholder="請輸入上車地址或地標">
+          <div class="field">
+            <label>航廈</label>
+            <select name="terminal">
+              <option>不確定</option>
+              <option>第一航廈</option>
+              <option>第二航廈</option>
+              <option>國內線</option>
+              <option>國際線</option>
+              <option>其他</option>
+            </select>
           </div>
 
-          <div class="field full">
-            <label>下車地點 <span class="req">必填</span></label>
-            <input name="to" required placeholder="請輸入下車地址、機場或航廈">
+          <div class="field">
+            <label>車型需求</label>
+            <select name="carType">
+              <option>不確定，請客服建議</option>
+              <option>一般車</option>
+              <option>七人座</option>
+              <option>九人座</option>
+            </select>
           </div>
 
           <div class="field">
             <label>日期時間</label>
             <input name="time" placeholder="例如：6/10 05:30">
+          </div>
+
+          <div class="field full">
+            <label>上車地點 <span class="req">必填</span></label>
+            <input name="from" required placeholder="請輸入上車地址或地標" list="pickupList">
+          </div>
+
+          <div class="field full">
+            <label>下車地點 <span class="req">必填</span></label>
+            <input name="to" required placeholder="請輸入下車地址、機場或航廈">
           </div>
 
           <div class="field">
@@ -942,6 +609,18 @@
           </div>
 
           <div class="field full">
+            <label>常用備註快速勾選</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要九人座"> 需要九人座</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="行李較多"> 行李較多</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要兒童座椅"> 兒童座椅</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="長者同行"> 長者同行</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="紅眼航班"> 紅眼航班</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="需要協助搬行李"> 協助搬行李</label>
+            </div>
+          </div>
+
+          <div class="field full">
             <label>備註</label>
             <textarea name="note" placeholder="例如：需要兒童座椅、九人座、回程日期、紅眼航班等"></textarea>
           </div>
@@ -954,6 +633,80 @@
       </form>
 
       <div class="output" id="out-airport"></div>
+    </section>
+
+    <section class="section" id="feedback">
+      <div class="section-head">
+        <div>
+          <h3>意見反應</h3>
+          <p class="desc">可填寫服務建議、車資疑問、派車回饋、網站功能建議或合作洽詢。</p>
+        </div>
+        <div class="tag">服務回饋</div>
+      </div>
+
+      <form onsubmit="makeMessage(event,'feedback')">
+        <div class="form-grid">
+          <div class="field">
+            <label>姓名 / 稱呼</label>
+            <input name="name" placeholder="例如：王先生 / 陳小姐">
+          </div>
+
+          <div class="field">
+            <label>聯絡電話</label>
+            <input name="phone" inputmode="tel" placeholder="例如：09xxxxxxxx">
+          </div>
+
+          <div class="field">
+            <label>反應類型</label>
+            <select name="feedbackType">
+              <option>搭乘服務回饋</option>
+              <option>司機服務建議</option>
+              <option>客服 / 派車建議</option>
+              <option>網站功能建議</option>
+              <option>價格 / 車資疑問</option>
+              <option>合作洽詢</option>
+              <option>其他</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>希望回覆方式</label>
+            <select name="replyMethod">
+              <option>LINE 回覆即可</option>
+              <option>電話回覆</option>
+              <option>不用回覆，單純建議</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>相關行程 / 單號</label>
+            <input name="tripInfo" placeholder="例如：今天晚上、台中火車站到文心路、單號等">
+          </div>
+
+          <div class="field full">
+            <label>常用反應快速勾選</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="quickNote" value="司機服務很好"> 司機服務很好</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="派車速度希望更快"> 派車速度</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="想詢問車資"> 車資疑問</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="網站操作建議"> 網站建議</label>
+              <label class="chip"><input type="checkbox" name="quickNote" value="想洽談合作"> 合作洽詢</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label>意見內容 <span class="req">必填</span></label>
+            <textarea name="note" required placeholder="請輸入想反應或建議的內容"></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="gold" type="submit">產生意見反應訊息</button>
+          <button class="soft" type="reset">清除重填</button>
+        </div>
+      </form>
+
+      <div class="output" id="out-feedback"></div>
     </section>
 
     <section class="section" id="driver">
@@ -1067,8 +820,16 @@
     </div>
 
     <footer class="footer">
-      維尼線上服務中心｜LIFF 版本｜本頁面不顯示客服電話，請透過 LINE 官方聯繫。<br>
-      車資試算為預估參考，實際價格依派車客服與司機跳錶為準。
+      <b>🚖 維尼大台中｜中彰投叫車服務</b><br>
+      服務項目：市區接送、機場接送、長途接送、九人座需求、包車旅遊、商務接送。<br>
+      服務時間：依客服回覆與車輛調度為準。車資試算為預估參考，實際價格依派車客服與司機跳錶為準。
+
+      <div class="trust">
+        <div>📲 LINE 線上填單</div>
+        <div>🧮 車資預估參考</div>
+        <div>✈️ 機場接送詢價</div>
+        <div>💬 意見即時回饋</div>
+      </div>
     </footer>
   </main>
 
@@ -1081,18 +842,19 @@
     const LINE_URL = "https://lin.ee/NK1LXwb";
     const REFERRAL_URL = "https://lin.ee/NK1LXwb";
     const BACKUP_FARE_URL = "https://q23361117.github.io/fare/";
+    const PICKUP_MEMORY_KEY = "winnie_pickup_memory_v1";
 
     const titles = {
       ride:"立即叫車",
       fare:"車資試算",
       airport:"機場接送",
+      feedback:"意見反應",
       driver:"司機應徵",
       share:"介紹好友"
     };
 
     let liffReady = false;
     let isInLineClient = false;
-
     let map;
     let directionsService;
     let directionsRenderer;
@@ -1118,7 +880,6 @@
 
       directionsRenderer.addListener("directions_changed", function(){
         const result = directionsRenderer.getDirections();
-
         if(result){
           const leg = result.routes[directionsRenderer.getRouteIndex()].legs[0];
           drawMarkers(leg);
@@ -1135,16 +896,11 @@
       history.replaceState(null,"","#" + id);
 
       setTimeout(() => {
-        document.getElementById(id).scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
+        document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"});
       },50);
 
       if(id === "fare" && map){
-        setTimeout(() => {
-          google.maps.event.trigger(map,"resize");
-        },180);
+        setTimeout(() => google.maps.event.trigger(map,"resize"),180);
       }
     }
 
@@ -1152,36 +908,100 @@
       document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
       document.getElementById("floating").classList.remove("show");
       history.replaceState(null,"",location.pathname);
-
-      document.getElementById("menu").scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
+      document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"});
     }
 
-    function clean(v){
-      return (v || "").toString().trim();
+    function cleanText(value){
+      return (value || "").toString().trim();
     }
 
-    function getRaw(fd,key){
-      return clean(fd.get(key));
-    }
-
-    function val(id){
-      return clean(document.getElementById(id)?.value);
-    }
-
-    function addLine(icon,label,value){
-      const v = clean(value);
-      if(!v || v === "未填") return "";
+    function fieldLine(icon,label,value){
+      const v = cleanText(value);
+      if(!v || v === "無特別需求") return "";
       return `${icon} ${label}：${v}\n`;
     }
 
-    function mapsLine(icon,label,address){
-      const v = clean(address);
+    function mapSearchLine(icon,label,address){
+      const v = cleanText(address);
       if(!v) return "";
       const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(v);
-      return `${icon} ${label}：${v}\n🗺️ ${label}地圖：${url}\n`;
+      return `${icon} ${label}地圖：${url}\n`;
+    }
+
+    function getCheckedValues(fd,name){
+      return fd.getAll(name).map(x => cleanText(x)).filter(Boolean);
+    }
+
+    function combineNotes(fd){
+      const quick = getCheckedValues(fd,"quickNote");
+      const note = cleanText(fd.get("note"));
+      const parts = [];
+      if(quick.length) parts.push(quick.join("、"));
+      if(note) parts.push(note);
+      return parts.join("；");
+    }
+
+    function toggleReserveFields(value){
+      const show = value === "預約叫車";
+      document.querySelectorAll(".reserve-field").forEach(el => {
+        el.style.display = show ? "" : "none";
+      });
+    }
+
+    function getRideTimeText(fd){
+      const type = cleanText(fd.get("rideType"));
+      if(type === "預約叫車"){
+        const d = cleanText(fd.get("reserveDate"));
+        const t = cleanText(fd.get("reserveTime"));
+        return `預約叫車${d || t ? "｜" + [d,t].filter(Boolean).join(" ") : ""}`;
+      }
+      return "現在叫車";
+    }
+
+    function getPickupMemory(){
+      try{
+        return JSON.parse(localStorage.getItem(PICKUP_MEMORY_KEY) || "[]");
+      }catch(e){
+        return [];
+      }
+    }
+
+    function savePickupAddress(address){
+      const v = cleanText(address);
+      if(!v) return;
+
+      let list = getPickupMemory().filter(x => x !== v);
+      list.unshift(v);
+      list = list.slice(0,8);
+
+      localStorage.setItem(PICKUP_MEMORY_KEY, JSON.stringify(list));
+      renderPickupMemory();
+    }
+
+    function renderPickupMemory(){
+      const list = getPickupMemory();
+
+      const datalist = document.getElementById("pickupList");
+      if(datalist){
+        datalist.innerHTML = list.map(x => `<option value="${escapeHtml(x)}"></option>`).join("");
+      }
+
+      const box = document.getElementById("pickupMemory");
+      if(box){
+        if(!list.length){
+          box.innerHTML = "";
+          return;
+        }
+
+        box.innerHTML = list.map(x => {
+          return `<button type="button" class="memory-btn" onclick="fillPickup('${escapeAttr(x)}')">${escapeHtml(x)}</button>`;
+        }).join("");
+      }
+    }
+
+    function fillPickup(address){
+      const input = document.getElementById("rideFrom");
+      if(input) input.value = address;
     }
 
     function calcFareRoute(avoidHighways){
@@ -1198,6 +1018,8 @@
         return;
       }
 
+      savePickupAddress(start);
+
       directionsService.route({
         origin:start,
         destination:end,
@@ -1207,10 +1029,8 @@
       }, function(result,status){
         if(status === "OK"){
           currentResult = result;
-
           directionsRenderer.setDirections(result);
           directionsRenderer.setRouteIndex(0);
-
           createRouteButtons(result);
 
           const leg = result.routes[0].legs[0];
@@ -1235,14 +1055,12 @@
         btn.type = "button";
         btn.innerHTML = `<span>路線 ${index + 1}</span><span>${distance} / ${duration}</span>`;
         btn.onclick = () => selectRoute(index);
-
         container.appendChild(btn);
       });
     }
 
     function selectRoute(index){
       directionsRenderer.setRouteIndex(index);
-
       const leg = currentResult.routes[index].legs[0];
       drawMarkers(leg);
       updateFare(leg, `路線 ${index + 1}`);
@@ -1294,10 +1112,7 @@
         nightAddText = "已套用夜間 1.2 倍";
       }
 
-      if(fare < 120){
-        fare = 120;
-      }
-
+      if(fare < 120) fare = 120;
       fare = Math.round(fare);
 
       lastFareData = {
@@ -1312,7 +1127,6 @@
       };
 
       document.getElementById("fareResult").classList.add("active");
-
       document.getElementById("fareResult").innerHTML = `
         <div style="font-weight:950;color:#7b5416;">${routeLabel || "試算結果"}</div>
         <div class="fare-price">約 ${fare.toLocaleString()} 元</div>
@@ -1322,12 +1136,10 @@
             <b>${distanceKm.toFixed(1)} km</b>
             <span>預估距離</span>
           </div>
-
           <div>
             <b>${Math.round(durationMin)} 分</b>
             <span>預估時間</span>
           </div>
-
           <div>
             <b>${longAdd > 0 ? "有" : "無"}</b>
             <span>15公里加成</span>
@@ -1353,19 +1165,17 @@
       }
 
       const d = lastFareData;
-      const start = val("fareStart") || d.start;
-      const end = val("fareEnd") || d.end;
+      const start = cleanText(document.getElementById("fareStart").value) || d.start;
+      const end = cleanText(document.getElementById("fareEnd").value) || d.end;
 
       let msg = `🧮【維尼車隊｜車資試算】\n\n`;
-      msg += addLine("👤","姓名",val("fareName"));
-      msg += "\n";
-      msg += mapsLine("📍","上車",start);
-      msg += mapsLine("🏁","下車",end);
-      msg += "\n";
-      msg += addLine("🕒","時間",val("fareTime"));
-      msg += addLine("👥","人數",val("farePeople"));
-      msg += addLine("📝","備註",val("fareNote"));
-      msg += `\n🛣️ 試算路線：${d.routeLabel}\n`;
+      msg += fieldLine("👤","姓名",document.getElementById("fareName").value);
+      msg += `📍 上車：${start}\n🏁 下車：${end}\n`;
+      msg += fieldLine("🕒","時間",document.getElementById("fareTime").value);
+      msg += fieldLine("👥","人數",document.getElementById("farePeople").value);
+      msg += fieldLine("📝","備註",document.getElementById("fareNote").value);
+      msg += `\n${mapSearchLine("📍","上車",start)}${mapSearchLine("🏁","下車",end)}`;
+      msg += `🛣️ 試算路線：${d.routeLabel}\n`;
       msg += `📏 預估距離：${d.distanceKm.toFixed(1)} km\n`;
       msg += `⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘\n`;
       msg += `💰 預估車資：約 ${d.fare} 元\n\n`;
@@ -1383,60 +1193,74 @@
       let msg = "";
 
       if(type === "ride"){
-        const from = getRaw(fd,"from");
-        const to = getRaw(fd,"to");
+        const from = cleanText(fd.get("from"));
+        const to = cleanText(fd.get("to"));
+        const notes = combineNotes(fd);
+        savePickupAddress(from);
 
         msg = `🚖【維尼車隊｜立即叫車】\n\n`;
-        msg += addLine("👤","姓名",getRaw(fd,"name"));
-        msg += addLine("📞","電話",getRaw(fd,"phone"));
-        msg += "\n";
-        msg += mapsLine("📍","上車",from);
-        msg += mapsLine("🏁","下車",to);
-        msg += "\n";
-        msg += addLine("🕒","時間",getRaw(fd,"time"));
-        msg += addLine("👥","人數",getRaw(fd,"people"));
-        msg += addLine("🧳","行李",getRaw(fd,"luggage"));
-        msg += addLine("🚗","車型需求",getRaw(fd,"carType"));
-        msg += addLine("📝","備註",getRaw(fd,"note"));
-        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += fieldLine("👤","姓名",fd.get("name"));
+        msg += fieldLine("📞","電話",fd.get("phone"));
+        msg += `📍 上車：${from}\n🏁 下車：${to}\n`;
+        msg += fieldLine("🕒","搭乘方式",getRideTimeText(fd));
+        msg += fieldLine("👥","人數",fd.get("people"));
+        msg += fieldLine("🧳","行李",fd.get("luggage"));
+        msg += fieldLine("🚗","車型需求",fd.get("carType"));
+        msg += fieldLine("📝","備註",notes);
+        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🏁","下車",to)}`;
+        msg += `📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 請派車小姐協助確認，謝謝。`;
       }
 
       if(type === "airport"){
-        const from = getRaw(fd,"from");
-        const to = getRaw(fd,"to");
+        const from = cleanText(fd.get("from"));
+        const to = cleanText(fd.get("to"));
+        const notes = combineNotes(fd);
+        savePickupAddress(from);
 
         msg = `✈️【維尼車隊｜機場接送詢價】\n\n`;
-        msg += addLine("👤","姓名",getRaw(fd,"name"));
-        msg += addLine("📞","電話",getRaw(fd,"phone"));
-        msg += "\n";
-        msg += addLine("🔁","接送方向",getRaw(fd,"direction"));
-        msg += addLine("🛫","機場",getRaw(fd,"airport"));
-        msg += "\n";
-        msg += mapsLine("📍","上車",from);
-        msg += mapsLine("🏁","下車",to);
-        msg += "\n";
-        msg += addLine("📅","日期時間",getRaw(fd,"time"));
-        msg += addLine("👥","人數",getRaw(fd,"people"));
-        msg += addLine("🧳","行李",getRaw(fd,"luggage"));
-        msg += addLine("🛩️","航班",getRaw(fd,"flight"));
-        msg += addLine("📝","備註",getRaw(fd,"note"));
-        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += fieldLine("👤","姓名",fd.get("name"));
+        msg += fieldLine("📞","電話",fd.get("phone"));
+        msg += fieldLine("🔁","接送方向",fd.get("direction"));
+        msg += fieldLine("🛫","機場",fd.get("airport"));
+        msg += fieldLine("🧭","航班方向",fd.get("flightDirection"));
+        msg += fieldLine("🏢","航廈",fd.get("terminal"));
+        msg += fieldLine("🚗","車型需求",fd.get("carType"));
+        msg += `\n📍 上車：${from}\n🏁 下車：${to}\n`;
+        msg += fieldLine("📅","日期時間",fd.get("time"));
+        msg += fieldLine("👥","人數",fd.get("people"));
+        msg += fieldLine("🧳","行李",fd.get("luggage"));
+        msg += fieldLine("🛩️","航班",fd.get("flight"));
+        msg += fieldLine("📝","備註",notes);
+        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🏁","下車",to)}`;
+        msg += `📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 想詢問機場接送報價與預約，謝謝。`;
+      }
+
+      if(type === "feedback"){
+        const notes = combineNotes(fd);
+
+        msg = `💬【維尼車隊｜意見反應】\n\n`;
+        msg += fieldLine("👤","姓名",fd.get("name"));
+        msg += fieldLine("📞","電話",fd.get("phone"));
+        msg += fieldLine("📌","反應類型",fd.get("feedbackType"));
+        msg += fieldLine("💬","希望回覆方式",fd.get("replyMethod"));
+        msg += fieldLine("🚖","相關行程 / 單號",fd.get("tripInfo"));
+        msg += fieldLine("📝","意見內容",notes);
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += `🙏 請客服協助查看此意見反應，謝謝。`;
       }
 
       if(type === "driver"){
         msg = `📝【維尼車隊｜司機應徵】\n\n`;
-        msg += addLine("👤","姓名",getRaw(fd,"name"));
-        msg += addLine("📞","電話",getRaw(fd,"phone"));
-        msg += "\n";
-        msg += addLine("📍","地區",getRaw(fd,"area"));
-        msg += addLine("🚗","車型",getRaw(fd,"car"));
-        msg += addLine("🔢","車牌",getRaw(fd,"plate"));
-        msg += "\n";
-        msg += addLine("🕒","可服務時段",getRaw(fd,"time"));
-        msg += addLine("🧭","派車經驗",getRaw(fd,"experience"));
-        msg += addLine("📝","備註",getRaw(fd,"note"));
+        msg += fieldLine("👤","姓名",fd.get("name"));
+        msg += fieldLine("📞","電話",fd.get("phone"));
+        msg += fieldLine("📍","地區",fd.get("area"));
+        msg += fieldLine("🚗","車型",fd.get("car"));
+        msg += fieldLine("🔢","車牌",fd.get("plate"));
+        msg += fieldLine("🕒","可服務時段",fd.get("time"));
+        msg += fieldLine("🧭","派車經驗",fd.get("experience"));
+        msg += fieldLine("📝","備註",fd.get("note"));
         msg += `\n📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 想了解加入維尼車隊，謝謝。`;
       }
@@ -1453,6 +1277,7 @@
 ✅ 線上叫車
 ✅ 車資試算
 ✅ 機場接送詢價
+✅ 機場接送可選九人座
 ✅ 司機應徵 / 合作洽詢
 
 👉 加入好友連結：
@@ -1491,10 +1316,7 @@ ${REFERRAL_URL}
         <div class="small">${helpText}</div>
       `;
 
-      out.scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
+      out.scrollIntoView({behavior:"smooth",block:"start"});
     }
 
     async function initLiffApp(){
@@ -1506,40 +1328,23 @@ ${REFERRAL_URL}
         return;
       }
 
-      if(!LIFF_ID || LIFF_ID.includes("請貼上")){
-        status.textContent = "尚未填入 LIFF ID：目前可正常試算與複製訊息；填入 LIFF ID 後即可啟用 LINE 內一鍵送出。";
-        status.classList.add("warn");
-        return;
-      }
-
       try{
-        await liff.init({
-          liffId:LIFF_ID
-        });
+        await liff.init({liffId:LIFF_ID});
 
         liffReady = true;
         isInLineClient = liff.isInClient();
 
-        if(!liff.isLoggedIn() && !isInLineClient){
-          status.textContent = "外部瀏覽器開啟：可登入 LINE 或改由 LINE 官方選單開啟。";
-          status.classList.add("warn");
-        }else{
-          status.textContent = isInLineClient
-            ? "已啟用 LIFF：可在 LINE 內一鍵送出訊息。"
-            : "LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。";
+        status.textContent = isInLineClient
+          ? "已啟用 LIFF：可在 LINE 內一鍵送出訊息。"
+          : "LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。";
 
-          status.classList.toggle("warn", !isInLineClient);
-        }
+        status.classList.toggle("warn", !isInLineClient);
       }catch(err){
         console.error("LIFF init error:", err);
         status.textContent = "LIFF 初始化失敗，請確認 LIFF ID 與 Endpoint URL 是否正確。";
         status.classList.add("warn");
 
-        alert(
-          "LIFF 初始化失敗\n\n" +
-          "錯誤內容：\n" +
-          (err.message || JSON.stringify(err))
-        );
+        alert("LIFF 初始化失敗\n\n錯誤內容：\n" + (err.message || JSON.stringify(err)));
       }
     }
 
@@ -1573,12 +1378,7 @@ ${REFERRAL_URL}
           return;
         }
 
-        await liff.sendMessages([
-          {
-            type:"text",
-            text:text
-          }
-        ]);
+        await liff.sendMessages([{type:"text",text:text}]);
 
         btn.disabled = false;
         btn.textContent = "已送出";
@@ -1587,14 +1387,11 @@ ${REFERRAL_URL}
         alert("已成功送出到 LINE 聊天室");
 
         setTimeout(() => {
-          try{
-            liff.closeWindow();
-          }catch(e){}
+          try{liff.closeWindow()}catch(e){}
         },800);
 
       }catch(err){
         console.error("LIFF sendMessages error:", err);
-
         btn.disabled = false;
 
         alert(
@@ -1657,19 +1454,14 @@ ${REFERRAL_URL}
       const text =
 `🎁 推薦你加入維尼車隊 LINE 官方
 
-🚖 可線上叫車、車資試算、機場接送詢價。
+🚖 可線上叫車、車資試算、機場接送詢價、九人座需求。
 
 👉 加入好友：
 ${REFERRAL_URL}`;
 
       try{
         if(window.liff && liffReady && typeof liff.shareTargetPicker === "function"){
-          await liff.shareTargetPicker([
-            {
-              type:"text",
-              text:text
-            }
-          ]);
+          await liff.shareTargetPicker([{type:"text",text:text}]);
           return;
         }
       }catch(err){
@@ -1690,7 +1482,7 @@ ${REFERRAL_URL}`;
     }
 
     function escapeHtml(str){
-      return str.replace(/[&<>"']/g, m => ({
+      return (str || "").replace(/[&<>"']/g, m => ({
         "&":"&amp;",
         "<":"&lt;",
         ">":"&gt;",
@@ -1699,8 +1491,13 @@ ${REFERRAL_URL}`;
       }[m]));
     }
 
+    function escapeAttr(str){
+      return escapeHtml(str).replace(/`/g,"&#096;");
+    }
+
     window.addEventListener("load", () => {
       initLiffApp();
+      renderPickupMemory();
 
       const qr = document.getElementById("referralQr");
       if(qr){
@@ -1708,8 +1505,7 @@ ${REFERRAL_URL}`;
       }
 
       const hash = location.hash.replace("#","");
-
-      if(["ride","fare","airport","driver","share"].includes(hash)){
+      if(["ride","fare","airport","feedback","driver","share"].includes(hash)){
         showPanel(hash);
       }
     });
