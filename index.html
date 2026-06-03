@@ -171,7 +171,7 @@
 
     .quick{
       display:grid;
-      grid-template-columns:repeat(4,1fr);
+      grid-template-columns:repeat(5,1fr);
       gap:10px;
       margin:16px 0;
     }
@@ -217,7 +217,7 @@
 
     .service h2{
       margin:0 0 5px;
-      font-size:22px;
+      font-size:21px;
       line-height:1.15;
       font-weight:950;
     }
@@ -606,9 +606,43 @@
       color:#70572b;
     }
 
-    @media (max-width:820px){
+    .share-card{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:center;
+    }
+
+    .qr-box{
+      background:white;
+      border-radius:24px;
+      border:1px solid rgba(184,131,31,.22);
+      padding:16px;
+      text-align:center;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .qr-box img{
+      width:min(280px,100%);
+      height:auto;
+      border-radius:18px;
+      display:block;
+      margin:0 auto;
+    }
+
+    .link-box{
+      word-break:break-all;
+      border-radius:18px;
+      background:#fff7dd;
+      border:1px solid rgba(184,131,31,.22);
+      padding:12px;
+      font-weight:850;
+      color:#5c3b15;
+    }
+
+    @media (max-width:900px){
       .quick{grid-template-columns:repeat(2,1fr)}
-      .hero-actions,.map-toolbar{grid-template-columns:1fr}
+      .hero-actions,.map-toolbar,.share-card{grid-template-columns:1fr}
       .service{min-height:150px}
       .fare-meta{grid-template-columns:1fr 1fr}
     }
@@ -657,7 +691,7 @@
 
       <div class="hero-actions">
         <button class="hero-btn primary" type="button" onclick="showPanel('ride')">🚗 立即叫車</button>
-        <button class="hero-btn secondary" type="button" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">查看全部服務</button>
+        <button class="hero-btn secondary" type="button" onclick="showPanel('share')">🎁 介紹好友</button>
       </div>
 
       <div id="liffStatus" class="liff-status warn">
@@ -692,6 +726,13 @@
         <h2>司機應徵</h2>
         <p>加入車隊，線上填寫基本資料。</p>
         <div class="go">立即應徵 ›</div>
+      </article>
+
+      <article class="service" onclick="showPanel('share')">
+        <div class="ico">🎁</div>
+        <h2>介紹好友</h2>
+        <p>分享好友連結與 QR Code。</p>
+        <div class="go">立即分享 ›</div>
       </article>
     </section>
 
@@ -758,7 +799,7 @@
         </div>
 
         <div class="tips">
-          提醒：送出後會先產生整理好的文字。若在 LINE LIFF 內開啟，可一鍵送出。
+          送出前會先產生整理好的文字，請確認資料正確後再按「LINE 內一鍵送出」。
         </div>
 
         <div class="actions">
@@ -824,7 +865,7 @@
       <div id="fareResult" class="fare-result"></div>
 
       <div class="tips">
-        ※ 一般路線以 Google 建議路線為主。平面道路會盡量避開高速公路／快速道路。實際價格仍以司機現場跳錶與派車客服確認為準。
+        ※ 車資為預估參考，實際價格依現場跳錶、路況、加成與客服確認為準。
       </div>
 
       <div class="output" id="out-fare"></div>
@@ -980,6 +1021,47 @@
       <div class="output" id="out-driver"></div>
     </section>
 
+    <section class="section" id="share">
+      <div class="section-head">
+        <div>
+          <h3>介紹好友</h3>
+          <p class="desc">分享維尼車隊 LINE 官方給親友，對方加入後即可快速叫車、查詢車資與預約接送。</p>
+        </div>
+        <div class="tag">好友連結 / QR Code</div>
+      </div>
+
+      <div class="share-card">
+        <div>
+          <div class="tips">
+            🎁 推薦給需要叫車、機場接送、長途接送、多人出遊或商務接送的親友。<br>
+            可直接複製連結，也可以把推薦訊息分享到 LINE。
+          </div>
+
+          <div style="height:12px"></div>
+
+          <label>好友加入連結</label>
+          <div class="link-box" id="referralLinkText">https://lin.ee/NK1LXwb</div>
+
+          <div class="actions" style="margin-top:12px">
+            <button class="gold" type="button" onclick="copyReferralLink(this)">複製好友連結</button>
+            <button class="line" type="button" onclick="shareReferralToLine()">LINE 分享好友</button>
+          </div>
+
+          <div class="actions" style="margin-top:10px">
+            <button class="soft" type="button" onclick="makeReferralMessage()">產生推薦訊息</button>
+            <a class="btn blue" href="https://lin.ee/NK1LXwb" target="_blank" rel="noopener">開啟好友連結</a>
+          </div>
+        </div>
+
+        <div class="qr-box">
+          <img id="referralQr" alt="維尼車隊 LINE 好友 QR Code">
+          <div class="small">掃描 QR Code 加入維尼車隊 LINE 官方</div>
+        </div>
+      </div>
+
+      <div class="output" id="out-share"></div>
+    </section>
+
     <div class="floating" id="floating">
       <button type="button" onclick="goMenu()">返回服務選單</button>
     </div>
@@ -996,14 +1078,16 @@
 
   <script>
     const LIFF_ID = "2010282587-v2NOL07B";
-    const LINE_URL = "https://lin.ee/vQN5z35";
+    const LINE_URL = "https://lin.ee/NK1LXwb";
+    const REFERRAL_URL = "https://lin.ee/NK1LXwb";
     const BACKUP_FARE_URL = "https://q23361117.github.io/fare/";
 
     const titles = {
       ride:"立即叫車",
       fare:"車資試算",
       airport:"機場接送",
-      driver:"司機應徵"
+      driver:"司機應徵",
+      share:"介紹好友"
     };
 
     let liffReady = false;
@@ -1075,13 +1159,29 @@
       });
     }
 
-    function getValue(fd,key){
-      const val = (fd.get(key) || "").toString().trim();
-      return val || "未填";
+    function clean(v){
+      return (v || "").toString().trim();
+    }
+
+    function getRaw(fd,key){
+      return clean(fd.get(key));
     }
 
     function val(id){
-      return (document.getElementById(id)?.value || "").trim() || "未填";
+      return clean(document.getElementById(id)?.value);
+    }
+
+    function addLine(icon,label,value){
+      const v = clean(value);
+      if(!v || v === "未填") return "";
+      return `${icon} ${label}：${v}\n`;
+    }
+
+    function mapsLine(icon,label,address){
+      const v = clean(address);
+      if(!v) return "";
+      const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(v);
+      return `${icon} ${label}：${v}\n🗺️ ${label}地圖：${url}\n`;
     }
 
     function calcFareRoute(avoidHighways){
@@ -1253,25 +1353,25 @@
       }
 
       const d = lastFareData;
+      const start = val("fareStart") || d.start;
+      const end = val("fareEnd") || d.end;
 
-      const msg =
-`🧮【維尼車隊｜車資試算】
-
-👤 姓名：${val("fareName")}
-
-📍 上車：${document.getElementById("fareStart").value.trim() || d.start}
-🏁 下車：${document.getElementById("fareEnd").value.trim() || d.end}
-
-🕒 時間：${val("fareTime")}
-👥 人數：${val("farePeople")}
-📝 備註：${val("fareNote")}
-
-🛣️ 試算路線：${d.routeLabel}
-📏 預估距離：${d.distanceKm.toFixed(1)} km
-⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘
-💰 預估車資：約 ${d.fare} 元
-
-🙏 想請派車小姐協助確認車資與是否可派車，謝謝。`;
+      let msg = `🧮【維尼車隊｜車資試算】\n\n`;
+      msg += addLine("👤","姓名",val("fareName"));
+      msg += "\n";
+      msg += mapsLine("📍","上車",start);
+      msg += mapsLine("🏁","下車",end);
+      msg += "\n";
+      msg += addLine("🕒","時間",val("fareTime"));
+      msg += addLine("👥","人數",val("farePeople"));
+      msg += addLine("📝","備註",val("fareNote"));
+      msg += `\n🛣️ 試算路線：${d.routeLabel}\n`;
+      msg += `📏 預估距離：${d.distanceKm.toFixed(1)} km\n`;
+      msg += `⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘\n`;
+      msg += `💰 預估車資：約 ${d.fare} 元\n\n`;
+      msg += `⚠️ 車資為系統預估，實際價格依現場跳錶、路況、加成與客服確認為準。\n`;
+      msg += `📲 來源：LINE 線上服務中心\n\n`;
+      msg += `🙏 想請派車小姐協助確認車資與是否可派車，謝謝。`;
 
       renderOutput("fare", msg);
     }
@@ -1283,68 +1383,84 @@
       let msg = "";
 
       if(type === "ride"){
-        msg =
-`🚖【維尼車隊｜立即叫車】
+        const from = getRaw(fd,"from");
+        const to = getRaw(fd,"to");
 
-👤 姓名：${getValue(fd,"name")}
-📞 電話：${getValue(fd,"phone")}
-
-📍 上車：${getValue(fd,"from")}
-🏁 下車：${getValue(fd,"to")}
-
-🕒 時間：${getValue(fd,"time")}
-👥 人數：${getValue(fd,"people")}
-🧳 行李：${getValue(fd,"luggage")}
-🚗 車型需求：${getValue(fd,"carType")}
-
-📝 備註：${getValue(fd,"note")}
-
-🙏 請派車小姐協助確認，謝謝。`;
+        msg = `🚖【維尼車隊｜立即叫車】\n\n`;
+        msg += addLine("👤","姓名",getRaw(fd,"name"));
+        msg += addLine("📞","電話",getRaw(fd,"phone"));
+        msg += "\n";
+        msg += mapsLine("📍","上車",from);
+        msg += mapsLine("🏁","下車",to);
+        msg += "\n";
+        msg += addLine("🕒","時間",getRaw(fd,"time"));
+        msg += addLine("👥","人數",getRaw(fd,"people"));
+        msg += addLine("🧳","行李",getRaw(fd,"luggage"));
+        msg += addLine("🚗","車型需求",getRaw(fd,"carType"));
+        msg += addLine("📝","備註",getRaw(fd,"note"));
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += `🙏 請派車小姐協助確認，謝謝。`;
       }
 
       if(type === "airport"){
-        msg =
-`✈️【維尼車隊｜機場接送詢價】
+        const from = getRaw(fd,"from");
+        const to = getRaw(fd,"to");
 
-👤 姓名：${getValue(fd,"name")}
-📞 電話：${getValue(fd,"phone")}
-
-🔁 接送方向：${getValue(fd,"direction")}
-🛫 機場：${getValue(fd,"airport")}
-
-📍 上車：${getValue(fd,"from")}
-🏁 下車：${getValue(fd,"to")}
-
-📅 日期時間：${getValue(fd,"time")}
-👥 人數：${getValue(fd,"people")}
-🧳 行李：${getValue(fd,"luggage")}
-🛩️ 航班：${getValue(fd,"flight")}
-
-📝 備註：${getValue(fd,"note")}
-
-🙏 想詢問機場接送報價與預約，謝謝。`;
+        msg = `✈️【維尼車隊｜機場接送詢價】\n\n`;
+        msg += addLine("👤","姓名",getRaw(fd,"name"));
+        msg += addLine("📞","電話",getRaw(fd,"phone"));
+        msg += "\n";
+        msg += addLine("🔁","接送方向",getRaw(fd,"direction"));
+        msg += addLine("🛫","機場",getRaw(fd,"airport"));
+        msg += "\n";
+        msg += mapsLine("📍","上車",from);
+        msg += mapsLine("🏁","下車",to);
+        msg += "\n";
+        msg += addLine("📅","日期時間",getRaw(fd,"time"));
+        msg += addLine("👥","人數",getRaw(fd,"people"));
+        msg += addLine("🧳","行李",getRaw(fd,"luggage"));
+        msg += addLine("🛩️","航班",getRaw(fd,"flight"));
+        msg += addLine("📝","備註",getRaw(fd,"note"));
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += `🙏 想詢問機場接送報價與預約，謝謝。`;
       }
 
       if(type === "driver"){
-        msg =
-`📝【維尼車隊｜司機應徵】
-
-👤 姓名：${getValue(fd,"name")}
-📞 電話：${getValue(fd,"phone")}
-
-📍 地區：${getValue(fd,"area")}
-🚗 車型：${getValue(fd,"car")}
-🔢 車牌：${getValue(fd,"plate")}
-
-🕒 可服務時段：${getValue(fd,"time")}
-🧭 派車經驗：${getValue(fd,"experience")}
-
-📝 備註：${getValue(fd,"note")}
-
-🙏 想了解加入維尼車隊，謝謝。`;
+        msg = `📝【維尼車隊｜司機應徵】\n\n`;
+        msg += addLine("👤","姓名",getRaw(fd,"name"));
+        msg += addLine("📞","電話",getRaw(fd,"phone"));
+        msg += "\n";
+        msg += addLine("📍","地區",getRaw(fd,"area"));
+        msg += addLine("🚗","車型",getRaw(fd,"car"));
+        msg += addLine("🔢","車牌",getRaw(fd,"plate"));
+        msg += "\n";
+        msg += addLine("🕒","可服務時段",getRaw(fd,"time"));
+        msg += addLine("🧭","派車經驗",getRaw(fd,"experience"));
+        msg += addLine("📝","備註",getRaw(fd,"note"));
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
+        msg += `🙏 想了解加入維尼車隊，謝謝。`;
       }
 
       renderOutput(type,msg);
+    }
+
+    function makeReferralMessage(){
+      const msg =
+`🎁【推薦給你｜維尼車隊】
+
+🚖 有叫車、機場接送、長途接送、多人出遊、商務接送需求，可以加入維尼車隊 LINE 官方。
+
+✅ 線上叫車
+✅ 車資試算
+✅ 機場接送詢價
+✅ 司機應徵 / 合作洽詢
+
+👉 加入好友連結：
+${REFERRAL_URL}
+
+📲 來源：LINE 線上服務中心`;
+
+      renderOutput("share", msg);
     }
 
     function renderOutput(type,msg){
@@ -1521,6 +1637,48 @@
       showToast("已複製訊息");
     }
 
+    async function copyReferralLink(btn){
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(REFERRAL_URL);
+      }else{
+        const temp = document.createElement("textarea");
+        temp.value = REFERRAL_URL;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+
+      btn.textContent = "已複製好友連結";
+      showToast("已複製好友連結");
+    }
+
+    async function shareReferralToLine(){
+      const text =
+`🎁 推薦你加入維尼車隊 LINE 官方
+
+🚖 可線上叫車、車資試算、機場接送詢價。
+
+👉 加入好友：
+${REFERRAL_URL}`;
+
+      try{
+        if(window.liff && liffReady && typeof liff.shareTargetPicker === "function"){
+          await liff.shareTargetPicker([
+            {
+              type:"text",
+              text:text
+            }
+          ]);
+          return;
+        }
+      }catch(err){
+        console.error(err);
+      }
+
+      window.open("https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(REFERRAL_URL), "_blank");
+    }
+
     function showToast(text){
       const toast = document.getElementById("toast");
       toast.textContent = text;
@@ -1544,9 +1702,14 @@
     window.addEventListener("load", () => {
       initLiffApp();
 
+      const qr = document.getElementById("referralQr");
+      if(qr){
+        qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(REFERRAL_URL);
+      }
+
       const hash = location.hash.replace("#","");
 
-      if(["ride","fare","airport","driver"].includes(hash)){
+      if(["ride","fare","airport","driver","share"].includes(hash)){
         showPanel(hash);
       }
     });
