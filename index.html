@@ -306,7 +306,7 @@
       <article class="service" onclick="showPanel('ride')">
         <div class="ico">🚗</div>
         <h2>立即叫車</h2>
-        <p>現在叫車或預約叫車，快速整理派車資料。</p>
+        <p>一般搭車、代駕、跑腿、簡易搬家、霧電，快速整理派車資料。</p>
         <div class="go">前往叫車 ›</div>
       </article>
 
@@ -350,7 +350,7 @@
       <div class="section-head">
         <div>
           <h3>立即叫車</h3>
-          <p class="desc">可選現在叫車或預約叫車。上車地點會記憶在客人的手機，下次不用重複輸入。</p>
+          <p class="desc">可選一般搭車、代駕、跑腿、簡易搬家、霧電，並可填寫預約車輛時間。上車地點會記憶在客人的手機，下次不用重複輸入。</p>
         </div>
         <div class="tag">快速派車表單</div>
       </div>
@@ -368,10 +368,13 @@
           </div>
 
           <div class="field">
-            <label>需求類型</label>
-            <select name="rideType" onchange="toggleReserveFields(this.value)">
-              <option>我要叫車</option>
-              <option>我要預約</option>
+            <label>需求類型 <span class="req">必填</span></label>
+            <select name="serviceType" required>
+              <option>一般搭車</option>
+              <option>代駕</option>
+              <option>跑腿</option>
+              <option>簡易搬家</option>
+              <option>霧電</option>
             </select>
           </div>
 
@@ -386,14 +389,9 @@
             </select>
           </div>
 
-          <div class="field reserve-field" style="display:none">
-            <label>預約日期</label>
-            <input name="reserveDate" type="date">
-          </div>
-
-          <div class="field reserve-field" style="display:none">
-            <label>預約時間</label>
-            <input name="reserveTime" type="time">
+          <div class="field">
+            <label>預約車輛時間</label>
+            <input name="reserveDateTime" type="datetime-local">
           </div>
 
           <div class="field">
@@ -958,6 +956,12 @@
       return parts.join("；");
     }
 
+    function formatDateTimeLocal(value){
+      const v = cleanText(value);
+      if(!v) return "";
+      return v.replace("T"," ").replace(/-/g,"/");
+    }
+
     function toggleReserveFields(value){
       const show = value === "我要預約";
       document.querySelectorAll(".reserve-field").forEach(el => {
@@ -1254,7 +1258,8 @@
         msg += fieldLine("👤","姓名",fd.get("name"));
         msg += fieldLine("📞","電話",fd.get("phone"));
         msg += `📍 上車：${from}\n🏁 下車：${to}\n`;
-        msg += fieldLine("🕒","搭乘方式",getRideTimeText(fd));
+        msg += fieldLine("🎯","需求類型",fd.get("serviceType"));
+        msg += fieldLine("🕒","預約車輛時間",formatDateTimeLocal(fd.get("reserveDateTime")));
         msg += fieldLine("👥","人數",fd.get("people"));
         msg += fieldLine("🧳","行李",fd.get("luggage"));
         msg += fieldLine("🚗","車型需求",fd.get("carType"));
