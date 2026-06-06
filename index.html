@@ -368,10 +368,10 @@
           </div>
 
           <div class="field">
-            <label>搭乘方式</label>
+            <label>需求類型</label>
             <select name="rideType" onchange="toggleReserveFields(this.value)">
-              <option>現在叫車</option>
-              <option>預約叫車</option>
+              <option>我要叫車</option>
+              <option>我要預約</option>
             </select>
           </div>
 
@@ -394,6 +394,18 @@
           <div class="field reserve-field" style="display:none">
             <label>預約時間</label>
             <input name="reserveTime" type="time">
+          </div>
+
+          <div class="field">
+            <label>常用地點名稱</label>
+            <select name="pickupLabel">
+              <option value="">不指定</option>
+              <option>住家</option>
+              <option>公司</option>
+              <option>學校</option>
+              <option>店家</option>
+              <option>其他</option>
+            </select>
           </div>
 
           <div class="field full">
@@ -947,7 +959,7 @@
     }
 
     function toggleReserveFields(value){
-      const show = value === "預約叫車";
+      const show = value === "我要預約";
       document.querySelectorAll(".reserve-field").forEach(el => {
         el.style.display = show ? "" : "none";
       });
@@ -955,28 +967,51 @@
 
     function getRideTimeText(fd){
       const type = cleanText(fd.get("rideType"));
-      if(type === "預約叫車"){
+
+      if(type === "我要預約"){
         const d = cleanText(fd.get("reserveDate"));
         const t = cleanText(fd.get("reserveTime"));
-        return `預約叫車${d || t ? "｜" + [d,t].filter(Boolean).join(" ") : ""}`;
+        return `我要預約${d || t ? "｜" + [d,t].filter(Boolean).join(" ") : ""}`;
       }
-      return "現在叫車";
+
+      return "我要叫車";
     }
 
     function getPickupMemory(){
       try{
-        return JSON.parse(localStorage.getItem(PICKUP_MEMORY_KEY) || "[]");
+        const raw = JSON.parse(localStorage.getItem(PICKUP_MEMORY_KEY) || "[]");
+
+        return raw.map(item => {
+          if(typeof item === "string"){
+            return {
+              label:"",
+              address:item
+            };
+          }
+
+          return {
+            label:cleanText(item.label),
+            address:cleanText(item.address)
+          };
+        }).filter(item => item.address);
       }catch(e){
         return [];
       }
     }
 
-    function savePickupAddress(address){
-      const v = cleanText(address);
-      if(!v) return;
+    function savePickupAddress(address,label){
+      const addr = cleanText(address);
+      const name = cleanText(label);
 
-      let list = getPickupMemory().filter(x => x !== v);
-      list.unshift(v);
+      if(!addr) return;
+
+      let list = getPickupMemory().filter(item => item.address !== addr);
+
+      list.unshift({
+        label:name,
+        address:addr
+      });
+
       list = list.slice(0,8);
 
       localStorage.setItem(PICKUP_MEMORY_KEY, JSON.stringify(list));
@@ -988,7 +1023,10 @@
 
       const datalist = document.getElementById("pickupList");
       if(datalist){
-        datalist.innerHTML = list.map(x => `<option value="${escapeHtml(x)}"></option>`).join("");
+        datalist.innerHTML = list.map(item => {
+          const display = item.label ? `${item.label}｜${item.address}` : item.address;
+          return `<option value="${escapeHtml(item.address)}">${escapeHtml(display)}</option>`;
+        }).join("");
       }
 
       const box = document.getElementById("pickupMemory");
@@ -998,8 +1036,10 @@
           return;
         }
 
-        box.innerHTML = list.map(x => {
-          return `<button type="button" class="memory-btn" onclick="fillPickup('${escapeAttr(x)}')">${escapeHtml(x)}</button>`;
+        box.innerHTML = list.map(item => {
+          const label = item.label ? `${item.label}｜${item.address}` : item.address;
+
+          return `<button type="button" class="memory-btn" onclick="fillPickup('${escapeAttr(item.address)}')">${escapeHtml(label)}</button>`;
         }).join("");
       }
     }
@@ -1128,7 +1168,8 @@
         fare,
         routeLabel,
         longAdd,
-        nightAddText
+        nightAddText,
+        isLongTrip: distanceKm > 40
       };
 
       document.getElementById("fareResult").classList.add("active");
@@ -1153,7 +1194,8 @@
 
         <div class="fare-note">
           夜間加成：${nightAddText}<br>
-          計算方式：起跳 80 元 + 每公里 15 元 + 每分鐘 3 元；超過 15 公里，每公里另加 10 元；低消 120 元。
+          計算方式：起跳 80 元 + 每公里 15 元 + 每分鐘 3 元；超過 15 公里，每公里另加 10 元；低消 120 元。<br>
+          ${distanceKm > 40 ? "🎁 此趟超過 40 公里，可詢問客服是否有長途優惠價格。" : ""}
         </div>
 
         <div class="mini-actions">
@@ -1183,8 +1225,13 @@
       msg += `🛣️ 試算路線：${d.routeLabel}\n`;
       msg += `📏 預估距離：${d.distanceKm.toFixed(1)} km\n`;
       msg += `⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘\n`;
-      msg += `💰 預估車資：約 ${d.fare} 元\n\n`;
-      msg += `⚠️ 車資為系統預估，實際價格依現場跳錶、路況、加成與客服確認為準。\n`;
+      msg += `💰 預估車資：約 ${d.fare} 元\n`;
+
+      if(d.distanceKm > 40){
+        msg += `🎁 長途提醒：此趟超過 40 公里，可詢問客服是否有長途優惠價格。\n`;
+      }
+
+      msg += `\n⚠️ 車資為系統預估，實際價格依現場跳錶、路況、加成與客服確認為準。\n`;
       msg += `📲 來源：LINE 線上服務中心\n\n`;
       msg += `🙏 想請派車小姐協助確認車資與是否可派車，謝謝。`;
 
@@ -1201,7 +1248,7 @@
         const from = cleanText(fd.get("from"));
         const to = cleanText(fd.get("to"));
         const notes = combineNotes(fd);
-        savePickupAddress(from);
+        savePickupAddress(from, fd.get("pickupLabel"));
 
         msg = `🚖【維尼車隊｜立即叫車】\n\n`;
         msg += fieldLine("👤","姓名",fd.get("name"));
