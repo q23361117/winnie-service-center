@@ -731,6 +731,11 @@
           </div>
 
           <div class="field">
+            <label>LINE ID</label>
+            <input name="lineId" placeholder="例如：winnie123 / 可不填">
+          </div>
+
+          <div class="field">
             <label>居住 / 服務地區</label>
             <input name="area" placeholder="例如：台中西屯、北屯、彰化等">
           </div>
@@ -1255,6 +1260,7 @@
         msg = `📝【維尼車隊｜司機應徵】\n\n`;
         msg += fieldLine("👤","姓名",fd.get("name"));
         msg += fieldLine("📞","電話",fd.get("phone"));
+        msg += fieldLine("💬","LINE ID",fd.get("lineId"));
         msg += fieldLine("📍","地區",fd.get("area"));
         msg += fieldLine("🚗","車型",fd.get("car"));
         msg += fieldLine("🔢","車牌",fd.get("plate"));
