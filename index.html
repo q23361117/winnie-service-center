@@ -333,8 +333,8 @@
 
       <article class="service" onclick="showPanel('driver')">
         <div class="ico">📝</div>
-        <h2>司機應徵</h2>
-        <p>加入車隊，線上填寫基本資料。</p>
+        <h2>司機 / 調度</h2>
+        <p>應徵司機或調度員，線上填寫基本資料。</p>
         <div class="go">立即應徵 ›</div>
       </article>
 
@@ -411,6 +411,11 @@
             <input name="from" id="rideFrom" required placeholder="請輸入完整上車地址或明顯地標" list="pickupList">
             <datalist id="pickupList"></datalist>
             <div class="memory-row" id="pickupMemory"></div>
+          </div>
+
+          <div class="field full">
+            <label>中途下車點</label>
+            <input name="midStop" placeholder="如需中途停靠或下車，請輸入地址或地標，可不填">
           </div>
 
           <div class="field full">
@@ -722,14 +727,22 @@
     <section class="section" id="driver">
       <div class="section-head">
         <div>
-          <h3>司機應徵</h3>
-          <p class="desc">填寫基本資料後，請將整理好的訊息傳給客服，車隊將協助後續了解。</p>
+          <h3>司機 / 調度員應徵</h3>
+          <p class="desc">可選擇應徵司機或調度員，填寫基本資料後，請將整理好的訊息傳給客服，車隊將協助後續了解。</p>
         </div>
-        <div class="tag">加入車隊</div>
+        <div class="tag">加入車隊 / 調度團隊</div>
       </div>
 
       <form onsubmit="makeMessage(event,'driver')">
         <div class="form-grid">
+          <div class="field">
+            <label>應徵項目 <span class="req">必填</span></label>
+            <select name="applyType" required>
+              <option>應徵司機</option>
+              <option>應徵調度員</option>
+            </select>
+          </div>
+
           <div class="field">
             <label>姓名 <span class="req">必填</span></label>
             <input name="name" required placeholder="請輸入姓名">
@@ -864,7 +877,7 @@
       fare:"車資試算",
       airport:"機場接送",
       feedback:"意見反應",
-      driver:"司機應徵",
+      driver:"司機 / 調度員應徵",
       share:"介紹好友"
     };
 
@@ -1250,6 +1263,7 @@
 
       if(type === "ride"){
         const from = cleanText(fd.get("from"));
+        const midStop = cleanText(fd.get("midStop"));
         const to = cleanText(fd.get("to"));
         const notes = combineNotes(fd);
         savePickupAddress(from, fd.get("pickupLabel"));
@@ -1257,14 +1271,16 @@
         msg = `🚖【維尼車隊｜立即叫車】\n\n`;
         msg += fieldLine("👤","姓名",fd.get("name"));
         msg += fieldLine("📞","電話",fd.get("phone"));
-        msg += `📍 上車：${from}\n🏁 下車：${to}\n`;
+        msg += `📍 上車：${from}\n`;
+        msg += fieldLine("🛑","中途下車點",midStop);
+        msg += `🏁 下車：${to}\n`;
         msg += fieldLine("🎯","需求類型",fd.get("serviceType"));
         msg += fieldLine("🕒","預約車輛時間",formatDateTimeLocal(fd.get("reserveDateTime")));
         msg += fieldLine("👥","人數",fd.get("people"));
         msg += fieldLine("🧳","行李",fd.get("luggage"));
         msg += fieldLine("🚗","車型需求",fd.get("carType"));
         msg += fieldLine("📝","備註",notes);
-        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🏁","下車",to)}`;
+        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🛑","中途下車點",midStop)}${mapSearchLine("🏁","下車",to)}`;
         msg += `📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 請派車小姐協助確認，謝謝。`;
       }
@@ -1309,7 +1325,8 @@
       }
 
       if(type === "driver"){
-        msg = `📝【維尼車隊｜司機應徵】\n\n`;
+        msg = `📝【維尼車隊｜司機 / 調度員應徵】\n\n`;
+        msg += fieldLine("📌","應徵項目",fd.get("applyType"));
         msg += fieldLine("👤","姓名",fd.get("name"));
         msg += fieldLine("📞","電話",fd.get("phone"));
         msg += fieldLine("💬","LINE ID",fd.get("lineId"));
@@ -1320,7 +1337,7 @@
         msg += fieldLine("🧭","派車經驗",fd.get("experience"));
         msg += fieldLine("📝","備註",fd.get("note"));
         msg += `\n📲 來源：LINE 線上服務中心\n\n`;
-        msg += `🙏 想了解加入維尼車隊，謝謝。`;
+        msg += `🙏 想了解加入維尼車隊 / 調度團隊，謝謝。`;
       }
 
       renderOutput(type,msg);
@@ -1336,7 +1353,7 @@
 ✅ 車資試算
 ✅ 機場接送詢價
 ✅ 機場接送可選九人座
-✅ 司機應徵 / 合作洽詢
+✅ 司機 / 調度員應徵 / 合作洽詢
 
 👉 加入好友連結：
 ${REFERRAL_URL}
