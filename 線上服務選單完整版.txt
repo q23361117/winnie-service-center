@@ -1,0 +1,2086 @@
+!DOCTYPE html
+html lang=zh-Hant
+head
+  meta charset=UTF-8 
+  meta name=viewport content=width=device-width, initial-scale=1.0, viewport-fit=cover 
+  meta name=theme-color content=#3A2614 
+  title維尼線上服務中心｜LIFF版title
+
+  style
+    root{
+      --brown#2f1f12;
+      --gold#d8ad42;
+      --gold2#b8831f;
+      --muted#7d6b55;
+      --line#06c755;
+      --blue#2878d8;
+      --borderrgba(184,131,31,.28);
+      --shadow0 18px 48px rgba(48,31,18,.14);
+      --soft0 10px 24px rgba(48,31,18,.08);
+    }
+
+    {box-sizingborder-box}
+    html{scroll-behaviorsmooth}
+    body{
+      margin0;
+      font-family-apple-system,BlinkMacSystemFont,Noto Sans TC,Microsoft JhengHei,Arial,sans-serif;
+      colorvar(--brown);
+      background
+        radial-gradient(circle at 14% 4%, rgba(244,217,131,.42), transparent 28%),
+        radial-gradient(circle at 100% 8%, rgba(216,173,66,.22), transparent 24%),
+        linear-gradient(180deg,#fff9eb 0%,#fffdf8 46%,#f6ead1 100%);
+      min-height100vh;
+    }
+
+    .app{widthmin(980px,100%);margin0 auto;padding16px 14px 44px}
+
+    .hero{
+      positionrelative;
+      overflowhidden;
+      min-height250px;
+      border-radius30px;
+      backgroundlinear-gradient(135deg,rgba(47,31,18,.96),rgba(78,51,23,.96) 54%,rgba(193,137,31,.96));
+      colorwhite;
+      padding26px 18px;
+      box-shadowvar(--shadow);
+      isolationisolate;
+    }
+
+    .herobefore{
+      content;
+      positionabsolute;
+      insetauto -100px -180px auto;
+      width320px;height320px;border-radius50%;
+      backgroundrgba(255,255,255,.12);
+      z-index-1;
+    }
+
+    .topline{displayflex;align-itemscenter;justify-contentspace-between;gap12px;margin-bottom18px}
+    .logo{displayflex;align-itemscenter;gap10px;min-width0}
+    .mark{
+      width50px;height50px;border-radius50%;
+      displaygrid;place-itemscenter;
+      backgroundlinear-gradient(135deg,#f7dc83,#b98422);
+      color#3a2614;font-size25px;font-weight950;
+      box-shadow0 10px 22px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55);
+      flex0 0 auto;
+    }
+    .brand-title{font-size16px;letter-spacing.18em;font-weight850;white-spacenowrap}
+    .brand-sub{font-size12px;color#f5df9a;margin-top2px;letter-spacing.12em}
+    .badge{
+      padding9px 12px;border1px solid rgba(255,255,255,.2);
+      border-radius999px;backgroundrgba(255,255,255,.12);
+      color#fff6d8;font-size12px;white-spacenowrap;
+    }
+    .hero h1{margin0;font-sizeclamp(30px,7vw,52px);line-height1.12;letter-spacing.04em;font-weight950}
+    .hero p{max-width680px;margin12px 0 0;color#fff2c4;line-height1.75;font-size15px}
+    .hero-actions{displaygrid;grid-template-columns1fr 1fr;gap10px;margin-top18px;max-width560px}
+
+    .hero-btn,button,.btn{
+      border0;border-radius16px;padding15px 14px;font-size16px;font-weight950;
+      cursorpointer;text-decorationnone;text-aligncenter;
+      displayflex;align-itemscenter;justify-contentcenter;gap8px;
+      font-familyinherit;transition.15s ease;
+    }
+    .hero-btn{border-radius999px}
+    buttonactive,.btnactive,.hero-btnactive{transformscale(.985)}
+    .primary,.gold{backgroundlinear-gradient(135deg,#f4d983,#b98422);color#2f1f12;box-shadow0 10px 20px rgba(184,131,31,.18)}
+    .secondary{backgroundrgba(255,255,255,.14);colorwhite;border1px solid rgba(255,255,255,.24)}
+    .soft{background#fff6d4;color#3a2614;border1px solid rgba(184,131,31,.28)}
+    .line{backgroundvar(--line);colorwhite;box-shadow0 10px 20px rgba(6,199,85,.18)}
+    .blue{background#eaf3ff;color#154d8d;border1px solid rgba(40,120,216,.25)}
+    .dark{backgroundrgba(47,31,18,.94);colorwhite}
+
+    .quick{displaygrid;grid-template-columnsrepeat(4,1fr);gap10px;margin16px 0}
+    .service{
+      border1px solid var(--border);
+      backgroundrgba(255,255,255,.8);
+      backdrop-filterblur(8px);
+      border-radius24px;
+      padding16px 12px;
+      box-shadowvar(--soft);
+      min-height168px;
+      cursorpointer;
+      positionrelative;
+      overflowhidden;
+    }
+    .serviceafter{
+      content;positionabsolute;width90px;height90px;border-radius50%;
+      right-38px;top-42px;backgroundrgba(216,173,66,.14);
+    }
+    .service .ico{
+      width52px;height52px;border-radius18px;
+      displaygrid;place-itemscenter;
+      backgroundlinear-gradient(135deg,#fff2bf,#d4a13a);
+      font-size28px;box-shadowinset 0 1px 0 rgba(255,255,255,.6);
+      margin-bottom14px;
+    }
+    .service h2{margin0 0 5px;font-size20px;line-height1.15;font-weight950}
+    .service p{margin0;line-height1.55;colorvar(--muted);font-size13px}
+    .service .go{margin-top12px;colorvar(--gold2);font-weight900;font-size14px}
+
+    .section{
+      displaynone;
+      margin-top14px;
+      border1px solid var(--border);
+      backgroundrgba(255,255,255,.92);
+      border-radius30px;
+      padding20px;
+      box-shadowvar(--shadow);
+    }
+    .section.active{displayblock}
+    .section-head{
+      displayflex;justify-contentspace-between;gap14px;align-itemsflex-start;
+      margin-bottom14px;padding-bottom14px;border-bottom1px solid rgba(184,131,31,.18);
+    }
+    .section h3{margin0;font-size28px;line-height1.15;font-weight950}
+    .desc{margin7px 0 0;colorvar(--muted);line-height1.65;font-size14px}
+    .tag{
+      flex0 0 auto;border-radius999px;background#fff4cf;
+      border1px solid rgba(184,131,31,.25);
+      color#7b5416;padding8px 10px;font-size12px;font-weight900;
+    }
+
+    form{displaygrid;gap12px}
+    .form-grid{displaygrid;grid-template-columns1fr 1fr;gap12px}
+    .field.full{grid-column1-1}
+    label{displayflex;justify-contentspace-between;align-itemscenter;gap8px;margin-bottom7px;font-size14px;font-weight900;color#2c1d10}
+    .req{color#b56d00;font-size12px;font-weight950}
+    input,select,textarea{
+      width100%;border1px solid #dfc789;background#fffdf8;colorvar(--brown);
+      border-radius16px;padding13px;font-size16px;outlinenone;transition.14s ease;font-familyinherit;
+    }
+    textarea{min-height92px;resizevertical;line-height1.6}
+    inputfocus,selectfocus,textareafocus{border-colorvar(--gold2);box-shadow0 0 0 4px rgba(216,173,66,.17);backgroundwhite}
+
+    .tips{
+      border-radius18px;background#fff7dd;border1px solid rgba(184,131,31,.18);
+      padding12px;color#70572b;font-size13px;line-height1.7;
+    }
+    .actions{displaygrid;grid-template-columns1fr 1fr;gap10px;margin-top4px}
+    .chips{displayflex;flex-wrapwrap;gap8px}
+    .chip{
+      displayinline-flex;align-itemscenter;gap6px;
+      border1px solid rgba(184,131,31,.28);
+      background#fffdf8;
+      border-radius999px;
+      padding9px 11px;
+      font-weight850;
+      font-size14px;
+      color#4c3219;
+    }
+    .chip input{widthauto}
+
+    .memory-row{displayflex;flex-wrapwrap;gap8px;margin-top8px}
+    .memory-btn{
+      border1px solid rgba(40,120,216,.22);
+      background#eef6ff;
+      color#154d8d;
+      border-radius999px;
+      padding8px 10px;
+      font-size13px;
+      font-weight900;
+      cursorpointer;
+    }
+
+    .map-toolbar{displaygrid;grid-template-columns1fr 1fr;gap10px;margin-top8px}
+    .map-wrap{border-radius24px;overflowhidden;border1px solid rgba(184,131,31,.22);box-shadowvar(--soft);background#fff7dd}
+    .map-box{width100%;height420px;min-height360px;background#f1e1bd}
+    .route-list{displaynone;margin-top12px;border1px solid rgba(40,120,216,.18);background#f5faff;border-radius20px;padding12px}
+    .route-list.active{displayblock}
+    .route-title{font-weight950;color#154d8d;margin-bottom8px}
+    .route-list button{width100%;margin-top8px;backgroundwhite;color#154d8d;border1px solid rgba(40,120,216,.22);justify-contentspace-between;text-alignleft}
+
+    .fare-result{displaynone;margin-top14px;border-radius22px;padding14px;border1px solid rgba(184,131,31,.25);backgroundlinear-gradient(180deg,#fff9e8,#fffdf8);box-shadowvar(--soft)}
+    .fare-result.active{displayblock}
+    .fare-price{font-size34px;font-weight950;color#b56d00;margin4px 0}
+    .fare-meta{displaygrid;grid-template-columns1fr 1fr 1fr;gap8px;margin-top10px}
+    .fare-meta div{backgroundwhite;border1px solid rgba(184,131,31,.16);border-radius16px;padding10px;text-aligncenter}
+    .fare-meta b{displayblock;font-size18px}
+    .fare-meta span{displayblock;font-size12px;colorvar(--muted);margin-top2px}
+    .fare-note{margin-top10px;color#76582c;font-size13px;line-height1.7}
+    .mini-actions{displaygrid;grid-template-columns1fr 1fr;gap10px;margin-top12px}
+
+    .output{displaynone;margin-top16px;border1px dashed rgba(184,131,31,.5);background#fff7dd;border-radius22px;padding14px}
+    .output.active{displayblock}
+    .output-title{displayflex;align-itemscenter;justify-contentspace-between;gap10px;margin-bottom10px;font-weight950}
+    .output textarea{min-height290px;backgroundwhite;font-size15px;line-height1.65}
+    .small{margin-top10px;color#8a6230;font-size13px;line-height1.7}
+    .floating{positionsticky;bottom12px;displaynone;margin-top14px;z-index10}
+    .floating.show{displayblock}
+    .floating button{width100%;backgroundrgba(47,31,18,.94);colorwhite;border1px solid rgba(255,255,255,.16);box-shadow0 12px 30px rgba(0,0,0,.18);backdrop-filterblur(10px)}
+
+    .footer{
+      text-aligncenter;margin26px 0 0;color#7f6a47;line-height1.75;font-size13px;
+      border-top1px solid rgba(184,131,31,.18);padding-top18px;
+    }
+
+    .trust{
+      margin-top16px;
+      displaygrid;
+      grid-template-columnsrepeat(4,1fr);
+      gap10px;
+    }
+    .trust div{
+      backgroundrgba(255,255,255,.75);
+      border1px solid rgba(184,131,31,.18);
+      border-radius18px;
+      padding12px;
+      font-weight900;
+      color#5f421d;
+    }
+
+    .toast{
+      positionfixed;left50%;bottom24px;transformtranslateX(-50%) translateY(20px);
+      opacity0;pointer-eventsnone;background#2f1f12;colorwhite;padding12px 16px;border-radius999px;
+      box-shadow0 14px 30px rgba(0,0,0,.22);font-weight850;transition.2s ease;z-index99;white-spacenowrap;
+    }
+    .toast.show{opacity1;transformtranslateX(-50%) translateY(0)}
+    .liff-status{margin-top12px;border1px solid rgba(6,199,85,.22);backgroundrgba(6,199,85,.08);color#1f4d2f;border-radius18px;padding10px 12px;font-size13px;line-height1.55;font-weight800}
+    .liff-status.warn{border-colorrgba(184,131,31,.28);background#fff7dd;color#70572b}
+
+    .share-card{displaygrid;grid-template-columns1.1fr .9fr;gap18px;align-itemscenter}
+    .qr-box{backgroundwhite;border-radius24px;border1px solid rgba(184,131,31,.22);padding16px;text-aligncenter;box-shadowvar(--soft)}
+    .qr-box img{widthmin(280px,100%);heightauto;border-radius18px;displayblock;margin0 auto}
+    .link-box{word-breakbreak-all;border-radius18px;background#fff7dd;border1px solid rgba(184,131,31,.22);padding12px;font-weight850;color#5c3b15}
+
+    @media (max-width980px){
+      .quick{grid-template-columnsrepeat(2,1fr)}
+      .hero-actions,.map-toolbar,.share-card{grid-template-columns1fr}
+      .service{min-height150px}
+      .fare-meta{grid-template-columns1fr 1fr}
+      .trust{grid-template-columnsrepeat(2,1fr)}
+    }
+    @media (max-width560px){
+      .app{padding10px 10px 34px}
+      .hero{border-radius24px;padding22px 16px;min-height240px}
+      .badge{displaynone}
+      .mark{width44px;height44px;font-size23px}
+      .brand-title{font-size14px}
+      .hero h1{font-size31px}
+      .quick{gap9px}
+      .service{border-radius20px;padding14px 10px;min-height142px}
+      .service .ico{width46px;height46px;border-radius16px;font-size25px;margin-bottom10px}
+      .service h2{font-size19px}
+      .section{border-radius24px;padding16px 12px}
+      .section-head{displayblock}
+      .tag{displayinline-flex;margin-top10px}
+      .form-grid{grid-template-columns1fr;gap10px}
+      .actions,.mini-actions{grid-template-columns1fr}
+      .fare-meta{grid-template-columns1fr}
+      .map-box{height360px}
+      .trust{grid-template-columns1fr}
+    }
+  style
+head
+
+body
+  main class=app
+    header class=hero
+      div class=topline
+        div class=logo
+          div class=markWdiv
+          div
+            div class=brand-titleWINNIE CAR SERVICEdiv
+            div class=brand-subLINE LIFF 線上服務中心div
+          div
+        div
+        div class=badgeLIFF 網頁版div
+      div
+
+      h1維尼線上服務中心h1
+      p
+        選擇您需要的服務，填寫完成後系統會自動整理成清楚訊息。
+        若從 LINE 內開啟，可使用 LIFF 一鍵送出。
+      p
+
+      div class=hero-actions
+        button class=hero-btn primary type=button onclick=showPanel('ride')🚗 立即叫車button
+        button class=hero-btn secondary type=button onclick=showPanel('share')🎁 介紹好友button
+      div
+
+      div id=liffStatus class=liff-status warnLIFF 狀態檢查中...div
+    header
+
+    section class=quick id=menu
+      article class=service onclick=showPanel('ride')
+        div class=ico🚗div
+        h2立即叫車h2
+        p一般搭車、代駕、跑腿、簡易搬家、霧電，快速整理派車資料。p
+        div class=go前往叫車 ›div
+      article
+
+      article class=service onclick=showPanel('member')
+        div class=ico🎫div
+        h2會員中心h2
+        p加入會員、查看點數、乘車金與專屬會員編號。p
+        div class=go立即加入 ›div
+      article
+
+      article class=service onclick=showPanel('fare')
+        div class=ico🧮div
+        h2車資試算h2
+        p輸入起訖點，地圖試算預估車資。p
+        div class=go開始試算 ›div
+      article
+
+      article class=service onclick=showPanel('airport')
+        div class=ico✈️div
+        h2機場接送h2
+        p含七人座、九人座、航廈與航班資訊。p
+        div class=go查看方案 ›div
+      article
+
+      article class=service onclick=showPanel('feedback')
+        div class=ico💬div
+        h2意見反應h2
+        p服務回饋、車資疑問、合作洽詢。p
+        div class=go我要反應 ›div
+      article
+
+      article class=service onclick=showPanel('driver')
+        div class=ico📝div
+        h2司機  調度h2
+        p應徵司機或調度員，線上填寫基本資料。p
+        div class=go立即應徵 ›div
+      article
+
+      article class=service onclick=showPanel('share')
+        div class=ico🎁div
+        h2介紹好友h2
+        p分享好友連結與 QR Code。p
+        div class=go立即分享 ›div
+      article
+    section
+
+    section class=section id=member
+      div class=section-head
+        div
+          h3會員中心h3
+          p class=desc加入維尼車隊會員後，系統會自動產生專屬會員編號。搭乘完成後可累積點數，集滿 10 點自動轉換 NT$60 乘車金。p
+        div
+        div class=tag會員集點  乘車金div
+      div
+
+      div id=memberLoadingBox class=tips
+        正在確認您的 LINE 會員資料，請稍候…
+      div
+
+      div id=memberExistingBox style=displaynone
+        div style=border-radius26px;padding22px;backgroundlinear-gradient(135deg,#2f1f12,#6b461f 58%,#b8831f);colorwhite;box-shadowvar(--shadow)
+          div style=displayflex;justify-contentspace-between;gap16px;align-itemsflex-start;flex-wrapwrap
+            div
+              div style=font-size13px;color#f5df9a;font-weight900維尼車隊會員div
+              div id=memberDisplayName style=font-size30px;font-weight950;margin-top6px會員div
+              div id=memberDisplayCode style=font-familymonospace;letter-spacing.18em;margin-top8px;color#fff2c4V01div
+            div
+            div style=border-radius18px;backgroundrgba(255,255,255,.14);padding14px 18px;min-width150px
+              div style=font-size12px;color#fff2c4可用乘車金div
+              div id=memberDisplayCredit style=font-size26px;font-weight950;margin-top4pxNT$0div
+            div
+          div
+
+          div style=margin-top22px;padding-top18px;border-top1px solid rgba(255,255,255,.16)
+            div style=displayflex;justify-contentspace-between;align-itemsend;gap12px
+              div
+                div style=font-size13px;color#fff2c4目前集點div
+                div style=font-size42px;font-weight950;margin-top2px
+                  span id=memberDisplayPoints0span
+                  span style=font-size16px;color#fff2c4／10 點span
+                div
+              div
+              div id=memberDisplayRides style=font-size13px;color#fff2c4累積搭乘 0 次div
+            div
+
+            div id=memberStampGrid style=displaygrid;grid-template-columnsrepeat(10,1fr);gap7px;margin-top16pxdiv
+            div id=memberNextReward style=font-size13px;color#fff2c4;margin-top13px再累積 10 點即可獲得 NT$60 乘車金。div
+          div
+        div
+
+        div class=actions style=margin-top14px
+          button class=gold type=button onclick=refreshCurrentMember()重新整理會員資料button
+          button class=line type=button onclick=sendMemberCardToLine()傳送會員卡到 LINEbutton
+        div
+      div
+
+      div id=memberJoinBox style=displaynone
+        form id=memberJoinForm onsubmit=registerMember(event)
+          div class=form-grid
+            div class=field
+              label姓名  稱呼 span class=req必填spanlabel
+              input id=memberName name=name required placeholder=例如：王先生  陳小姐
+            div
+
+            div class=field
+              label手機號碼 span class=req必填spanlabel
+              input id=memberPhone name=phone required inputmode=tel maxlength=10 placeholder=例如：0912345678
+            div
+
+            div class=field full
+              div class=tips
+                🎁 會員優惠：搭乘完成可累積 1 點，集滿 10 點自動轉換 NT$60 乘車金。br
+                📲 會員資料會與目前 LINE 帳號綁定，之後可直接查看點數與乘車金。
+              div
+            div
+
+            div class=field full
+              label class=chip style=justify-contentflex-start;border-radius16px;padding13px
+                input id=memberConsent type=checkbox required
+                我同意提供姓名、手機號碼及 LINE 帳號資料作為會員辨識、集點與客服聯繫使用。
+              label
+            div
+          div
+
+          div id=memberFormError style=displaynone;border-radius16px;background#fff0f0;color#a12828;padding12px 14px;font-weight850;font-size14pxdiv
+
+          div class=actions
+            button id=memberSubmitButton class=gold type=submit加入會員button
+            button class=soft type=reset清除重填button
+          div
+        form
+      div
+
+      div class=output id=out-memberdiv
+    section
+
+    section class=section id=ride
+      div class=section-head
+        div
+          h3立即叫車h3
+          p class=desc可選一般搭車、代駕、跑腿、簡易搬家、霧電，並可填寫預約車輛時間。上車地點會記憶在客人的手機，下次不用重複輸入。p
+        div
+        div class=tag快速派車表單div
+      div
+
+      form onsubmit=makeMessage(event,'ride')
+        div class=form-grid
+          div class=field
+            label姓名  稱呼label
+            input name=name placeholder=例如：王先生  陳小姐
+          div
+
+          div class=field
+            label聯絡電話label
+            input name=phone inputmode=tel placeholder=例如：09xxxxxxxx
+          div
+
+          div class=field
+            label需求類型 span class=req必填spanlabel
+            select name=serviceType required
+              option一般搭車option
+              option代駕option
+              option跑腿option
+              option簡易搬家option
+              option霧電option
+            select
+          div
+
+          div class=field
+            label車型需求label
+            select name=carType
+              option value=無特別需求option
+              option一般車option
+              option七人座option
+              option九人座option
+              option不確定，請客服建議option
+            select
+          div
+
+          div class=field
+            label預約車輛時間label
+            input name=reserveDateTime type=datetime-local
+          div
+
+          div class=field
+            label常用地點名稱label
+            select name=pickupLabel
+              option value=不指定option
+              option住家option
+              option公司option
+              option學校option
+              option店家option
+              option其他option
+            select
+          div
+
+          div class=field full
+            label上車地點 span class=req必填spanlabel
+            input name=from id=rideFrom required placeholder=請輸入完整上車地址或明顯地標 list=pickupList
+            datalist id=pickupListdatalist
+            div class=memory-row id=pickupMemorydiv
+          div
+
+          div class=field full
+            label中途下車點label
+            input name=midStop placeholder=如需中途停靠或下車，請輸入地址或地標，可不填
+          div
+
+          div class=field full
+            label下車地點 span class=req必填spanlabel
+            input name=to required placeholder=請輸入完整下車地址或明顯地標
+          div
+
+          div class=field
+            label人數label
+            input name=people inputmode=numeric placeholder=例如：2人
+          div
+
+          div class=field
+            label行李label
+            input name=luggage placeholder=例如：無  2件
+          div
+
+          div class=field full
+            label常用備註快速勾選label
+            div class=chips
+              label class=chipinput type=checkbox name=quickNote value=有行李 有行李label
+              label class=chipinput type=checkbox name=quickNote value=需要九人座 需要九人座label
+              label class=chipinput type=checkbox name=quickNote value=寵物同行 寵物同行label
+              label class=chipinput type=checkbox name=quickNote value=長者同行 長者同行label
+              label class=chipinput type=checkbox name=quickNote value=需要協助搬行李 協助搬行李label
+              label class=chipinput type=checkbox name=quickNote value=門口等候 門口等候label
+              label class=chipinput type=checkbox name=quickNote value=酒後代駕 酒後代駕label
+              label class=chipinput type=checkbox name=quickNote value=需要兒童座椅 兒童座椅label
+            div
+          div
+
+          div class=field full
+            label備註label
+            textarea name=note placeholder=例如：需協助搬行李、門口等候、寵物同行、長者同行等textarea
+          div
+        div
+
+        div class=tips送出前會先產生整理好的文字，請確認資料正確後再按「LINE 內一鍵送出」。div
+
+        div class=actions
+          button class=gold type=submit產生叫車訊息button
+          button class=soft type=reset清除重填button
+        div
+      form
+
+      div class=output id=out-ridediv
+    section
+
+    section class=section id=fare
+      div class=section-head
+        div
+          h3車資試算h3
+          p class=desc輸入上下車地點後，可用 Google 地圖試算距離、時間與預估車資。p
+        div
+        div class=tag地圖試算div
+      div
+
+      div class=form-grid
+        div class=field
+          label姓名  稱呼label
+          input id=fareName placeholder=例如：王先生  陳小姐
+        div
+
+        div class=field
+          label搭乘時間label
+          input id=fareTime placeholder=例如：現在  今天 1830
+        div
+
+        div class=field full
+          label上車地點 span class=req必填spanlabel
+          input id=fareStart placeholder=請輸入上車地址或地標 list=pickupList
+        div
+
+        div class=field full
+          label下車地點 span class=req必填spanlabel
+          input id=fareEnd placeholder=請輸入下車地址或地標
+        div
+
+        div class=field
+          label人數label
+          input id=farePeople inputmode=numeric placeholder=例如：2人
+        div
+
+        div class=field
+          label備註label
+          input id=fareNote placeholder=例如：有行李、需九人座、來回等
+        div
+      div
+
+      div class=map-toolbar
+        button class=gold type=button onclick=calcFareRoute(false)一般路線試算button
+        button class=blue type=button onclick=calcFareRoute(true)平面道路試算button
+      div
+
+      div class=map-wrap
+        div id=map class=map-boxdiv
+      div
+
+      div id=routeButtons class=route-listdiv
+      div id=fareResult class=fare-resultdiv
+
+      div class=tips※ 車資為預估參考，實際價格依現場跳錶、路況、加成、天候、節日與客服確認為準。div
+      div class=output id=out-farediv
+    section
+
+    section class=section id=airport
+      div class=section-head
+        div
+          h3機場接送h3
+          p class=desc機場接送可選一般車、七人座、九人座，並可填寫航班方向與航廈。p
+        div
+        div class=tag機場報價預約div
+      div
+
+      form onsubmit=makeMessage(event,'airport')
+        div class=form-grid
+          div class=field
+            label姓名  稱呼label
+            input name=name placeholder=例如：王先生  陳小姐
+          div
+
+          div class=field
+            label聯絡電話label
+            input name=phone inputmode=tel placeholder=例如：09xxxxxxxx
+          div
+
+          div class=field
+            label接送方向label
+            select name=direction
+              option去機場option
+              option機場回程option
+              option來回接送option
+            select
+          div
+
+          div class=field
+            label航班方向label
+            select name=flightDirection
+              option出國送機option
+              option入境接機option
+              option單純機場接送option
+              option不確定option
+            select
+          div
+
+          div class=field
+            label機場label
+            select name=airport
+              option桃園機場option
+              option清泉崗機場option
+              option高雄機場option
+              option其他機場option
+            select
+          div
+
+          div class=field
+            label航廈label
+            select name=terminal
+              option不確定option
+              option第一航廈option
+              option第二航廈option
+              option國內線option
+              option國際線option
+              option其他option
+            select
+          div
+
+          div class=field
+            label車型需求label
+            select name=carType
+              option不確定，請客服建議option
+              option一般車option
+              option七人座option
+              option九人座option
+            select
+          div
+
+          div class=field
+            label日期時間label
+            input name=time placeholder=例如：610 0530
+          div
+
+          div class=field full
+            label上車地點 span class=req必填spanlabel
+            input name=from required placeholder=請輸入上車地址或地標 list=pickupList
+          div
+
+          div class=field full
+            label下車地點 span class=req必填spanlabel
+            input name=to required placeholder=請輸入下車地址、機場或航廈
+          div
+
+          div class=field
+            label人數label
+            input name=people inputmode=numeric placeholder=例如：4人
+          div
+
+          div class=field
+            label行李label
+            input name=luggage placeholder=例如：2大2小
+          div
+
+          div class=field
+            label航班資訊label
+            input name=flight placeholder=例如：BRxxx  不確定
+          div
+
+          div class=field full
+            label常用備註快速勾選label
+            div class=chips
+              label class=chipinput type=checkbox name=quickNote value=需要九人座 需要九人座label
+              label class=chipinput type=checkbox name=quickNote value=行李較多 行李較多label
+              label class=chipinput type=checkbox name=quickNote value=需要兒童座椅 兒童座椅label
+              label class=chipinput type=checkbox name=quickNote value=長者同行 長者同行label
+              label class=chipinput type=checkbox name=quickNote value=紅眼航班 紅眼航班label
+              label class=chipinput type=checkbox name=quickNote value=需要協助搬行李 協助搬行李label
+            div
+          div
+
+          div class=field full
+            label備註label
+            textarea name=note placeholder=例如：需要兒童座椅、九人座、回程日期、紅眼航班等textarea
+          div
+        div
+
+        div class=actions
+          button class=gold type=submit產生機場接送訊息button
+          button class=soft type=reset清除重填button
+        div
+      form
+
+      div class=output id=out-airportdiv
+    section
+
+    section class=section id=feedback
+      div class=section-head
+        div
+          h3意見反應h3
+          p class=desc可填寫服務建議、車資疑問、派車回饋、網站功能建議或合作洽詢。p
+        div
+        div class=tag服務回饋div
+      div
+
+      form onsubmit=makeMessage(event,'feedback')
+        div class=form-grid
+          div class=field
+            label姓名  稱呼label
+            input name=name placeholder=例如：王先生  陳小姐
+          div
+
+          div class=field
+            label聯絡電話label
+            input name=phone inputmode=tel placeholder=例如：09xxxxxxxx
+          div
+
+          div class=field
+            label反應類型label
+            select name=feedbackType
+              option搭乘服務回饋option
+              option司機服務建議option
+              option客服  派車建議option
+              option網站功能建議option
+              option價格  車資疑問option
+              option合作洽詢option
+              option其他option
+            select
+          div
+
+          div class=field
+            label希望回覆方式label
+            select name=replyMethod
+              optionLINE 回覆即可option
+              option電話回覆option
+              option不用回覆，單純建議option
+            select
+          div
+
+          div class=field full
+            label相關行程  單號label
+            input name=tripInfo placeholder=例如：今天晚上、台中火車站到文心路、單號等
+          div
+
+          div class=field full
+            label常用反應快速勾選label
+            div class=chips
+              label class=chipinput type=checkbox name=quickNote value=司機服務很好 司機服務很好label
+              label class=chipinput type=checkbox name=quickNote value=派車速度希望更快 派車速度label
+              label class=chipinput type=checkbox name=quickNote value=想詢問車資 車資疑問label
+              label class=chipinput type=checkbox name=quickNote value=網站操作建議 網站建議label
+              label class=chipinput type=checkbox name=quickNote value=想洽談合作 合作洽詢label
+            div
+          div
+
+          div class=field full
+            label意見內容 span class=req必填spanlabel
+            textarea name=note required placeholder=請輸入想反應或建議的內容textarea
+          div
+        div
+
+        div class=actions
+          button class=gold type=submit產生意見反應訊息button
+          button class=soft type=reset清除重填button
+        div
+      form
+
+      div class=output id=out-feedbackdiv
+    section
+
+    section class=section id=driver
+      div class=section-head
+        div
+          h3司機  調度員應徵h3
+          p class=desc可選擇應徵司機或調度員，填寫基本資料後，請將整理好的訊息傳給客服，車隊將協助後續了解。p
+        div
+        div class=tag加入車隊  調度團隊div
+      div
+
+      form onsubmit=makeMessage(event,'driver')
+        div class=form-grid
+          div class=field
+            label應徵項目 span class=req必填spanlabel
+            select name=applyType required
+              option應徵司機option
+              option應徵調度員option
+            select
+          div
+
+          div class=field
+            label姓名 span class=req必填spanlabel
+            input name=name required placeholder=請輸入姓名
+          div
+
+          div class=field
+            label聯絡電話 span class=req必填spanlabel
+            input name=phone required inputmode=tel placeholder=例如：09xxxxxxxx
+          div
+
+          div class=field
+            labelLINE ID span class=req必填spanlabel
+            input name=lineId required placeholder=例如：winnie123
+          div
+
+          div class=field
+            label居住  服務地區label
+            input name=area placeholder=例如：台中西屯、北屯、彰化等
+          div
+
+          div class=field
+            label車型label
+            input name=car placeholder=例如：Altis、RAV4、九人座等
+          div
+
+          div class=field
+            label車牌前四碼label
+            input name=plate placeholder=例如：ABC-1
+          div
+
+          div class=field
+            label可服務時段label
+            input name=time placeholder=例如：晚上  假日  全日
+          div
+
+          div class=field full
+            label是否有派車  接送經驗label
+            select name=experience
+              option有經驗option
+              option無經驗option
+              option想先了解option
+            select
+          div
+
+          div class=field full
+            label備註label
+            textarea name=note placeholder=可補充車況、可跑區域、可配合時段等textarea
+          div
+        div
+
+        div class=actions
+          button class=gold type=submit產生應徵訊息button
+          button class=soft type=reset清除重填button
+        div
+      form
+
+      div class=output id=out-driverdiv
+    section
+
+    section class=section id=share
+      div class=section-head
+        div
+          h3介紹好友h3
+          p class=desc分享維尼車隊 LINE 官方給親友，對方加入後即可快速叫車、查詢車資與預約接送。p
+        div
+        div class=tag好友連結  QR Codediv
+      div
+
+      div class=share-card
+        div
+          div class=tips
+            🎁 推薦給需要叫車、機場接送、長途接送、多人出遊或商務接送的親友。br
+            可直接複製連結，也可以把推薦訊息分享到 LINE。
+          div
+
+          div style=height12pxdiv
+
+          label好友加入連結label
+          div class=link-box id=referralLinkTexthttpslin.eeNK1LXwbdiv
+
+          div class=actions style=margin-top12px
+            button class=gold type=button onclick=copyReferralLink(this)複製好友連結button
+            button class=line type=button onclick=shareReferralToLine()LINE 分享好友button
+          div
+
+          div class=actions style=margin-top10px
+            button class=soft type=button onclick=makeReferralMessage()產生推薦訊息button
+            a class=btn blue href=httpslin.eeNK1LXwb target=_blank rel=noopener開啟好友連結a
+          div
+        div
+
+        div class=qr-box
+          img id=referralQr alt=維尼車隊 LINE 好友 QR Code
+          div class=small掃描 QR Code 加入維尼車隊 LINE 官方div
+        div
+      div
+
+      div class=output id=out-sharediv
+    section
+
+    div class=floating id=floating
+      button type=button onclick=goMenu()返回服務選單button
+    div
+
+    footer class=footer
+      b🚖 維尼大台中｜中彰投叫車服務bbr
+      服務項目：市區接送、機場接送、長途接送、九人座需求、包車旅遊、商務接送。br
+      服務時間：依客服回覆與車輛調度為準。車資試算為預估參考，實際價格依派車客服與司機跳錶為準。
+
+      div class=trust
+        div📲 LINE 線上填單div
+        div🧮 車資預估參考div
+        div✈️ 機場接送詢價div
+        div💬 意見即時回饋div
+      div
+    footer
+  main
+
+  div class=toast id=toast已複製訊息div
+
+  script src=httpswww.gstatic.comfirebasejs10.14.1firebase-app-compat.jsscript
+  script src=httpswww.gstatic.comfirebasejs10.14.1firebase-firestore-compat.jsscript
+  script src=httpsstatic.line-scdn.netliffedge2sdk.jsscript
+
+  script
+    const LIFF_ID = 2010282587-v2NOL07B;
+    const LINE_URL = httpslin.eeNK1LXwb;
+
+    const firebaseConfig = {
+      apiKey AIzaSyA3CBhgcqNLoD8juSy7xM2STAZhtLHy7gw,
+      authDomain winniefleetadmin.firebaseapp.com,
+      projectId winniefleetadmin,
+      storageBucket winniefleetadmin.firebasestorage.app,
+      messagingSenderId 584645377406,
+      appId 1584645377406web47bc3e6227627858f1c72f,
+      measurementId G-27KHFWVF63
+    };
+
+    if(!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const db = firebase.firestore();
+    const REFERRAL_URL = httpslin.eeNK1LXwb;
+    const BACKUP_FARE_URL = httpsq23361117.github.iofare;
+    const PICKUP_MEMORY_KEY = winnie_pickup_memory_v1;
+
+    const titles = {
+      ride立即叫車,
+      member會員中心,
+      fare車資試算,
+      airport機場接送,
+      feedback意見反應,
+      driver司機  調度員應徵,
+      share介紹好友
+    };
+
+    let liffReady = false;
+    let isInLineClient = false;
+    let liffProfile = null;
+    let currentMember = null;
+    let map;
+    let directionsService;
+    let directionsRenderer;
+    let startMarker = null;
+    let endMarker = null;
+    let currentResult = null;
+    let lastFareData = null;
+
+    function initMap(){
+      map = new google.maps.Map(document.getElementById(map), {
+        zoom12,
+        center{lat24.1477,lng120.6736},
+        mapIdc5b92407e1dbcc2a3d20b950
+      });
+
+      directionsService = new google.maps.DirectionsService();
+
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        mapmap,
+        suppressMarkerstrue,
+        draggabletrue
+      });
+
+      directionsRenderer.addListener(directions_changed, function(){
+        const result = directionsRenderer.getDirections();
+        if(result){
+          const leg = result.routes[directionsRenderer.getRouteIndex()].legs[0];
+          drawMarkers(leg);
+          updateFare(leg, 手動調整路線);
+        }
+      });
+    }
+
+    function showPanel(id){
+      document.querySelectorAll(.section).forEach(p = p.classList.remove(active));
+      document.getElementById(id).classList.add(active);
+      document.getElementById(floating).classList.add(show);
+
+      history.replaceState(null,,# + id);
+
+      setTimeout(() = {
+        document.getElementById(id).scrollIntoView({behaviorsmooth,blockstart});
+      },50);
+
+      if(id === fare && map){
+        setTimeout(() = google.maps.event.trigger(map,resize),180);
+      }
+
+      if(id === member){
+        setTimeout(() = checkCurrentMember(), 80);
+      }
+    }
+
+    function goMenu(){
+      document.querySelectorAll(.section).forEach(p = p.classList.remove(active));
+      document.getElementById(floating).classList.remove(show);
+      history.replaceState(null,,location.pathname);
+      document.getElementById(menu).scrollIntoView({behaviorsmooth,blockstart});
+    }
+
+    function cleanText(value){
+      return (value  ).toString().trim();
+    }
+
+    function fieldLine(icon,label,value){
+      const v = cleanText(value);
+      if(!v  v === 無特別需求) return ;
+      return `${icon} ${label}：${v}n`;
+    }
+
+    function mapSearchLine(icon,label,address){
+      const v = cleanText(address);
+      if(!v) return ;
+      const url = httpswww.google.commapssearchapi=1&query= + encodeURIComponent(v);
+      return `${icon} ${label}地圖：${url}n`;
+    }
+
+    function getCheckedValues(fd,name){
+      return fd.getAll(name).map(x = cleanText(x)).filter(Boolean);
+    }
+
+    function combineNotes(fd){
+      const quick = getCheckedValues(fd,quickNote);
+      const note = cleanText(fd.get(note));
+      const parts = [];
+      if(quick.length) parts.push(quick.join(、));
+      if(note) parts.push(note);
+      return parts.join(；);
+    }
+
+    function formatDateTimeLocal(value){
+      const v = cleanText(value);
+      if(!v) return ;
+      return v.replace(T, ).replace(-g,);
+    }
+
+    function toggleReserveFields(value){
+      const show = value === 我要預約;
+      document.querySelectorAll(.reserve-field).forEach(el = {
+        el.style.display = show    none;
+      });
+    }
+
+    function getRideTimeText(fd){
+      const type = cleanText(fd.get(rideType));
+
+      if(type === 我要預約){
+        const d = cleanText(fd.get(reserveDate));
+        const t = cleanText(fd.get(reserveTime));
+        return `我要預約${d  t  ｜ + [d,t].filter(Boolean).join( )  }`;
+      }
+
+      return 我要叫車;
+    }
+
+    function getPickupMemory(){
+      try{
+        const raw = JSON.parse(localStorage.getItem(PICKUP_MEMORY_KEY)  []);
+
+        return raw.map(item = {
+          if(typeof item === string){
+            return {
+              label,
+              addressitem
+            };
+          }
+
+          return {
+            labelcleanText(item.label),
+            addresscleanText(item.address)
+          };
+        }).filter(item = item.address);
+      }catch(e){
+        return [];
+      }
+    }
+
+    function savePickupAddress(address,label){
+      const addr = cleanText(address);
+      const name = cleanText(label);
+
+      if(!addr) return;
+
+      let list = getPickupMemory().filter(item = item.address !== addr);
+
+      list.unshift({
+        labelname,
+        addressaddr
+      });
+
+      list = list.slice(0,8);
+
+      localStorage.setItem(PICKUP_MEMORY_KEY, JSON.stringify(list));
+      renderPickupMemory();
+    }
+
+    function renderPickupMemory(){
+      const list = getPickupMemory();
+
+      const datalist = document.getElementById(pickupList);
+      if(datalist){
+        datalist.innerHTML = list.map(item = {
+          const display = item.label  `${item.label}｜${item.address}`  item.address;
+          return `option value=${escapeHtml(item.address)}${escapeHtml(display)}option`;
+        }).join();
+      }
+
+      const box = document.getElementById(pickupMemory);
+      if(box){
+        if(!list.length){
+          box.innerHTML = ;
+          return;
+        }
+
+        box.innerHTML = list.map(item = {
+          const label = item.label  `${item.label}｜${item.address}`  item.address;
+
+          return `button type=button class=memory-btn onclick=fillPickup('${escapeAttr(item.address)}')${escapeHtml(label)}button`;
+        }).join();
+      }
+    }
+
+    function fillPickup(address){
+      const input = document.getElementById(rideFrom);
+      if(input) input.value = address;
+    }
+
+    function calcFareRoute(avoidHighways){
+      const start = document.getElementById(fareStart).value.trim();
+      const end = document.getElementById(fareEnd).value.trim();
+
+      if(!start  !end){
+        alert(請輸入完整上下車地點);
+        return;
+      }
+
+      if(!directionsService){
+        alert(地圖尚未載入完成，請稍後再試);
+        return;
+      }
+
+      savePickupAddress(start);
+
+      directionsService.route({
+        originstart,
+        destinationend,
+        travelModeDRIVING,
+        provideRouteAlternativestrue,
+        avoidHighwaysavoidHighways
+      }, function(result,status){
+        if(status === OK){
+          currentResult = result;
+          directionsRenderer.setDirections(result);
+          directionsRenderer.setRouteIndex(0);
+          createRouteButtons(result);
+
+          const leg = result.routes[0].legs[0];
+          drawMarkers(leg);
+          updateFare(leg, avoidHighways  平面道路  一般路線);
+        }else{
+          alert(距離計算失敗，請確認地址是否完整);
+        }
+      });
+    }
+
+    function createRouteButtons(result){
+      const container = document.getElementById(routeButtons);
+      container.classList.add(active);
+      container.innerHTML = 'div class=route-title選擇路線div';
+
+      result.routes.forEach((route,index) = {
+        const distance = route.legs[0].distance.text;
+        const duration = route.legs[0].duration.text;
+
+        const btn = document.createElement(button);
+        btn.type = button;
+        btn.innerHTML = `span路線 ${index + 1}spanspan${distance}  ${duration}span`;
+        btn.onclick = () = selectRoute(index);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectRoute(index){
+      directionsRenderer.setRouteIndex(index);
+      const leg = currentResult.routes[index].legs[0];
+      drawMarkers(leg);
+      updateFare(leg, `路線 ${index + 1}`);
+    }
+
+    function drawMarkers(leg){
+      if(startMarker) startMarker.setMap(null);
+      if(endMarker) endMarker.setMap(null);
+
+      startMarker = new google.maps.marker.AdvancedMarkerElement({
+        mapmap,
+        positionleg.start_location,
+        contentnew google.maps.marker.PinElement({
+          background#2fb344,
+          glyphColorwhite,
+          glyph上
+        }).element
+      });
+
+      endMarker = new google.maps.marker.AdvancedMarkerElement({
+        mapmap,
+        positionleg.end_location,
+        contentnew google.maps.marker.PinElement({
+          background#d92d20,
+          glyphColorwhite,
+          glyph下
+        }).element
+      });
+    }
+
+    function updateFare(leg, routeLabel){
+      const distanceKm = leg.distance.value  1000;
+      const durationMin = leg.duration.value  60;
+
+      let fare = 80 + (distanceKm  15) + (durationMin  3);
+      let longAdd = 0;
+
+      if(distanceKm  15){
+        longAdd = (distanceKm - 15)  10;
+        fare += longAdd;
+      }
+
+      const now = new Date();
+      const hour = now.getHours();
+      let nightAddText = 無;
+
+      if(hour = 23  hour  6){
+        fare = 1.2;
+        nightAddText = 已套用夜間 1.2 倍;
+      }
+
+      if(fare  120) fare = 120;
+      fare = Math.round(fare);
+
+      lastFareData = {
+        startleg.start_address,
+        endleg.end_address,
+        distanceKm,
+        durationMin,
+        fare,
+        routeLabel,
+        longAdd,
+        nightAddText,
+        isLongTrip distanceKm  40
+      };
+
+      document.getElementById(fareResult).classList.add(active);
+      document.getElementById(fareResult).innerHTML = `
+        div style=font-weight950;color#7b5416;${routeLabel  試算結果}div
+        div class=fare-price約 ${fare.toLocaleString()} 元div
+
+        div class=fare-meta
+          div
+            b${distanceKm.toFixed(1)} kmb
+            span預估距離span
+          div
+          div
+            b${Math.round(durationMin)} 分b
+            span預估時間span
+          div
+          div
+            b${longAdd  0  有  無}b
+            span15公里加成span
+          div
+        div
+
+        div class=fare-note
+          夜間加成：${nightAddText}br
+          計算方式：起跳 80 元 + 每公里 15 元 + 每分鐘 3 元；超過 15 公里，每公里另加 10 元；低消 120 元。br
+          ${distanceKm  40  🎁 此趟超過 40 公里，可詢問客服是否有長途優惠價格。  }
+        div
+
+        div class=mini-actions
+          button class=gold type=button onclick=makeFareLineMessage()整理試算訊息button
+          a class=btn soft href=${BACKUP_FARE_URL} target=_blank rel=noopener開啟原試算頁a
+        div
+      `;
+    }
+
+    function makeFareLineMessage(){
+      if(!lastFareData){
+        alert(請先完成車資試算);
+        return;
+      }
+
+      const d = lastFareData;
+      const start = cleanText(document.getElementById(fareStart).value)  d.start;
+      const end = cleanText(document.getElementById(fareEnd).value)  d.end;
+
+      let msg = `🧮【維尼車隊｜車資試算】nn`;
+      msg += fieldLine(👤,姓名,document.getElementById(fareName).value);
+      msg += `📍 上車：${start}n🏁 下車：${end}n`;
+      msg += fieldLine(🕒,時間,document.getElementById(fareTime).value);
+      msg += fieldLine(👥,人數,document.getElementById(farePeople).value);
+      msg += fieldLine(📝,備註,document.getElementById(fareNote).value);
+      msg += `n${mapSearchLine(📍,上車,start)}${mapSearchLine(🏁,下車,end)}`;
+      msg += `🛣️ 試算路線：${d.routeLabel}n`;
+      msg += `📏 預估距離：${d.distanceKm.toFixed(1)} kmn`;
+      msg += `⏱️ 預估時間：${Math.round(d.durationMin)} 分鐘n`;
+      msg += `💰 預估車資：約 ${d.fare} 元n`;
+
+      if(d.distanceKm  40){
+        msg += `🎁 長途提醒：此趟超過 40 公里，可詢問客服是否有長途優惠價格。n`;
+      }
+
+      msg += `n⚠️ 車資為系統預估，實際價格依現場跳錶、路況、加成與客服確認為準。n`;
+      msg += `📲 來源：LINE 線上服務中心nn`;
+      msg += `🙏 想請派車小姐協助確認車資與是否可派車，謝謝。`;
+
+      renderOutput(fare, msg);
+    }
+
+    function formatMemberCode(number){
+      return V + String(number).padStart(2, 0);
+    }
+
+    function normalizePhone(value){
+      return cleanText(value).replace(Dg, );
+    }
+
+    function showMemberError(message){
+      const box = document.getElementById(memberFormError);
+      if(!box) return;
+
+      box.textContent = message;
+      box.style.display = block;
+    }
+
+    function clearMemberError(){
+      const box = document.getElementById(memberFormError);
+      if(!box) return;
+
+      box.textContent = ;
+      box.style.display = none;
+    }
+
+    function setMemberPanelState(state){
+      const loading = document.getElementById(memberLoadingBox);
+      const existing = document.getElementById(memberExistingBox);
+      const join = document.getElementById(memberJoinBox);
+
+      if(loading) loading.style.display = state === loading  block  none;
+      if(existing) existing.style.display = state === existing  block  none;
+      if(join) join.style.display = state === join  block  none;
+    }
+
+    async function ensureLiffProfile(){
+      if(liffProfile) return liffProfile;
+
+      if(!window.liff  !liffReady){
+        return null;
+      }
+
+      try{
+        if(!liff.isLoggedIn()){
+          if(liff.isInClient()){
+            return null;
+          }
+
+          liff.login({
+            redirectUri window.location.href
+          });
+
+          return null;
+        }
+
+        liffProfile = await liff.getProfile();
+        return liffProfile;
+      }catch(error){
+        console.error(取得 LINE 個人資料失敗：, error);
+        return null;
+      }
+    }
+
+    async function checkCurrentMember(){
+      setMemberPanelState(loading);
+      clearMemberError();
+
+      const profile = await ensureLiffProfile();
+
+      if(!profile  !profile.userId){
+        setMemberPanelState(join);
+
+        const loading = document.getElementById(memberLoadingBox);
+        if(loading){
+          loading.style.display = block;
+          loading.textContent = 請從維尼車隊 LINE 官方的服務選單開啟此頁，才能綁定會員資料。;
+        }
+
+        const submitButton = document.getElementById(memberSubmitButton);
+        if(submitButton) submitButton.disabled = true;
+        return;
+      }
+
+      const submitButton = document.getElementById(memberSubmitButton);
+      if(submitButton) submitButton.disabled = false;
+
+      const nameInput = document.getElementById(memberName);
+      if(nameInput && !nameInput.value){
+        nameInput.value = profile.displayName  ;
+      }
+
+      try{
+        const indexSnapshot = await db.collection(memberLineIndex).doc(profile.userId).get();
+
+        if(!indexSnapshot.exists){
+          currentMember = null;
+          setMemberPanelState(join);
+          return;
+        }
+
+        const memberCode = indexSnapshot.data().memberCode;
+        const memberSnapshot = await db.collection(members).doc(memberCode).get();
+
+        if(!memberSnapshot.exists){
+          currentMember = null;
+          setMemberPanelState(join);
+          return;
+        }
+
+        currentMember = {
+          id memberSnapshot.id,
+          ...memberSnapshot.data()
+        };
+
+        renderMemberCard(currentMember);
+        setMemberPanelState(existing);
+      }catch(error){
+        console.error(讀取會員資料失敗：, error);
+        setMemberPanelState(join);
+        showMemberError(目前無法讀取會員資料，請稍後再試。);
+      }
+    }
+
+    function renderMemberCard(member){
+      const points = Number(member.points  0);
+      const rideCredit = Number(member.rideCredit  0);
+      const totalRides = Number(member.totalRides  0);
+
+      document.getElementById(memberDisplayName).textContent = member.name  會員;
+      document.getElementById(memberDisplayCode).textContent = member.memberCode  member.id  ;
+      document.getElementById(memberDisplayCredit).textContent = NT$ + rideCredit.toLocaleString(zh-TW);
+      document.getElementById(memberDisplayPoints).textContent = points;
+      document.getElementById(memberDisplayRides).textContent = `累積搭乘 ${totalRides} 次`;
+      document.getElementById(memberNextReward).textContent =
+        `再累積 ${Math.max(10 - points, 0)} 點即可獲得 NT$60 乘車金。`;
+
+      const stampGrid = document.getElementById(memberStampGrid);
+      stampGrid.innerHTML = ;
+
+      for(let i = 0; i  10; i++){
+        const active = i  points;
+        const stamp = document.createElement(div);
+
+        stamp.style.aspectRatio = 1;
+        stamp.style.borderRadius = 999px;
+        stamp.style.display = grid;
+        stamp.style.placeItems = center;
+        stamp.style.fontWeight = 950;
+        stamp.style.fontSize = 12px;
+        stamp.style.border = active
+           1px solid #f4d983
+           1px solid rgba(255,255,255,.26);
+        stamp.style.background = active
+           #f4d983
+           rgba(255,255,255,.1);
+        stamp.style.color = active
+           #3a2614
+           rgba(255,255,255,.55);
+        stamp.textContent = active  ★  String(i + 1);
+
+        stampGrid.appendChild(stamp);
+      }
+    }
+
+    async function registerMember(event){
+      event.preventDefault();
+      clearMemberError();
+
+      const submitButton = document.getElementById(memberSubmitButton);
+      const originalText = submitButton.textContent;
+
+      const name = cleanText(document.getElementById(memberName).value);
+      const phone = normalizePhone(document.getElementById(memberPhone).value);
+      const consent = document.getElementById(memberConsent).checked;
+
+      if(!name){
+        showMemberError(請輸入姓名或稱呼。);
+        return;
+      }
+
+      if(!^09d{8}$.test(phone)){
+        showMemberError(手機號碼格式不正確，請輸入 09 開頭的 10 碼號碼。);
+        return;
+      }
+
+      if(!consent){
+        showMemberError(請先勾選同意會員資料使用說明。);
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 建立會員中…;
+
+      try{
+        const profile = await ensureLiffProfile();
+
+        if(!profile  !profile.userId){
+          throw new Error(請從維尼車隊 LINE 官方的服務選單開啟此頁。);
+        }
+
+        const phoneIndexRef = db.collection(memberPhoneIndex).doc(phone);
+        const lineIndexRef = db.collection(memberLineIndex).doc(profile.userId);
+        const counterRef = db.collection(systemCounters).doc(members);
+
+        const result = await db.runTransaction(async transaction = {
+          const [phoneIndexSnapshot, lineIndexSnapshot, counterSnapshot] =
+            await Promise.all([
+              transaction.get(phoneIndexRef),
+              transaction.get(lineIndexRef),
+              transaction.get(counterRef)
+            ]);
+
+          if(lineIndexSnapshot.exists){
+            return {
+              alreadyExists true,
+              memberCode lineIndexSnapshot.data().memberCode
+            };
+          }
+
+          if(phoneIndexSnapshot.exists){
+            throw new Error(這支手機號碼已經加入會員，請聯絡客服協助確認。);
+          }
+
+          const nextNumber = counterSnapshot.exists
+             Number(counterSnapshot.data().nextNumber  1)
+             1;
+
+          const memberCode = formatMemberCode(nextNumber);
+          const memberRef = db.collection(members).doc(memberCode);
+
+          transaction.set(memberRef, {
+            memberCode,
+            name,
+            phone,
+            lineUserId profile.userId,
+            lineDisplayName profile.displayName  ,
+            linePictureUrl profile.pictureUrl  ,
+            points 0,
+            rideCredit 0,
+            totalRides 0,
+            status active,
+            note ,
+            source service_center_liff,
+            createdAt firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(phoneIndexRef, {
+            memberCode,
+            createdAt firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(lineIndexRef, {
+            memberCode,
+            createdAt firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(counterRef, {
+            nextNumber nextNumber + 1,
+            updatedAt firebase.firestore.FieldValue.serverTimestamp()
+          }, {
+            merge true
+          });
+
+          return {
+            alreadyExists false,
+            memberCode
+          };
+        });
+
+        const memberSnapshot = await db.collection(members).doc(result.memberCode).get();
+
+        if(!memberSnapshot.exists){
+          throw new Error(會員建立完成，但暫時無法讀取會員資料。);
+        }
+
+        currentMember = {
+          id memberSnapshot.id,
+          ...memberSnapshot.data()
+        };
+
+        renderMemberCard(currentMember);
+        setMemberPanelState(existing);
+
+        const successMessage =
+`🎉【維尼車隊｜會員申請完成】
+
+👤 會員姓名：${currentMember.name}
+🎫 會員編號：${currentMember.memberCode}
+📞 手機號碼：${currentMember.phone}
+
+⭐ 搭乘完成可累積 1 點
+🎁 集滿 10 點自動轉換 NT$60 乘車金
+
+📲 後續叫車時，請將會員編號提供給派車小姐：
+${currentMember.memberCode}`;
+
+        renderOutput(member, successMessage);
+
+        if(window.liff && liffReady && liff.isInClient()){
+          try{
+            await liff.sendMessages([
+              {
+                type text,
+                text successMessage
+              }
+            ]);
+
+            showToast(會員資料已送出到 LINE 聊天室);
+          }catch(sendError){
+            console.error(會員訊息自動送出失敗：, sendError);
+            showToast(會員已建立，訊息可手動送出);
+          }
+        }else{
+          showToast(會員建立成功);
+        }
+      }catch(error){
+        console.error(建立會員失敗：, error);
+        showMemberError(error.message  建立會員失敗，請稍後再試。);
+      }finally{
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    }
+
+    async function refreshCurrentMember(){
+      await checkCurrentMember();
+      showToast(會員資料已重新整理);
+    }
+
+    async function sendMemberCardToLine(){
+      if(!currentMember){
+        alert(尚未讀取到會員資料);
+        return;
+      }
+
+      const text =
+`🎫【維尼車隊｜我的會員卡】
+
+👤 姓名：${currentMember.name}
+🔢 會員編號：${currentMember.memberCode}
+⭐ 目前點數：${Number(currentMember.points  0)}  10 點
+💰 可用乘車金：NT$${Number(currentMember.rideCredit  0).toLocaleString(zh-TW)}
+🚖 累積搭乘：${Number(currentMember.totalRides  0)} 次
+
+🎁 集滿 10 點自動轉換 NT$60 乘車金。`;
+
+      if(window.liff && liffReady && liff.isInClient()){
+        try{
+          await liff.sendMessages([
+            {
+              type text,
+              text
+            }
+          ]);
+
+          showToast(會員卡已送出到 LINE 聊天室);
+          return;
+        }catch(error){
+          console.error(error);
+        }
+      }
+
+      renderOutput(member, text);
+    }
+
+    function makeMessage(e,type){
+      e.preventDefault();
+
+      const fd = new FormData(e.target);
+      let msg = ;
+
+      if(type === ride){
+        const from = cleanText(fd.get(from));
+        const midStop = cleanText(fd.get(midStop));
+        const to = cleanText(fd.get(to));
+        const notes = combineNotes(fd);
+        savePickupAddress(from, fd.get(pickupLabel));
+
+        msg = `🚖【維尼車隊｜立即叫車】nn`;
+        msg += fieldLine(👤,姓名,fd.get(name));
+        msg += fieldLine(📞,電話,fd.get(phone));
+        msg += `📍 上車：${from}n`;
+        msg += fieldLine(🛑,中途下車點,midStop);
+        msg += `🏁 下車：${to}n`;
+        msg += fieldLine(🎯,需求類型,fd.get(serviceType));
+        msg += fieldLine(🕒,預約車輛時間,formatDateTimeLocal(fd.get(reserveDateTime)));
+        msg += fieldLine(👥,人數,fd.get(people));
+        msg += fieldLine(🧳,行李,fd.get(luggage));
+        msg += fieldLine(🚗,車型需求,fd.get(carType));
+        msg += fieldLine(📝,備註,notes);
+        msg += `n${mapSearchLine(📍,上車,from)}${mapSearchLine(🛑,中途下車點,midStop)}${mapSearchLine(🏁,下車,to)}`;
+        msg += `📲 來源：LINE 線上服務中心nn`;
+        msg += `🙏 請派車小姐協助確認，謝謝。`;
+      }
+
+      if(type === airport){
+        const from = cleanText(fd.get(from));
+        const to = cleanText(fd.get(to));
+        const notes = combineNotes(fd);
+        savePickupAddress(from);
+
+        msg = `✈️【維尼車隊｜機場接送詢價】nn`;
+        msg += fieldLine(👤,姓名,fd.get(name));
+        msg += fieldLine(📞,電話,fd.get(phone));
+        msg += fieldLine(🔁,接送方向,fd.get(direction));
+        msg += fieldLine(🛫,機場,fd.get(airport));
+        msg += fieldLine(🧭,航班方向,fd.get(flightDirection));
+        msg += fieldLine(🏢,航廈,fd.get(terminal));
+        msg += fieldLine(🚗,車型需求,fd.get(carType));
+        msg += `n📍 上車：${from}n🏁 下車：${to}n`;
+        msg += fieldLine(📅,日期時間,fd.get(time));
+        msg += fieldLine(👥,人數,fd.get(people));
+        msg += fieldLine(🧳,行李,fd.get(luggage));
+        msg += fieldLine(🛩️,航班,fd.get(flight));
+        msg += fieldLine(📝,備註,notes);
+        msg += `n${mapSearchLine(📍,上車,from)}${mapSearchLine(🏁,下車,to)}`;
+        msg += `📲 來源：LINE 線上服務中心nn`;
+        msg += `🙏 想詢問機場接送報價與預約，謝謝。`;
+      }
+
+      if(type === feedback){
+        const notes = combineNotes(fd);
+
+        msg = `💬【維尼車隊｜意見反應】nn`;
+        msg += fieldLine(👤,姓名,fd.get(name));
+        msg += fieldLine(📞,電話,fd.get(phone));
+        msg += fieldLine(📌,反應類型,fd.get(feedbackType));
+        msg += fieldLine(💬,希望回覆方式,fd.get(replyMethod));
+        msg += fieldLine(🚖,相關行程  單號,fd.get(tripInfo));
+        msg += fieldLine(📝,意見內容,notes);
+        msg += `n📲 來源：LINE 線上服務中心nn`;
+        msg += `🙏 請客服協助查看此意見反應，謝謝。`;
+      }
+
+      if(type === driver){
+        msg = `📝【維尼車隊｜司機  調度員應徵】nn`;
+        msg += fieldLine(📌,應徵項目,fd.get(applyType));
+        msg += fieldLine(👤,姓名,fd.get(name));
+        msg += fieldLine(📞,電話,fd.get(phone));
+        msg += fieldLine(💬,LINE ID,fd.get(lineId));
+        msg += fieldLine(📍,地區,fd.get(area));
+        msg += fieldLine(🚗,車型,fd.get(car));
+        msg += fieldLine(🔢,車牌,fd.get(plate));
+        msg += fieldLine(🕒,可服務時段,fd.get(time));
+        msg += fieldLine(🧭,派車經驗,fd.get(experience));
+        msg += fieldLine(📝,備註,fd.get(note));
+        msg += `n📲 來源：LINE 線上服務中心nn`;
+        msg += `🙏 想了解加入維尼車隊  調度團隊，謝謝。`;
+      }
+
+      renderOutput(type,msg);
+    }
+
+    function makeReferralMessage(){
+      const msg =
+`🎁【推薦給你｜維尼車隊】
+
+🚖 有叫車、機場接送、長途接送、多人出遊、商務接送需求，可以加入維尼車隊 LINE 官方。
+
+✅ 線上叫車
+✅ 車資試算
+✅ 機場接送詢價
+✅ 機場接送可選九人座
+✅ 司機  調度員應徵  合作洽詢
+
+👉 加入好友連結：
+${REFERRAL_URL}
+
+📲 來源：LINE 線上服務中心`;
+
+      renderOutput(share, msg);
+    }
+
+    function renderOutput(type,msg){
+      const out = document.getElementById(out- + type);
+      out.classList.add(active);
+
+      const liffBtnText = liffReady && isInLineClient
+         LINE 內一鍵送出
+         一鍵複製訊息;
+
+      const helpText = liffReady && isInLineClient
+         目前已在 LINE LIFF 內開啟，可直接按「LINE 內一鍵送出」把整理好的訊息送到目前聊天室。
+         目前不是 LINE LIFF 送出模式，請先按「一鍵複製訊息」，再前往 LINE 官方貼上傳送。;
+
+      out.innerHTML = `
+        div class=output-title
+          span已整理好的「${titles[type]}」訊息span
+          span style=color#b8831f;font-size13px;LIFF 訊息模式span
+        div
+
+        textarea readonly${escapeHtml(msg)}textarea
+
+        div class=actions
+          button class=gold type=button onclick=sendOrCopyLineMessage(this)${liffBtnText}button
+          a class=btn line href=${LINE_URL} target=_blank rel=noopener前往 LINE 官方a
+        div
+
+        div class=small${helpText}div
+      `;
+
+      out.scrollIntoView({behaviorsmooth,blockstart});
+    }
+
+    async function initLiffApp(){
+      const status = document.getElementById(liffStatus);
+
+      if(!window.liff){
+        status.textContent = LIFF SDK 尚未載入，會使用複製貼上模式。;
+        status.classList.add(warn);
+        return;
+      }
+
+      try{
+        await liff.init({liffIdLIFF_ID});
+
+        liffReady = true;
+        isInLineClient = liff.isInClient();
+
+        if(liff.isLoggedIn()){
+          try{
+            liffProfile = await liff.getProfile();
+          }catch(profileError){
+            console.error(LIFF profile error, profileError);
+          }
+        }
+
+        status.textContent = isInLineClient
+           已啟用 LIFF：可在 LINE 內一鍵送出訊息。
+           LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。;
+
+        status.classList.toggle(warn, !isInLineClient);
+      }catch(err){
+        console.error(LIFF init error, err);
+        status.textContent = LIFF 初始化失敗，請確認 LIFF ID 與 Endpoint URL 是否正確。;
+        status.classList.add(warn);
+
+        alert(LIFF 初始化失敗nn錯誤內容：n + (err.message  JSON.stringify(err)));
+      }
+    }
+
+    async function sendOrCopyLineMessage(btn){
+      const output = btn.closest(.output);
+      const text = output.querySelector(textarea).value;
+
+      const originalText = btn.textContent;
+      btn.textContent = 送出中...;
+      btn.disabled = true;
+
+      try{
+        if(!window.liff){
+          alert(LIFF SDK 沒有載入，改用複製模式。);
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
+
+        if(!liffReady){
+          alert(LIFF 尚未初始化完成，請等 1 秒後再按一次。);
+          btn.textContent = originalText  LINE 內一鍵送出;
+          btn.disabled = false;
+          return;
+        }
+
+        if(!liff.isInClient()){
+          alert(目前不是在 LINE App 內開啟，改用複製模式。);
+          btn.disabled = false;
+          await copyText(btn);
+          return;
+        }
+
+        await liff.sendMessages([{typetext,texttext}]);
+
+        btn.disabled = false;
+        btn.textContent = 已送出;
+        showToast(已送出到 LINE 聊天室);
+
+        alert(已成功送出到 LINE 聊天室);
+
+        setTimeout(() = {
+          try{liff.closeWindow()}catch(e){}
+        },800);
+
+      }catch(err){
+        console.error(LIFF sendMessages error, err);
+        btn.disabled = false;
+
+        alert(
+          LINE 一鍵送出失敗nn +
+          錯誤內容：n +
+          (err.message  JSON.stringify(err)) + nn +
+          請確認是從 LINE 官方聊天室的圖文選單開啟。
+        );
+
+        btn.textContent = 改用複製訊息;
+        await copyText(btn);
+      }
+    }
+
+    async function copyText(btn){
+      const text = btn.closest(.output).querySelector(textarea).value;
+
+      if(navigator.clipboard && window.isSecureContext){
+        try{
+          await navigator.clipboard.writeText(text);
+          copied(btn);
+        }catch(e){
+          fallbackCopy(btn,text);
+        }
+      }else{
+        fallbackCopy(btn,text);
+      }
+    }
+
+    function fallbackCopy(btn,text){
+      const ta = btn.closest(.output).querySelector(textarea);
+      ta.focus();
+      ta.select();
+      document.execCommand(copy);
+      copied(btn);
+    }
+
+    function copied(btn){
+      btn.textContent = 已複製，請前往 LINE 貼上;
+      showToast(已複製訊息);
+    }
+
+    async function copyReferralLink(btn){
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(REFERRAL_URL);
+      }else{
+        const temp = document.createElement(textarea);
+        temp.value = REFERRAL_URL;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand(copy);
+        document.body.removeChild(temp);
+      }
+
+      btn.textContent = 已複製好友連結;
+      showToast(已複製好友連結);
+    }
+
+    async function shareReferralToLine(){
+      const text =
+`🎁 推薦你加入維尼車隊 LINE 官方
+
+🚖 可線上叫車、車資試算、機場接送詢價、九人座需求。
+
+👉 加入好友：
+${REFERRAL_URL}`;
+
+      try{
+        if(window.liff && liffReady && typeof liff.shareTargetPicker === function){
+          await liff.shareTargetPicker([{typetext,texttext}]);
+          return;
+        }
+      }catch(err){
+        console.error(err);
+      }
+
+      window.open(httpssocial-plugins.line.melineitshareurl= + encodeURIComponent(REFERRAL_URL), _blank);
+    }
+
+    function showToast(text){
+      const toast = document.getElementById(toast);
+      toast.textContent = text;
+      toast.classList.add(show);
+
+      setTimeout(() = {
+        toast.classList.remove(show);
+      },1800);
+    }
+
+    function escapeHtml(str){
+      return (str  ).replace([&']g, m = ({
+        &&amp;,
+        &lt;,
+        &gt;,
+        ''&quot;,
+        '&#039;
+      }[m]));
+    }
+
+    function escapeAttr(str){
+      return escapeHtml(str).replace(`g,&#096;);
+    }
+
+    window.addEventListener(load, () = {
+      initLiffApp();
+      renderPickupMemory();
+
+      const qr = document.getElementById(referralQr);
+      if(qr){
+        qr.src = httpsapi.qrserver.comv1create-qr-codesize=420x420&data= + encodeURIComponent(REFERRAL_URL);
+      }
+
+      const hash = location.hash.replace(#,);
+      if([ride,member,fare,airport,feedback,driver,share].includes(hash)){
+        showPanel(hash);
+      }
+    });
+  script
+
+  script async src=httpsmaps.googleapis.commapsapijskey=AIzaSyCMi3iCO0lZuw3XfaUoKxBrQJMGFbiz5po&callback=initMap&libraries=markerscript
+body
+html
