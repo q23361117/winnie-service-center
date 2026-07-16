@@ -357,7 +357,7 @@
       <div class="section-head">
         <div>
           <h3>會員中心</h3>
-          <p class="desc">加入維尼車隊會員後，系統會自動產生專屬會員編號。搭乘完成後可累積點數，集滿 10 點自動轉換 NT$100 乘車金。</p>
+          <p class="desc">加入維尼車隊會員後，系統會自動產生專屬會員編號。搭乘完成後可累積點數，集滿 10 點自動轉換 NT$60 乘車金。</p>
         </div>
         <div class="tag">會員集點 / 乘車金</div>
       </div>
@@ -393,7 +393,7 @@
             </div>
 
             <div id="memberStampGrid" style="display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:16px"></div>
-            <div id="memberNextReward" style="font-size:13px;color:#fff2c4;margin-top:13px">再累積 10 點即可獲得 NT$100 乘車金。</div>
+            <div id="memberNextReward" style="font-size:13px;color:#fff2c4;margin-top:13px">再累積 10 點即可獲得 NT$60 乘車金。</div>
           </div>
         </div>
 
@@ -418,7 +418,7 @@
 
             <div class="field full">
               <div class="tips">
-                🎁 會員優惠：搭乘完成可累積 1 點，集滿 10 點自動轉換 NT$100 乘車金。<br>
+                🎁 會員優惠：搭乘完成可累積 1 點，集滿 10 點自動轉換 NT$60 乘車金。<br>
                 📲 會員資料會與目前 LINE 帳號綁定，之後可直接查看點數與乘車金。
               </div>
             </div>
@@ -1510,7 +1510,7 @@
       document.getElementById("memberDisplayPoints").textContent = points;
       document.getElementById("memberDisplayRides").textContent = `累積搭乘 ${totalRides} 次`;
       document.getElementById("memberNextReward").textContent =
-        `再累積 ${Math.max(10 - points, 0)} 點即可獲得 NT$100 乘車金。`;
+        `再累積 ${Math.max(10 - points, 0)} 點即可獲得 NT$60 乘車金。`;
 
       const stampGrid = document.getElementById("memberStampGrid");
       stampGrid.innerHTML = "";
@@ -1668,7 +1668,7 @@
 📞 手機號碼：${currentMember.phone}
 
 ⭐ 搭乘完成可累積 1 點
-🎁 集滿 10 點自動轉換 NT$100 乘車金
+🎁 集滿 10 點自動轉換 NT$60 乘車金
 
 📲 後續叫車時，請將會員編號提供給派車小姐：
 ${currentMember.memberCode}`;
@@ -1721,7 +1721,7 @@ ${currentMember.memberCode}`;
 💰 可用乘車金：NT$${Number(currentMember.rideCredit || 0).toLocaleString("zh-TW")}
 🚖 累積搭乘：${Number(currentMember.totalRides || 0)} 次
 
-🎁 集滿 10 點自動轉換 NT$100 乘車金。`;
+🎁 集滿 10 點自動轉換 NT$60 乘車金。`;
 
       if(window.liff && liffReady && liff.isInClient()){
         try{
