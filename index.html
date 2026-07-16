@@ -91,7 +91,7 @@
     .blue{background:#eaf3ff;color:#154d8d;border:1px solid rgba(40,120,216,.25)}
     .dark{background:rgba(47,31,18,.94);color:white}
 
-    .quick{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:16px 0}
+    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
     .service{
       border:1px solid var(--border);
       background:rgba(255,255,255,.8);
@@ -310,6 +310,13 @@
         <div class="go">前往叫車 ›</div>
       </article>
 
+      <article class="service" onclick="showPanel('member')">
+        <div class="ico">🎫</div>
+        <h2>會員中心</h2>
+        <p>加入會員、查看點數、乘車金與專屬會員編號。</p>
+        <div class="go">立即加入 ›</div>
+      </article>
+
       <article class="service" onclick="showPanel('fare')">
         <div class="ico">🧮</div>
         <h2>車資試算</h2>
@@ -344,6 +351,96 @@
         <p>分享好友連結與 QR Code。</p>
         <div class="go">立即分享 ›</div>
       </article>
+    </section>
+
+    <section class="section" id="member">
+      <div class="section-head">
+        <div>
+          <h3>會員中心</h3>
+          <p class="desc">加入維尼車隊會員後，系統會自動產生專屬會員編號。搭乘完成後可累積點數，集滿 10 點自動轉換 NT$100 乘車金。</p>
+        </div>
+        <div class="tag">會員集點 / 乘車金</div>
+      </div>
+
+      <div id="memberLoadingBox" class="tips">
+        正在確認您的 LINE 會員資料，請稍候…
+      </div>
+
+      <div id="memberExistingBox" style="display:none">
+        <div style="border-radius:26px;padding:22px;background:linear-gradient(135deg,#2f1f12,#6b461f 58%,#b8831f);color:white;box-shadow:var(--shadow)">
+          <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <div style="font-size:13px;color:#f5df9a;font-weight:900">維尼車隊會員</div>
+              <div id="memberDisplayName" style="font-size:30px;font-weight:950;margin-top:6px">會員</div>
+              <div id="memberDisplayCode" style="font-family:monospace;letter-spacing:.18em;margin-top:8px;color:#fff2c4">V01</div>
+            </div>
+            <div style="border-radius:18px;background:rgba(255,255,255,.14);padding:14px 18px;min-width:150px">
+              <div style="font-size:12px;color:#fff2c4">可用乘車金</div>
+              <div id="memberDisplayCredit" style="font-size:26px;font-weight:950;margin-top:4px">NT$0</div>
+            </div>
+          </div>
+
+          <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16)">
+            <div style="display:flex;justify-content:space-between;align-items:end;gap:12px">
+              <div>
+                <div style="font-size:13px;color:#fff2c4">目前集點</div>
+                <div style="font-size:42px;font-weight:950;margin-top:2px">
+                  <span id="memberDisplayPoints">0</span>
+                  <span style="font-size:16px;color:#fff2c4">／10 點</span>
+                </div>
+              </div>
+              <div id="memberDisplayRides" style="font-size:13px;color:#fff2c4">累積搭乘 0 次</div>
+            </div>
+
+            <div id="memberStampGrid" style="display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:16px"></div>
+            <div id="memberNextReward" style="font-size:13px;color:#fff2c4;margin-top:13px">再累積 10 點即可獲得 NT$100 乘車金。</div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:14px">
+          <button class="gold" type="button" onclick="refreshCurrentMember()">重新整理會員資料</button>
+          <button class="line" type="button" onclick="sendMemberCardToLine()">傳送會員卡到 LINE</button>
+        </div>
+      </div>
+
+      <div id="memberJoinBox" style="display:none">
+        <form id="memberJoinForm" onsubmit="registerMember(event)">
+          <div class="form-grid">
+            <div class="field">
+              <label>姓名 / 稱呼 <span class="req">必填</span></label>
+              <input id="memberName" name="name" required placeholder="例如：王先生 / 陳小姐">
+            </div>
+
+            <div class="field">
+              <label>手機號碼 <span class="req">必填</span></label>
+              <input id="memberPhone" name="phone" required inputmode="tel" maxlength="10" placeholder="例如：0912345678">
+            </div>
+
+            <div class="field full">
+              <div class="tips">
+                🎁 會員優惠：搭乘完成可累積 1 點，集滿 10 點自動轉換 NT$100 乘車金。<br>
+                📲 會員資料會與目前 LINE 帳號綁定，之後可直接查看點數與乘車金。
+              </div>
+            </div>
+
+            <div class="field full">
+              <label class="chip" style="justify-content:flex-start;border-radius:16px;padding:13px">
+                <input id="memberConsent" type="checkbox" required>
+                我同意提供姓名、手機號碼及 LINE 帳號資料作為會員辨識、集點與客服聯繫使用。
+              </label>
+            </div>
+          </div>
+
+          <div id="memberFormError" style="display:none;border-radius:16px;background:#fff0f0;color:#a12828;padding:12px 14px;font-weight:850;font-size:14px"></div>
+
+          <div class="actions">
+            <button id="memberSubmitButton" class="gold" type="submit">加入會員</button>
+            <button class="soft" type="reset">清除重填</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="output" id="out-member"></div>
     </section>
 
     <section class="section" id="ride">
@@ -863,17 +960,36 @@
 
   <div class="toast" id="toast">已複製訊息</div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
   <script>
     const LIFF_ID = "2010282587-v2NOL07B";
     const LINE_URL = "https://lin.ee/NK1LXwb";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3CBhgcqNLoD8juSy7xM2STAZhtLHy7gw",
+      authDomain: "winniefleetadmin.firebaseapp.com",
+      projectId: "winniefleetadmin",
+      storageBucket: "winniefleetadmin.firebasestorage.app",
+      messagingSenderId: "584645377406",
+      appId: "1:584645377406:web:47bc3e6227627858f1c72f",
+      measurementId: "G-27KHFWVF63"
+    };
+
+    if(!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const db = firebase.firestore();
     const REFERRAL_URL = "https://lin.ee/NK1LXwb";
     const BACKUP_FARE_URL = "https://q23361117.github.io/fare/";
     const PICKUP_MEMORY_KEY = "winnie_pickup_memory_v1";
 
     const titles = {
       ride:"立即叫車",
+      member:"會員中心",
       fare:"車資試算",
       airport:"機場接送",
       feedback:"意見反應",
@@ -883,6 +999,8 @@
 
     let liffReady = false;
     let isInLineClient = false;
+    let liffProfile = null;
+    let currentMember = null;
     let map;
     let directionsService;
     let directionsRenderer;
@@ -929,6 +1047,10 @@
 
       if(id === "fare" && map){
         setTimeout(() => google.maps.event.trigger(map,"resize"),180);
+      }
+
+      if(id === "member"){
+        setTimeout(() => checkCurrentMember(), 80);
       }
     }
 
@@ -1255,6 +1377,371 @@
       renderOutput("fare", msg);
     }
 
+    function formatMemberCode(number){
+      return "V" + String(number).padStart(2, "0");
+    }
+
+    function normalizePhone(value){
+      return cleanText(value).replace(/\D/g, "");
+    }
+
+    function showMemberError(message){
+      const box = document.getElementById("memberFormError");
+      if(!box) return;
+
+      box.textContent = message;
+      box.style.display = "block";
+    }
+
+    function clearMemberError(){
+      const box = document.getElementById("memberFormError");
+      if(!box) return;
+
+      box.textContent = "";
+      box.style.display = "none";
+    }
+
+    function setMemberPanelState(state){
+      const loading = document.getElementById("memberLoadingBox");
+      const existing = document.getElementById("memberExistingBox");
+      const join = document.getElementById("memberJoinBox");
+
+      if(loading) loading.style.display = state === "loading" ? "block" : "none";
+      if(existing) existing.style.display = state === "existing" ? "block" : "none";
+      if(join) join.style.display = state === "join" ? "block" : "none";
+    }
+
+    async function ensureLiffProfile(){
+      if(liffProfile) return liffProfile;
+
+      if(!window.liff || !liffReady){
+        return null;
+      }
+
+      try{
+        if(!liff.isLoggedIn()){
+          if(liff.isInClient()){
+            return null;
+          }
+
+          liff.login({
+            redirectUri: window.location.href
+          });
+
+          return null;
+        }
+
+        liffProfile = await liff.getProfile();
+        return liffProfile;
+      }catch(error){
+        console.error("取得 LINE 個人資料失敗：", error);
+        return null;
+      }
+    }
+
+    async function checkCurrentMember(){
+      setMemberPanelState("loading");
+      clearMemberError();
+
+      const profile = await ensureLiffProfile();
+
+      if(!profile || !profile.userId){
+        setMemberPanelState("join");
+
+        const loading = document.getElementById("memberLoadingBox");
+        if(loading){
+          loading.style.display = "block";
+          loading.textContent = "請從維尼車隊 LINE 官方的服務選單開啟此頁，才能綁定會員資料。";
+        }
+
+        const submitButton = document.getElementById("memberSubmitButton");
+        if(submitButton) submitButton.disabled = true;
+        return;
+      }
+
+      const submitButton = document.getElementById("memberSubmitButton");
+      if(submitButton) submitButton.disabled = false;
+
+      const nameInput = document.getElementById("memberName");
+      if(nameInput && !nameInput.value){
+        nameInput.value = profile.displayName || "";
+      }
+
+      try{
+        const indexSnapshot = await db.collection("memberLineIndex").doc(profile.userId).get();
+
+        if(!indexSnapshot.exists){
+          currentMember = null;
+          setMemberPanelState("join");
+          return;
+        }
+
+        const memberCode = indexSnapshot.data().memberCode;
+        const memberSnapshot = await db.collection("members").doc(memberCode).get();
+
+        if(!memberSnapshot.exists){
+          currentMember = null;
+          setMemberPanelState("join");
+          return;
+        }
+
+        currentMember = {
+          id: memberSnapshot.id,
+          ...memberSnapshot.data()
+        };
+
+        renderMemberCard(currentMember);
+        setMemberPanelState("existing");
+      }catch(error){
+        console.error("讀取會員資料失敗：", error);
+        setMemberPanelState("join");
+        showMemberError("目前無法讀取會員資料，請稍後再試。");
+      }
+    }
+
+    function renderMemberCard(member){
+      const points = Number(member.points || 0);
+      const rideCredit = Number(member.rideCredit || 0);
+      const totalRides = Number(member.totalRides || 0);
+
+      document.getElementById("memberDisplayName").textContent = member.name || "會員";
+      document.getElementById("memberDisplayCode").textContent = member.memberCode || member.id || "";
+      document.getElementById("memberDisplayCredit").textContent = "NT$" + rideCredit.toLocaleString("zh-TW");
+      document.getElementById("memberDisplayPoints").textContent = points;
+      document.getElementById("memberDisplayRides").textContent = `累積搭乘 ${totalRides} 次`;
+      document.getElementById("memberNextReward").textContent =
+        `再累積 ${Math.max(10 - points, 0)} 點即可獲得 NT$100 乘車金。`;
+
+      const stampGrid = document.getElementById("memberStampGrid");
+      stampGrid.innerHTML = "";
+
+      for(let i = 0; i < 10; i++){
+        const active = i < points;
+        const stamp = document.createElement("div");
+
+        stamp.style.aspectRatio = "1";
+        stamp.style.borderRadius = "999px";
+        stamp.style.display = "grid";
+        stamp.style.placeItems = "center";
+        stamp.style.fontWeight = "950";
+        stamp.style.fontSize = "12px";
+        stamp.style.border = active
+          ? "1px solid #f4d983"
+          : "1px solid rgba(255,255,255,.26)";
+        stamp.style.background = active
+          ? "#f4d983"
+          : "rgba(255,255,255,.1)";
+        stamp.style.color = active
+          ? "#3a2614"
+          : "rgba(255,255,255,.55)";
+        stamp.textContent = active ? "★" : String(i + 1);
+
+        stampGrid.appendChild(stamp);
+      }
+    }
+
+    async function registerMember(event){
+      event.preventDefault();
+      clearMemberError();
+
+      const submitButton = document.getElementById("memberSubmitButton");
+      const originalText = submitButton.textContent;
+
+      const name = cleanText(document.getElementById("memberName").value);
+      const phone = normalizePhone(document.getElementById("memberPhone").value);
+      const consent = document.getElementById("memberConsent").checked;
+
+      if(!name){
+        showMemberError("請輸入姓名或稱呼。");
+        return;
+      }
+
+      if(!/^09\d{8}$/.test(phone)){
+        showMemberError("手機號碼格式不正確，請輸入 09 開頭的 10 碼號碼。");
+        return;
+      }
+
+      if(!consent){
+        showMemberError("請先勾選同意會員資料使用說明。");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "建立會員中…";
+
+      try{
+        const profile = await ensureLiffProfile();
+
+        if(!profile || !profile.userId){
+          throw new Error("請從維尼車隊 LINE 官方的服務選單開啟此頁。");
+        }
+
+        const phoneIndexRef = db.collection("memberPhoneIndex").doc(phone);
+        const lineIndexRef = db.collection("memberLineIndex").doc(profile.userId);
+        const counterRef = db.collection("systemCounters").doc("members");
+
+        const result = await db.runTransaction(async transaction => {
+          const [phoneIndexSnapshot, lineIndexSnapshot, counterSnapshot] =
+            await Promise.all([
+              transaction.get(phoneIndexRef),
+              transaction.get(lineIndexRef),
+              transaction.get(counterRef)
+            ]);
+
+          if(lineIndexSnapshot.exists){
+            return {
+              alreadyExists: true,
+              memberCode: lineIndexSnapshot.data().memberCode
+            };
+          }
+
+          if(phoneIndexSnapshot.exists){
+            throw new Error("這支手機號碼已經加入會員，請聯絡客服協助確認。");
+          }
+
+          const nextNumber = counterSnapshot.exists
+            ? Number(counterSnapshot.data().nextNumber || 1)
+            : 1;
+
+          const memberCode = formatMemberCode(nextNumber);
+          const memberRef = db.collection("members").doc(memberCode);
+
+          transaction.set(memberRef, {
+            memberCode,
+            name,
+            phone,
+            lineUserId: profile.userId,
+            lineDisplayName: profile.displayName || "",
+            linePictureUrl: profile.pictureUrl || "",
+            points: 0,
+            rideCredit: 0,
+            totalRides: 0,
+            status: "active",
+            note: "",
+            source: "service_center_liff",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(phoneIndexRef, {
+            memberCode,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(lineIndexRef, {
+            memberCode,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          transaction.set(counterRef, {
+            nextNumber: nextNumber + 1,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, {
+            merge: true
+          });
+
+          return {
+            alreadyExists: false,
+            memberCode
+          };
+        });
+
+        const memberSnapshot = await db.collection("members").doc(result.memberCode).get();
+
+        if(!memberSnapshot.exists){
+          throw new Error("會員建立完成，但暫時無法讀取會員資料。");
+        }
+
+        currentMember = {
+          id: memberSnapshot.id,
+          ...memberSnapshot.data()
+        };
+
+        renderMemberCard(currentMember);
+        setMemberPanelState("existing");
+
+        const successMessage =
+`🎉【維尼車隊｜會員申請完成】
+
+👤 會員姓名：${currentMember.name}
+🎫 會員編號：${currentMember.memberCode}
+📞 手機號碼：${currentMember.phone}
+
+⭐ 搭乘完成可累積 1 點
+🎁 集滿 10 點自動轉換 NT$100 乘車金
+
+📲 後續叫車時，請將會員編號提供給派車小姐：
+${currentMember.memberCode}`;
+
+        renderOutput("member", successMessage);
+
+        if(window.liff && liffReady && liff.isInClient()){
+          try{
+            await liff.sendMessages([
+              {
+                type: "text",
+                text: successMessage
+              }
+            ]);
+
+            showToast("會員資料已送出到 LINE 聊天室");
+          }catch(sendError){
+            console.error("會員訊息自動送出失敗：", sendError);
+            showToast("會員已建立，訊息可手動送出");
+          }
+        }else{
+          showToast("會員建立成功");
+        }
+      }catch(error){
+        console.error("建立會員失敗：", error);
+        showMemberError(error.message || "建立會員失敗，請稍後再試。");
+      }finally{
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    }
+
+    async function refreshCurrentMember(){
+      await checkCurrentMember();
+      showToast("會員資料已重新整理");
+    }
+
+    async function sendMemberCardToLine(){
+      if(!currentMember){
+        alert("尚未讀取到會員資料");
+        return;
+      }
+
+      const text =
+`🎫【維尼車隊｜我的會員卡】
+
+👤 姓名：${currentMember.name}
+🔢 會員編號：${currentMember.memberCode}
+⭐ 目前點數：${Number(currentMember.points || 0)} / 10 點
+💰 可用乘車金：NT$${Number(currentMember.rideCredit || 0).toLocaleString("zh-TW")}
+🚖 累積搭乘：${Number(currentMember.totalRides || 0)} 次
+
+🎁 集滿 10 點自動轉換 NT$100 乘車金。`;
+
+      if(window.liff && liffReady && liff.isInClient()){
+        try{
+          await liff.sendMessages([
+            {
+              type: "text",
+              text
+            }
+          ]);
+
+          showToast("會員卡已送出到 LINE 聊天室");
+          return;
+        }catch(error){
+          console.error(error);
+        }
+      }
+
+      renderOutput("member", text);
+    }
+
     function makeMessage(e,type){
       e.preventDefault();
 
@@ -1408,6 +1895,14 @@ ${REFERRAL_URL}
 
         liffReady = true;
         isInLineClient = liff.isInClient();
+
+        if(liff.isLoggedIn()){
+          try{
+            liffProfile = await liff.getProfile();
+          }catch(profileError){
+            console.error("LIFF profile error:", profileError);
+          }
+        }
 
         status.textContent = isInLineClient
           ? "已啟用 LIFF：可在 LINE 內一鍵送出訊息。"
@@ -1580,7 +2075,7 @@ ${REFERRAL_URL}`;
       }
 
       const hash = location.hash.replace("#","");
-      if(["ride","fare","airport","feedback","driver","share"].includes(hash)){
+      if(["ride","member","fare","airport","feedback","driver","share"].includes(hash)){
         showPanel(hash);
       }
     });
