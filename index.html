@@ -157,6 +157,87 @@
       border-radius:18px;background:#fff7dd;border:1px solid rgba(184,131,31,.18);
       padding:12px;color:#70572b;font-size:13px;line-height:1.7;
     }
+
+    /* 會員集點與乘車金規則 */
+    .member-rules{
+      margin-top:16px;
+      overflow:hidden;
+      border:1px solid rgba(184,131,31,.25);
+      border-radius:24px;
+      background:linear-gradient(180deg,#fffaf0,#fffdf8);
+      box-shadow:var(--soft);
+    }
+
+    .member-rules-head{
+      padding:16px 16px 14px;
+      color:white;
+      background:linear-gradient(135deg,#3a2614,#735022);
+    }
+
+    .member-rules-title{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      font-size:19px;
+      font-weight:950;
+    }
+
+    .member-rules-sub{
+      margin-top:6px;
+      color:#f8e8b1;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .member-rules-body{
+      display:grid;
+      gap:9px;
+      padding:14px;
+    }
+
+    .member-rule{
+      display:grid;
+      grid-template-columns:38px 1fr;
+      gap:10px;
+      align-items:start;
+      padding:11px 12px;
+      border:1px solid rgba(184,131,31,.15);
+      border-radius:16px;
+      background:white;
+    }
+
+    .member-rule-icon{
+      display:grid;
+      width:38px;
+      height:38px;
+      place-items:center;
+      border-radius:13px;
+      background:#fff1bd;
+      font-size:20px;
+    }
+
+    .member-rule-text{
+      color:#5f4526;
+      font-size:13px;
+      font-weight:750;
+      line-height:1.65;
+    }
+
+    .member-rule-text b{
+      color:#332113;
+      font-weight:950;
+    }
+
+    .member-rules-note{
+      margin:0 14px 14px;
+      padding:12px 13px;
+      border-radius:16px;
+      background:#fff2d7;
+      color:#7b531d;
+      font-size:13px;
+      font-weight:850;
+      line-height:1.7;
+    }
     .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
     .chips{display:flex;flex-wrap:wrap;gap:8px}
     .chip{
@@ -310,16 +391,11 @@
         <div class="go">前往叫車 ›</div>
       </article>
 
-      <article
-        class="service"
-        onclick="showMemberClosedNotice()"
-        style="opacity:.58;cursor:not-allowed"
-        aria-disabled="true"
-      >
+      <article class="service" onclick="showPanel('member')">
         <div class="ico">🎫</div>
         <h2>會員中心</h2>
-        <p>會員功能調整中，目前暫停開放申請與查詢。</p>
-        <div class="go" style="color:#8b8b8b">暫不開放</div>
+        <p>加入會員、查看點數、乘車金與專屬會員編號。</p>
+        <div class="go">立即加入 ›</div>
       </article>
 
       <article class="service" onclick="showPanel('fare')">
@@ -358,7 +434,7 @@
       </article>
     </section>
 
-    <section class="section" id="member" aria-hidden="true" style="display:none !important">
+    <section class="section" id="member">
       <div class="section-head">
         <div>
           <h3>會員中心</h3>
@@ -443,6 +519,91 @@
             <button class="soft" type="reset">清除重填</button>
           </div>
         </form>
+      </div>
+
+      <div class="member-rules">
+        <div class="member-rules-head">
+          <div class="member-rules-title">📖 會員集點與乘車金使用說明</div>
+          <div class="member-rules-sub">
+            加入會員前請先閱讀，實際使用方式依當次派車與車隊公告為準。
+          </div>
+        </div>
+
+        <div class="member-rules-body">
+          <div class="member-rule">
+            <div class="member-rule-icon">⭐</div>
+            <div class="member-rule-text">
+              <b>集點方式：</b>每次完成搭乘可累積 1 點。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">🎁</div>
+            <div class="member-rule-text">
+              <b>兌換方式：</b>集滿 10 點，系統自動兌換 NT$60 乘車金。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">💰</div>
+            <div class="member-rule-text">
+              <b>使用方式：</b>乘車金可於下次搭乘折抵車資，請於叫車或派車前主動告知。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">🧧</div>
+            <div class="member-rule-text">
+              <b>特殊節日：</b>春節、跨年及車隊公告之特殊節日期間暫不適用。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">🌧️</div>
+            <div class="member-rule-text">
+              <b>天候與加成：</b>雨天、颱風天或特殊加成時段暫不適用。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">🏷️</div>
+            <div class="member-rule-text">
+              <b>優惠限制：</b>不得與其他折價或優惠活動同時使用，優惠擇一。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">🚫</div>
+            <div class="member-rule-text">
+              <b>不適用項目：</b>取消費、空趟費、等待費、後結、代收、跑腿、代駕及其他特殊服務。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">💵</div>
+            <div class="member-rule-text">
+              <b>乘車金限制：</b>不得兌換現金、轉讓或找零。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">↩️</div>
+            <div class="member-rule-text">
+              <b>點數撤回：</b>若該趟取消、刪除或未完成搭乘，該次點數將自動撤回。
+            </div>
+          </div>
+
+          <div class="member-rule">
+            <div class="member-rule-icon">📢</div>
+            <div class="member-rule-text">
+              <b>最終使用方式：</b>實際折抵金額與適用情形，依當次派車人員確認及車隊公告為準。
+            </div>
+          </div>
+        </div>
+
+        <div class="member-rules-note">
+          💡 溫馨提醒：後續叫車時請主動提供會員編號，方便調度確認目前點數與乘車金餘額。維尼車隊保留活動內容調整、暫停及最終解釋權。
+        </div>
       </div>
 
       <div class="output" id="out-member"></div>
@@ -1039,17 +1200,7 @@
       });
     }
 
-    function showMemberClosedNotice(){
-      alert("會員中心目前正在調整中，暫時不開放申請與查詢，敬請見諒。");
-    }
-
     function showPanel(id){
-      if(id === "member"){
-        showMemberClosedNotice();
-        history.replaceState(null,"",location.pathname);
-        return;
-      }
-
       document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
       document.getElementById(id).classList.add("active");
       document.getElementById("floating").classList.add("show");
@@ -2090,12 +2241,7 @@ ${REFERRAL_URL}`;
       }
 
       const hash = location.hash.replace("#","");
-
-    if(hash === "member"){
-      history.replaceState(null,"",location.pathname);
-      setTimeout(showMemberClosedNotice, 120);
-    }
-      if(["ride","fare","airport","feedback","driver","share"].includes(hash)){
+      if(["ride","member","fare","airport","feedback","driver","share"].includes(hash)){
         showPanel(hash);
       }
     });
