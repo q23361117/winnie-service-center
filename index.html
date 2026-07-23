@@ -1216,7 +1216,17 @@
       }
 
       if(id === "member"){
-        setTimeout(() => checkCurrentMember(), 80);
+        // 若本頁已成功讀過會員，切換回會員中心時先立即顯示，
+        // 避免從車資試算 / Google Maps 切回來時短暫變成空白或加入會員畫面。
+        if(currentMember){
+          renderMemberCard(currentMember);
+          setMemberPanelState("existing");
+        }
+
+        // 背景重新抓最新會員資料。
+        setTimeout(() => checkCurrentMember({
+          preserveExisting: true
+        }), 80);
       }
     }
 
@@ -1605,63 +1615,190 @@
       }
     }
 
-    async function checkCurrentMember(){
-      setMemberPanelState("loading");
+    async function findMemberByLineUserId(lineUserId){
+      const userId = cleanText(lineUserId);
+
+      if(!userId){
+        return null;
+      }
+
+      // 第一順位：使用 memberLineIndex 快速索引。
+      try{
+        const indexSnapshot = await db
+          .collection("memberLineIndex")
+          .doc(userId)
+          .get();
+
+        if(indexSnapshot.exists){
+          const memberCode = cleanText(
+            indexSnapshot.data().memberCode
+          );
+
+          if(memberCode){
+            const memberSnapshot = await db
+              .collection("members")
+              .doc(memberCode)
+              .get();
+
+            if(memberSnapshot.exists){
+              return {
+                id: memberSnapshot.id,
+                ...memberSnapshot.data()
+              };
+            }
+          }
+        }
+      }catch(indexError){
+        console.warn(
+          "讀取 memberLineIndex 失敗，改用 members 反查：",
+          indexError
+        );
+      }
+
+      // 第二順位：直接從 members.lineUserId 反查。
+      // 這可修復「後台已綁 LINE，但 memberLineIndex 尚未建立」的舊會員。
+      const memberQuery = await db
+        .collection("members")
+        .where("lineUserId", "==", userId)
+        .limit(1)
+        .get();
+
+      if(memberQuery.empty){
+        return null;
+      }
+
+      const memberSnapshot = memberQuery.docs[0];
+      const member = {
+        id: memberSnapshot.id,
+        ...memberSnapshot.data()
+      };
+
+      const memberCode = cleanText(
+        member.memberCode || member.id
+      );
+
+      // 找到會員後補建 / 修復 memberLineIndex。
+      if(memberCode){
+        try{
+          await db
+            .collection("memberLineIndex")
+            .doc(userId)
+            .set({
+              memberCode,
+              updatedAt:
+                firebase.firestore.FieldValue.serverTimestamp()
+            }, {
+              merge: true
+            });
+        }catch(repairError){
+          // 索引補建失敗不影響會員卡顯示。
+          console.warn(
+            "memberLineIndex 自動補建失敗：",
+            repairError
+          );
+        }
+      }
+
+      return member;
+    }
+
+    async function checkCurrentMember(options){
+      const preserveExisting =
+        !!(options && options.preserveExisting);
+
+      // 已經有會員資料時，重新整理期間不要把畫面清掉。
+      if(!preserveExisting || !currentMember){
+        setMemberPanelState("loading");
+      }else{
+        renderMemberCard(currentMember);
+        setMemberPanelState("existing");
+      }
+
       clearMemberError();
 
       const profile = await ensureLiffProfile();
 
       if(!profile || !profile.userId){
-        setMemberPanelState("join");
-
-        const loading = document.getElementById("memberLoadingBox");
-        if(loading){
-          loading.style.display = "block";
-          loading.textContent = "請從維尼車隊 LINE 官方的服務選單開啟此頁，才能綁定會員資料。";
+        // 若之前已經成功讀到會員，不要因 LIFF 短暫狀態而把會員卡清掉。
+        if(currentMember){
+          renderMemberCard(currentMember);
+          setMemberPanelState("existing");
+          return;
         }
 
-        const submitButton = document.getElementById("memberSubmitButton");
-        if(submitButton) submitButton.disabled = true;
+        setMemberPanelState("join");
+
+        const loading = document.getElementById(
+          "memberLoadingBox"
+        );
+
+        if(loading){
+          loading.style.display = "block";
+          loading.textContent =
+            "請從維尼車隊 LINE 官方的服務選單開啟此頁，才能綁定會員資料。";
+        }
+
+        const submitButton = document.getElementById(
+          "memberSubmitButton"
+        );
+
+        if(submitButton){
+          submitButton.disabled = true;
+        }
+
         return;
       }
 
-      const submitButton = document.getElementById("memberSubmitButton");
-      if(submitButton) submitButton.disabled = false;
+      const submitButton = document.getElementById(
+        "memberSubmitButton"
+      );
 
-      const nameInput = document.getElementById("memberName");
+      if(submitButton){
+        submitButton.disabled = false;
+      }
+
+      const nameInput = document.getElementById(
+        "memberName"
+      );
+
       if(nameInput && !nameInput.value){
-        nameInput.value = profile.displayName || "";
+        nameInput.value =
+          profile.displayName || "";
       }
 
       try{
-        const indexSnapshot = await db.collection("memberLineIndex").doc(profile.userId).get();
+        const member = await findMemberByLineUserId(
+          profile.userId
+        );
 
-        if(!indexSnapshot.exists){
+        if(!member){
+          // 只有確定查不到會員時才顯示加入會員。
           currentMember = null;
           setMemberPanelState("join");
           return;
         }
 
-        const memberCode = indexSnapshot.data().memberCode;
-        const memberSnapshot = await db.collection("members").doc(memberCode).get();
-
-        if(!memberSnapshot.exists){
-          currentMember = null;
-          setMemberPanelState("join");
-          return;
-        }
-
-        currentMember = {
-          id: memberSnapshot.id,
-          ...memberSnapshot.data()
-        };
+        currentMember = member;
 
         renderMemberCard(currentMember);
         setMemberPanelState("existing");
       }catch(error){
-        console.error("讀取會員資料失敗：", error);
+        console.error(
+          "讀取會員資料失敗：",
+          error
+        );
+
+        // 網路 / Firestore 暫時失敗時，保留已經成功顯示過的會員卡。
+        if(currentMember){
+          renderMemberCard(currentMember);
+          setMemberPanelState("existing");
+          return;
+        }
+
         setMemberPanelState("join");
-        showMemberError("目前無法讀取會員資料，請稍後再試。");
+        showMemberError(
+          "目前無法讀取會員資料，請稍後再試。"
+        );
       }
     }
 
@@ -1868,7 +2005,9 @@ ${currentMember.memberCode}`;
     }
 
     async function refreshCurrentMember(){
-      await checkCurrentMember();
+      await checkCurrentMember({
+        preserveExisting: true
+      });
       showToast("會員資料已重新整理");
     }
 
@@ -2075,6 +2214,19 @@ ${REFERRAL_URL}
           : "LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。";
 
         status.classList.toggle("warn", !isInLineClient);
+
+        // 頁面若目前停在會員中心，等 LIFF 真正初始化完成後再查一次會員。
+        // 解決由車資試算切回會員中心時，第一次查詢早於 LIFF ready 而顯示不到會員。
+        const currentHash =
+          location.hash.replace("#", "");
+
+        if(currentHash === "member"){
+          setTimeout(() => {
+            checkCurrentMember({
+              preserveExisting: true
+            });
+          }, 80);
+        }
       }catch(err){
         console.error("LIFF init error:", err);
         status.textContent = "LIFF 初始化失敗，請確認 LIFF ID 與 Endpoint URL 是否正確。";
