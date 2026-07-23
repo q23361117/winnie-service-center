@@ -485,6 +485,11 @@
       </div>
 
       <div id="memberJoinBox" style="display:none">
+        <div id="memberCampaignBanner" style="display:none;margin-bottom:14px;border-radius:22px;padding:16px;background:linear-gradient(135deg,#fff1bd,#fff9e8);border:1px solid rgba(184,131,31,.28);box-shadow:var(--soft)">
+          <div style="font-size:18px;font-weight:950;color:#5b3a12">🎉 新客加入・舊客回歸｜限時會員活動</div>
+          <div id="memberCampaignText" style="margin-top:7px;color:#76582c;font-size:14px;font-weight:800;line-height:1.75"></div>
+        </div>
+
         <form id="memberJoinForm" onsubmit="registerMember(event)">
           <div class="form-grid">
             <div class="field">
@@ -497,9 +502,23 @@
               <input id="memberPhone" name="phone" required inputmode="tel" maxlength="10" placeholder="例如：0912345678">
             </div>
 
+            <div class="field">
+              <label>推薦人會員編號 <span style="font-size:12px;color:var(--muted);font-weight:800">選填</span></label>
+              <input id="memberReferrerCode" name="referrerCode" maxlength="12" placeholder="例如：V01" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <label>推薦活動說明</label>
+              <div class="tips" style="height:100%;display:flex;align-items:center">
+                👫 有推薦人時請填會員編號；好友完成首次有效搭乘後，系統會自動判斷並發放推薦獎勵。
+              </div>
+            </div>
+
             <div class="field full">
               <div class="tips">
                 🎁 會員優惠：搭乘完成可累積 1 點，集滿 10 點自動轉換 NT$60 乘車金。<br>
+                🎉 限時活動期間加入會員與首次搭乘，可依活動規則獲得加碼點數。<br>
+                👫 填入推薦人會員編號後，好友完成首次有效搭乘，系統會自動判斷推薦獎勵。<br>
                 📲 會員資料會與目前 LINE 帳號綁定，之後可直接查看點數與乘車金。
               </div>
             </div>
@@ -1134,6 +1153,18 @@
     const LIFF_ID = "2010282587-v2NOL07B";
     const LINE_URL = "https://lin.ee/NK1LXwb";
 
+    // 會員限時活動設定：需與 Google Apps Script 後台 CONFIG.MEMBER_CAMPAIGN 保持一致。
+    const MEMBER_CAMPAIGN = {
+      enabled: true,
+      campaignId: "member_return_20260724_20260806",
+      name: "新客加入・舊客回歸會員活動",
+      startDate: "2026-07-24",
+      endDate: "2026-08-06",
+      signupBonus: 2,
+      firstRideBonus: 2,
+      referralBonus: 2
+    };
+
     const firebaseConfig = {
       apiKey: "AIzaSyA3CBhgcqNLoD8juSy7xM2STAZhtLHy7gw",
       authDomain: "winniefleetadmin.firebaseapp.com",
@@ -1224,6 +1255,9 @@
         }
 
         // 背景重新抓最新會員資料。
+        renderMemberCampaignBanner();
+        prefillReferralCode();
+
         setTimeout(() => checkCurrentMember({
           preserveExisting: true
         }), 80);
@@ -1561,6 +1595,92 @@
       return cleanText(value).replace(/\D/g, "");
     }
 
+    function normalizeMemberCodeInput(value){
+      const code = cleanText(value).replace(/\s+/g, "").toUpperCase();
+      return /^V\d{2,}$/.test(code) ? code : "";
+    }
+
+    function getTaipeiDateKey(){
+      try{
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Asia/Taipei",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(new Date());
+      }catch(e){
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const d = String(now.getDate()).padStart(2, "0");
+        return `${y}-${m}-${d}`;
+      }
+    }
+
+    function isMemberCampaignActive(){
+      if(!MEMBER_CAMPAIGN.enabled) return false;
+      const today = getTaipeiDateKey();
+      return today >= MEMBER_CAMPAIGN.startDate && today <= MEMBER_CAMPAIGN.endDate;
+    }
+
+    function renderMemberCampaignBanner(){
+      const banner = document.getElementById("memberCampaignBanner");
+      const textBox = document.getElementById("memberCampaignText");
+      if(!banner || !textBox) return;
+
+      if(!isMemberCampaignActive()){
+        banner.style.display = "none";
+        return;
+      }
+
+      banner.style.display = "block";
+      textBox.innerHTML =
+        `📅 活動期間：${MEMBER_CAMPAIGN.startDate.replace(/-/g,"/")} ～ ${MEMBER_CAMPAIGN.endDate.replace(/-/g,"/")}<br>` +
+        `🎁 活動期間加入會員：加碼 ${MEMBER_CAMPAIGN.signupBonus} 點<br>` +
+        `🚕 首次有效搭乘：正常 1 點，再加碼 ${MEMBER_CAMPAIGN.firstRideBonus} 點<br>` +
+        `👫 推薦好友加入並完成首次有效搭乘：推薦人加碼 ${MEMBER_CAMPAIGN.referralBonus} 點`;
+    }
+
+    function prefillReferralCode(){
+      const input = document.getElementById("memberReferrerCode");
+      if(!input) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const ref = normalizeMemberCodeInput(
+        params.get("ref") ||
+        params.get("referrer") ||
+        params.get("referral") ||
+        ""
+      );
+
+      if(ref && !input.value){
+        input.value = ref;
+      }
+    }
+
+    async function validateReferrerCode(referrerCode){
+      if(!referrerCode) return null;
+
+      const snapshot = await db
+        .collection("members")
+        .doc(referrerCode)
+        .get();
+
+      if(!snapshot.exists){
+        throw new Error("找不到推薦人會員編號，請確認後再輸入。");
+      }
+
+      const data = snapshot.data() || {};
+      if(cleanText(data.status) && cleanText(data.status) !== "active"){
+        throw new Error("推薦人會員目前不是啟用狀態，請聯絡客服確認。");
+      }
+
+      return {
+        memberCode: referrerCode,
+        name: data.name || ""
+      };
+    }
+
     function showMemberError(message){
       const box = document.getElementById("memberFormError");
       if(!box) return;
@@ -1852,6 +1972,8 @@
 
       const name = cleanText(document.getElementById("memberName").value);
       const phone = normalizePhone(document.getElementById("memberPhone").value);
+      const referrerRaw = cleanText(document.getElementById("memberReferrerCode").value);
+      const referrerCode = referrerRaw ? normalizeMemberCodeInput(referrerRaw) : "";
       const consent = document.getElementById("memberConsent").checked;
 
       if(!name){
@@ -1861,6 +1983,11 @@
 
       if(!/^09\d{8}$/.test(phone)){
         showMemberError("手機號碼格式不正確，請輸入 09 開頭的 10 碼號碼。");
+        return;
+      }
+
+      if(referrerRaw && !referrerCode){
+        showMemberError("推薦人會員編號格式不正確，例如：V01。");
         return;
       }
 
@@ -1878,6 +2005,10 @@
         if(!profile || !profile.userId){
           throw new Error("請從維尼車隊 LINE 官方的服務選單開啟此頁。");
         }
+
+        const referrer = referrerCode
+          ? await validateReferrerCode(referrerCode)
+          : null;
 
         const phoneIndexRef = db.collection("memberPhoneIndex").doc(phone);
         const lineIndexRef = db.collection("memberLineIndex").doc(profile.userId);
@@ -1922,6 +2053,21 @@
             status: "active",
             note: "",
             source: "service_center_liff",
+
+            // 會員活動 / 推薦資料
+            joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            referredByMemberCode: referrer ? referrer.memberCode : "",
+            referredByMemberName: referrer ? referrer.name : "",
+            referralRewardIssued: false,
+            referralRewardIssuedAt: null,
+            hasReceivedSignupBonus: false,
+            hasReceivedFirstRideBonus: false,
+            firstCompletedRideAt: null,
+            campaignJoinedId: isMemberCampaignActive()
+              ? MEMBER_CAMPAIGN.campaignId
+              : "",
+            campaignJoinedEligible: isMemberCampaignActive(),
+
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -1972,7 +2118,7 @@
 
 ⭐ 搭乘完成可累積 1 點
 🎁 集滿 10 點自動轉換 NT$60 乘車金
-
+${isMemberCampaignActive() ? `🎉 已符合「${MEMBER_CAMPAIGN.name}」活動期間加入資格\n` : ""}${currentMember.referredByMemberCode ? `👫 推薦人會員編號：${currentMember.referredByMemberCode}\n` : ""}
 📲 後續叫車時，請將會員編號提供給派車小姐：
 ${currentMember.memberCode}`;
 
@@ -2396,6 +2542,10 @@ ${REFERRAL_URL}`;
       if(["ride","member","fare","airport","feedback","driver","share"].includes(hash)){
         showPanel(hash);
       }
+    });
+    document.addEventListener("DOMContentLoaded", function(){
+      renderMemberCampaignBanner();
+      prefillReferralCode();
     });
   </script>
 
