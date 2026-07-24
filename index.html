@@ -566,7 +566,7 @@
           <div class="member-rule">
             <div class="member-rule-icon">💰</div>
             <div class="member-rule-text">
-              <b>使用方式：</b>乘車金可於下次搭乘折抵車資，請於叫車或派車前主動告知。
+              <b>使用方式：</b>乘車金可於下次搭乘折抵車資。使用時請先告知派車小姐，調度於該趟報表「折扣」欄登記使用金額後，系統會自動扣除會員乘車金。
             </div>
           </div>
 
@@ -601,7 +601,7 @@
           <div class="member-rule">
             <div class="member-rule-icon">💵</div>
             <div class="member-rule-text">
-              <b>乘車金限制：</b>不得兌換現金、轉讓或找零。
+              <b>乘車金限制：</b>不得兌換現金、轉讓或找零；每次使用金額不得超過會員目前可用乘車金。
             </div>
           </div>
 
@@ -2047,12 +2047,7 @@
             lineUserId: profile.userId,
             lineDisplayName: profile.displayName || "",
             linePictureUrl: profile.pictureUrl || "",
-            // 活動期間加入會員時，畫面立即顯示加入贈點。
-            // 後端 Apps Script 會用唯一交易編號補建正式點數流水，
-            // 重新計算後仍會維持相同點數，不會重複贈送。
-            points: isMemberCampaignActive()
-              ? Number(MEMBER_CAMPAIGN.signupBonus || 0)
-              : 0,
+            points: 0,
             rideCredit: 0,
             totalRides: 0,
             status: "active",
@@ -2065,13 +2060,7 @@
             referredByMemberName: referrer ? referrer.name : "",
             referralRewardIssued: false,
             referralRewardIssuedAt: null,
-            // signupBonusPendingLedger=true 代表前端已先顯示活動贈點，
-            // 等 Apps Script 建立正式 pointTransactions 後會自動改為 false。
             hasReceivedSignupBonus: false,
-            signupBonusPendingLedger: isMemberCampaignActive(),
-            signupBonusPreviewPoints: isMemberCampaignActive()
-              ? Number(MEMBER_CAMPAIGN.signupBonus || 0)
-              : 0,
             hasReceivedFirstRideBonus: false,
             firstCompletedRideAt: null,
             campaignJoinedId: isMemberCampaignActive()
@@ -2129,7 +2118,7 @@
 
 ⭐ 搭乘完成可累積 1 點
 🎁 集滿 10 點自動轉換 NT$60 乘車金
-${isMemberCampaignActive() ? `🎉 限時活動加入會員立即贈送 ${Number(MEMBER_CAMPAIGN.signupBonus || 0)} 點\n⭐ 目前點數：${Number(currentMember.points || 0)}／10 點\n🚕 首次有效搭乘再加碼 ${Number(MEMBER_CAMPAIGN.firstRideBonus || 0)} 點\n` : ""}${currentMember.referredByMemberCode ? `👫 推薦人會員編號：${currentMember.referredByMemberCode}\n` : ""}
+${isMemberCampaignActive() ? `🎉 已符合「${MEMBER_CAMPAIGN.name}」活動期間加入資格\n` : ""}${currentMember.referredByMemberCode ? `👫 推薦人會員編號：${currentMember.referredByMemberCode}\n` : ""}
 📲 後續叫車時，請將會員編號提供給派車小姐：
 ${currentMember.memberCode}`;
 
