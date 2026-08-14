@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#3A2614" />
-  <title>維尼線上服務中心｜服務選單</title>
+  <title>立即叫車｜維尼線上服務中心</title>
 
   <style>
     :root{
@@ -593,7 +593,7 @@
   </style>
 </head>
 
-<body>
+<body class="page-mode">
   <main class="app">
     <header class="hero">
       <div class="topline">
@@ -621,6 +621,11 @@
 
       <div id="liffStatus" class="liff-status warn">LIFF 狀態檢查中...</div>
     </header>
+
+    <div class="page-backbar">
+      <a class="page-back" href="index.html">← 返回服務首頁</a>
+      <div class="page-name">目前功能：立即叫車</div>
+    </div>
 
     <div class="menu-head">
       <div>
@@ -1528,7 +1533,7 @@
       document.getElementById(id).classList.add("active");
       document.getElementById("floating").classList.add("show");
 
-      history.replaceState(null,"","#" + id);
+      // 多頁版保留乾淨網址，不寫入 hash。
 
       setTimeout(() => {
         document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"});
@@ -1557,10 +1562,7 @@
     }
 
     function goMenu(){
-      document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
-      document.getElementById("floating").classList.remove("show");
-      history.replaceState(null,"",location.pathname);
-      document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"});
+      location.href = "index.html";
     }
 
     function cleanText(value){
@@ -2830,10 +2832,8 @@ ${REFERRAL_URL}`;
         qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(REFERRAL_URL);
       }
 
-      const hash = location.hash.replace("#","");
-      if(["ride","onlineRide","member","fare","airport","feedback","driver","share"].includes(hash)){
-        showPanel(hash);
-      }
+      // 多頁版：本頁固定開啟指定功能
+      showPanel("ride");
     });
     document.addEventListener("DOMContentLoaded", function(){
       renderMemberCampaignBanner();
