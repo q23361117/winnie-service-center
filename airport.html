@@ -305,6 +305,23 @@
     .chip input{width:auto}
 
     .memory-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+
+    /* 動態停靠點 */
+    .stops-wrap{display:grid;gap:10px;margin-top:4px}
+    .stop-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+    .stop-row input{margin:0}
+    .stop-remove{
+      min-width:46px;height:46px;padding:0 13px;border-radius:14px;
+      background:#fff0ed;color:#a12a20;border:1px solid rgba(161,42,32,.18);
+      box-shadow:none;font-size:18px;
+    }
+    .add-stop-btn{
+      width:100%;margin-top:10px;background:#fff8e8;color:#6f4a14;
+      border:1px dashed rgba(184,131,31,.45);box-shadow:none;
+    }
+    .field-note{font-size:12px;color:var(--muted);font-weight:800}
+
     .memory-btn{
       border:1px solid rgba(40,120,216,.22);
       background:#eef6ff;
@@ -933,8 +950,16 @@
           </div>
 
           <div class="field">
-            <label>預約車輛時間</label>
-            <input name="reserveDateTime" type="datetime-local">
+            <label>用車時間 <span class="req">必填</span></label>
+            <select name="rideTiming" id="rideTiming" required onchange="toggleRideTiming(this.value)">
+              <option value="now" selected>現在｜即時叫車</option>
+              <option value="reserve">預約叫車</option>
+            </select>
+          </div>
+
+          <div class="field" id="rideReserveField" style="display:none">
+            <label>預約車輛時間 <span class="req">必填</span></label>
+            <input name="reserveDateTime" id="rideReserveDateTime" type="datetime-local">
           </div>
 
           <div class="field">
@@ -957,8 +982,9 @@
           </div>
 
           <div class="field full">
-            <label>中途下車點</label>
-            <input name="midStop" placeholder="如需中途停靠或下車，請輸入地址或地標，可不填">
+            <label>中途停靠點 <span class="field-note">選填・可無限新增</span></label>
+            <div id="rideStops" class="stops-wrap"></div>
+            <button class="add-stop-btn" type="button" onclick="addStop('ride')">＋ 新增停靠點</button>
           </div>
 
           <div class="field full">
@@ -1179,6 +1205,12 @@
           <div class="field full">
             <label>上車地點 <span class="req">必填</span></label>
             <input name="from" required placeholder="請輸入上車地址或地標" list="pickupList">
+          </div>
+
+          <div class="field full">
+            <label>中途停靠點 <span class="field-note">選填・可無限新增</span></label>
+            <div id="airportStops" class="stops-wrap"></div>
+            <button class="add-stop-btn" type="button" onclick="addStop('airport')">＋ 新增停靠點</button>
           </div>
 
           <div class="field full">
@@ -1567,6 +1599,60 @@
 
     function cleanText(value){
       return (value || "").toString().trim();
+    }
+
+    function toggleRideTiming(value){
+      const reserveField = document.getElementById("rideReserveField");
+      const reserveInput = document.getElementById("rideReserveDateTime");
+      const isReserve = value === "reserve";
+
+      if(reserveField){
+        reserveField.style.display = isReserve ? "" : "none";
+      }
+
+      if(reserveInput){
+        reserveInput.required = isReserve;
+        if(!isReserve) reserveInput.value = "";
+      }
+    }
+
+    function addStop(type){
+      const container = document.getElementById(type + "Stops");
+      if(!container) return;
+
+      const row = document.createElement("div");
+      row.className = "stop-row";
+      row.innerHTML = `
+        <input name="midStop" placeholder="中途停靠點" autocomplete="street-address">
+        <button class="stop-remove" type="button" aria-label="刪除停靠點" title="刪除停靠點">×</button>
+      `;
+
+      row.querySelector(".stop-remove").addEventListener("click", () => {
+        row.remove();
+        renumberStops(type);
+      });
+
+      container.appendChild(row);
+      renumberStops(type);
+
+      const input = row.querySelector("input");
+      if(input) input.focus();
+    }
+
+    function renumberStops(type){
+      const container = document.getElementById(type + "Stops");
+      if(!container) return;
+
+      container.querySelectorAll(".stop-row").forEach((row,index) => {
+        const input = row.querySelector("input");
+        if(input){
+          input.placeholder = `停靠點 ${index + 1}｜請輸入地址或明顯地標`;
+        }
+      });
+    }
+
+    function getStops(fd){
+      return fd.getAll("midStop").map(x => cleanText(x)).filter(Boolean);
     }
 
     function fieldLine(icon,label,value){
@@ -2495,30 +2581,37 @@ ${currentMember.memberCode}`;
 
       if(type === "ride"){
         const from = cleanText(fd.get("from"));
-        const midStop = cleanText(fd.get("midStop"));
+        const midStops = getStops(fd);
         const to = cleanText(fd.get("to"));
         const notes = combineNotes(fd);
+        const rideTiming = cleanText(fd.get("rideTiming"));
+        const rideTimeText = rideTiming === "reserve"
+          ? formatDateTimeLocal(fd.get("reserveDateTime"))
+          : "現在｜即時叫車";
+
         savePickupAddress(from, fd.get("pickupLabel"));
 
         msg = `🚖【維尼車隊｜立即叫車】\n\n`;
         msg += fieldLine("👤","姓名",fd.get("name"));
         msg += fieldLine("📞","電話",fd.get("phone"));
         msg += `📍 上車：${from}\n`;
-        msg += fieldLine("🛑","中途下車點",midStop);
+        midStops.forEach((stop,index) => {
+          msg += `🛑 停靠點 ${index + 1}：${stop}\n`;
+        });
         msg += `🏁 下車：${to}\n`;
         msg += fieldLine("🎯","需求類型",fd.get("serviceType"));
-        msg += fieldLine("🕒","預約車輛時間",formatDateTimeLocal(fd.get("reserveDateTime")));
+        msg += fieldLine("🕒","用車時間",rideTimeText);
         msg += fieldLine("👥","人數",fd.get("people"));
         msg += fieldLine("🧳","行李",fd.get("luggage"));
         msg += fieldLine("🚗","車型需求",fd.get("carType"));
         msg += fieldLine("📝","備註",notes);
-        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🛑","中途下車點",midStop)}${mapSearchLine("🏁","下車",to)}`;
-        msg += `📲 來源：LINE 線上服務中心\n\n`;
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 請派車小姐協助確認，謝謝。`;
       }
 
       if(type === "airport"){
         const from = cleanText(fd.get("from"));
+        const midStops = getStops(fd);
         const to = cleanText(fd.get("to"));
         const notes = combineNotes(fd);
         savePickupAddress(from);
@@ -2531,14 +2624,17 @@ ${currentMember.memberCode}`;
         msg += fieldLine("🧭","航班方向",fd.get("flightDirection"));
         msg += fieldLine("🏢","航廈",fd.get("terminal"));
         msg += fieldLine("🚗","車型需求",fd.get("carType"));
-        msg += `\n📍 上車：${from}\n🏁 下車：${to}\n`;
+        msg += `\n📍 上車：${from}\n`;
+        midStops.forEach((stop,index) => {
+          msg += `🛑 停靠點 ${index + 1}：${stop}\n`;
+        });
+        msg += `🏁 下車：${to}\n`;
         msg += fieldLine("📅","日期時間",fd.get("time"));
         msg += fieldLine("👥","人數",fd.get("people"));
         msg += fieldLine("🧳","行李",fd.get("luggage"));
         msg += fieldLine("🛩️","航班",fd.get("flight"));
         msg += fieldLine("📝","備註",notes);
-        msg += `\n${mapSearchLine("📍","上車",from)}${mapSearchLine("🏁","下車",to)}`;
-        msg += `📲 來源：LINE 線上服務中心\n\n`;
+        msg += `\n📲 來源：LINE 線上服務中心\n\n`;
         msg += `🙏 想詢問機場接送報價與預約，謝謝。`;
       }
 
