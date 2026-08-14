@@ -119,6 +119,58 @@
     .service p{margin:0;line-height:1.55;color:var(--muted);font-size:13px}
     .service .go{margin-top:12px;color:var(--gold2);font-weight:900;font-size:14px}
 
+    /* 線上即時叫車：尚未開放 */
+    .service.coming-soon{
+      border-color:rgba(40,120,216,.24);
+      background:linear-gradient(180deg,rgba(246,250,255,.96),rgba(255,255,255,.88));
+    }
+    .service.coming-soon .ico{
+      background:linear-gradient(135deg,#eaf3ff,#b9d7ff);
+    }
+    .service.coming-soon .go{color:#2878d8}
+    .coming-badge{
+      position:absolute;right:12px;top:12px;z-index:2;
+      padding:6px 9px;border-radius:999px;
+      background:#eaf3ff;color:#154d8d;
+      border:1px solid rgba(40,120,216,.22);
+      font-size:11px;font-weight:950;
+    }
+    .coming-panel{
+      border-radius:26px;
+      padding:26px 18px;
+      text-align:center;
+      background:linear-gradient(180deg,#f7fbff,#fffdf8);
+      border:1px solid rgba(40,120,216,.20);
+      box-shadow:var(--soft);
+    }
+    .coming-icon{
+      width:82px;height:82px;margin:0 auto 16px;
+      display:grid;place-items:center;border-radius:26px;
+      background:linear-gradient(135deg,#eaf3ff,#c9e1ff);
+      font-size:40px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .coming-title{font-size:24px;font-weight:950;color:#2f1f12}
+    .coming-sub{
+      max-width:620px;margin:10px auto 0;
+      color:var(--muted);font-size:14px;line-height:1.8;
+    }
+    .coming-features{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+      max-width:680px;margin:20px auto 0;text-align:left;
+    }
+    .coming-feature{
+      padding:13px 14px;border-radius:17px;background:white;
+      border:1px solid rgba(40,120,216,.15);
+      color:#3d4f65;font-size:14px;font-weight:850;line-height:1.55;
+    }
+    .coming-note{
+      max-width:680px;margin:18px auto 0;padding:13px 14px;
+      border-radius:17px;background:#fff7dd;
+      border:1px solid rgba(184,131,31,.18);
+      color:#70572b;font-size:13px;font-weight:850;line-height:1.7;
+    }
+
     .section{
       display:none;
       margin-top:14px;
@@ -351,6 +403,7 @@
       .fare-meta{grid-template-columns:1fr}
       .map-box{height:360px}
       .trust{grid-template-columns:1fr}
+      .coming-features{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -389,6 +442,14 @@
         <h2>立即叫車</h2>
         <p>一般搭車、代駕、跑腿、簡易搬家、霧電，快速整理派車資料。</p>
         <div class="go">前往叫車 ›</div>
+      </article>
+
+      <article class="service coming-soon" onclick="showPanel('onlineRide')">
+        <div class="coming-badge">尚未開放</div>
+        <div class="ico">🌐</div>
+        <h2>線上即時叫車</h2>
+        <p>未來可直接線上送出叫車需求，並查看派車進度與本次車輛即時動態。</p>
+        <div class="go">功能建置中 ›</div>
       </article>
 
       <article class="service" onclick="showPanel('member')">
@@ -744,6 +805,41 @@
       </form>
 
       <div class="output" id="out-ride"></div>
+    </section>
+
+    <section class="section" id="onlineRide">
+      <div class="section-head">
+        <div>
+          <h3>線上即時叫車</h3>
+          <p class="desc">未來將提供獨立的線上叫車服務，讓乘客可直接送出需求並查看派車與車輛動態。</p>
+        </div>
+        <div class="tag">🚧 功能建置中</div>
+      </div>
+
+      <div class="coming-panel">
+        <div class="coming-icon">🚕</div>
+        <div class="coming-title">線上即時叫車尚未開放</div>
+        <div class="coming-sub">
+          此功能目前正在建置與測試中，尚未正式開放使用。
+          正式上線後，將提供獨立的線上叫車與本次接送車輛動態查詢服務。
+        </div>
+
+        <div class="coming-features">
+          <div class="coming-feature">📝 線上填寫叫車需求</div>
+          <div class="coming-feature">⏳ 即時查看派車進度</div>
+          <div class="coming-feature">🚗 查看車牌、車色與預計抵達時間</div>
+          <div class="coming-feature">📍 查看本次接送車輛即時位置</div>
+        </div>
+
+        <div class="coming-note">
+          📢 目前如需叫車，請先使用「立即叫車」功能或維尼車隊 LINE 官方服務。
+        </div>
+
+        <div class="actions" style="max-width:680px;margin:16px auto 0">
+          <button class="gold" type="button" onclick="showPanel('ride')">使用目前立即叫車</button>
+          <a class="btn line" href="https://lin.ee/NK1LXwb" target="_blank" rel="noopener">前往 LINE 官方</a>
+        </div>
+      </div>
     </section>
 
     <section class="section" id="fare">
@@ -1186,6 +1282,7 @@
 
     const titles = {
       ride:"立即叫車",
+      onlineRide:"線上即時叫車",
       member:"會員中心",
       fare:"車資試算",
       airport:"機場接送",
@@ -2539,7 +2636,7 @@ ${REFERRAL_URL}`;
       }
 
       const hash = location.hash.replace("#","");
-      if(["ride","member","fare","airport","feedback","driver","share"].includes(hash)){
+      if(["ride","onlineRide","member","fare","airport","feedback","driver","share"].includes(hash)){
         showPanel(hash);
       }
     });
