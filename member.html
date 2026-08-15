@@ -2660,7 +2660,8 @@ ${REFERRAL_URL}
         const currentHash =
           location.hash.replace("#", "");
 
-        if(currentHash === "member"){
+        // 單頁舊版才依 #member 自動重查；多頁 member.html 由 load 流程統一處理，避免重複查詢。
+        if(currentHash === "member" && !location.pathname.endsWith("/member.html")){
           setTimeout(() => {
             checkCurrentMember({
               preserveExisting: true
@@ -2823,8 +2824,7 @@ ${REFERRAL_URL}`;
       return escapeHtml(str).replace(/`/g,"&#096;");
     }
 
-    window.addEventListener("load", () => {
-      initLiffApp();
+    window.addEventListener("load", async () => {
       renderPickupMemory();
 
       const qr = document.getElementById("referralQr");
@@ -2832,8 +2832,18 @@ ${REFERRAL_URL}`;
         qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(REFERRAL_URL);
       }
 
-      // 多頁版：本頁固定開啟指定功能
-      showPanel("member");
+      // 多頁版會員頁：先顯示會員區塊，但不要搶先查詢會員。
+      document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
+      document.getElementById("member").classList.add("active");
+      document.getElementById("floating").classList.add("show");
+      setMemberPanelState("loading");
+
+      // 必須等 LIFF 完整初始化後，再取得 LINE 身分並查 Firestore。
+      await initLiffApp();
+
+      await checkCurrentMember({
+        preserveExisting: true
+      });
     });
     document.addEventListener("DOMContentLoaded", function(){
       renderMemberCampaignBanner();
