@@ -647,7 +647,7 @@
         <div class="go">功能建置中 ›</div>
       </article>
 
-      <article class="service" onclick="location.href='member.html'">
+      <article class="service" onclick="showPanel('member')">
         <div class="ico">🎫</div>
         <h2>會員中心</h2>
         <p>加入會員、查看點數、乘車金與專屬會員編號。</p>
@@ -2659,8 +2659,8 @@ ${REFERRAL_URL}
           location.hash.replace("#", "");
 
         if(currentHash === "member"){
-          setTimeout(() => {
-            checkCurrentMember({
+          setTimeout(async () => {
+            await checkCurrentMember({
               preserveExisting: true
             });
           }, 80);
