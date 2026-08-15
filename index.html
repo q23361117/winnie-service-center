@@ -468,6 +468,33 @@
     .liff-status{margin-top:16px;border-radius:14px;padding:9px 12px;font-size:12px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.11);color:#e9f7ed}
     .liff-status.warn{background:rgba(255,246,212,.09);border-color:rgba(244,217,131,.18);color:#f4e2ad}
 
+    .service-livebar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-top:12px;padding:11px 13px;border-radius:14px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.11);
+      color:#f3efe7;font-size:12px;font-weight:850;
+    }
+    .service-livebar .live-main{display:flex;align-items:center;gap:8px;min-width:0}
+    .service-livebar .live-dot{
+      width:9px;height:9px;border-radius:999px;background:#4ade80;
+      box-shadow:0 0 0 4px rgba(74,222,128,.12);
+      flex:0 0 auto;
+    }
+    .service-livebar .live-side{color:#e7d5a3;white-space:nowrap}
+
+    .member-summary{
+      margin-top:9px;padding:9px 10px;border-radius:12px;
+      background:#f8f4ec;border:1px solid rgba(61,47,30,.08);
+      color:#5f5448;font-size:11.5px;font-weight:850;line-height:1.55;
+    }
+    .member-summary.member-ok{
+      background:#eef9f1;border-color:rgba(47,158,68,.16);color:#236638;
+    }
+    .member-summary.member-warn{
+      background:#fff7e6;border-color:rgba(184,131,31,.16);color:#7a581f;
+    }
+
     .menu-head{
       display:flex;align-items:end;justify-content:space-between;gap:16px;
       margin:24px 2px 12px;
@@ -560,6 +587,8 @@
       .service .ico{width:42px;height:42px;border-radius:13px;font-size:21px;margin-bottom:10px}
       .service h2{font-size:16px}
       .service p{font-size:11.5px;line-height:1.5}
+      .service-livebar{align-items:flex-start;flex-direction:column;gap:5px}
+      .service-livebar .live-side{white-space:normal}
       .service .go{font-size:11.5px;margin-top:8px}
       .coming-badge,.service-label{right:10px;top:10px;padding:5px 7px;font-size:9.5px}
       .section{border-radius:20px;padding:16px 12px}
@@ -615,8 +644,16 @@
       </p>
 
       <div class="hero-actions">
-        <button class="hero-btn primary" type="button" onclick="location.href='ride.html'">🚗 立即叫車</button>
+        <button class="hero-btn primary" type="button" onclick="location.href='ride.html'">🚗 LINE 快速叫車</button>
         <button class="hero-btn secondary" type="button" onclick="location.href='share.html'">🎁 介紹好友</button>
+      </div>
+
+      <div class="service-livebar" aria-label="目前服務狀態">
+        <div class="live-main">
+          <span class="live-dot"></span>
+          <span>目前正常服務中</span>
+        </div>
+        <div class="live-side">24H 叫車｜中彰投服務</div>
       </div>
 
       <div id="liffStatus" class="liff-status warn">LIFF 狀態檢查中...</div>
@@ -634,9 +671,9 @@
       <article class="service featured ride-feature" onclick="location.href='ride.html'">
         <div class="service-label">主要服務</div>
         <div class="ico">🚗</div>
-        <h2>立即叫車</h2>
-        <p>一般搭車、代駕、跑腿、簡易搬家與霧電需求，一次整理完整派車資料。</p>
-        <div class="go">前往叫車 ›</div>
+        <h2>LINE 快速叫車</h2>
+        <p>透過 LINE 快速整理一般搭車、代駕、跑腿、簡易搬家與霧電需求。</p>
+        <div class="go">立即填寫 ›</div>
       </article>
 
       <article class="service featured coming-soon" onclick="location.href='online-ride.html'">
@@ -651,7 +688,8 @@
         <div class="ico">🎫</div>
         <h2>會員中心</h2>
         <p>加入會員、查看點數、乘車金與專屬會員編號。</p>
-        <div class="go">立即加入 ›</div>
+        <div id="homeMemberSummary" class="member-summary">正在確認會員狀態…</div>
+        <div id="homeMemberGo" class="go">前往會員中心 ›</div>
       </article>
 
       <article class="service" onclick="location.href='fare.html'">
@@ -2114,6 +2152,48 @@
       return member;
     }
 
+
+    async function refreshHomeMemberSummary(){
+      const box = document.getElementById("homeMemberSummary");
+      const go = document.getElementById("homeMemberGo");
+
+      if(!box) return;
+
+      try{
+        const profile = await ensureLiffProfile();
+
+        if(!profile || !profile.userId){
+          box.className = "member-summary member-warn";
+          box.textContent = "尚未取得 LINE 會員身分";
+          if(go) go.textContent = "前往會員中心 ›";
+          return;
+        }
+
+        const member = await findMemberByLineUserId(profile.userId);
+
+        if(!member){
+          box.className = "member-summary member-warn";
+          box.textContent = "尚未加入會員｜加入即可開始累積點數";
+          if(go) go.textContent = "立即加入 ›";
+          return;
+        }
+
+        const points = Number(member.points || 0);
+        const rideCredit = Number(member.rideCredit || 0);
+
+        box.className = "member-summary member-ok";
+        box.textContent =
+          `已登入會員｜${points} / 10 點｜乘車金 NT$${rideCredit.toLocaleString("zh-TW")}`;
+
+        if(go) go.textContent = "查看我的會員卡 ›";
+      }catch(error){
+        console.warn("首頁會員摘要讀取失敗：", error);
+        box.className = "member-summary";
+        box.textContent = "會員資料請進入會員中心查看";
+        if(go) go.textContent = "前往會員中心 ›";
+      }
+    }
+
     async function checkCurrentMember(options){
       const preserveExisting =
         !!(options && options.preserveExisting);
@@ -2652,6 +2732,13 @@ ${REFERRAL_URL}
           : "LIFF 已初始化：外部瀏覽器仍建議複製後到 LINE 傳送。";
 
         status.classList.toggle("warn", !isInLineClient);
+
+        // 首頁只顯示會員摘要，不取代獨立 member.html。
+        if(document.getElementById("homeMemberSummary")){
+          setTimeout(() => {
+            refreshHomeMemberSummary();
+          }, 80);
+        }
 
         // 頁面若目前停在會員中心，等 LIFF 真正初始化完成後再查一次會員。
         // 解決由車資試算切回會員中心時，第一次查詢早於 LIFF ready 而顯示不到會員。
