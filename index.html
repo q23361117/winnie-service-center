@@ -495,6 +495,99 @@
       background:#fff7e6;border-color:rgba(184,131,31,.16);color:#7a581f;
     }
 
+
+    .notice-board{
+      margin:16px 0 4px;
+      border:1px solid rgba(61,47,30,.10);
+      background:rgba(255,255,255,.94);
+      border-radius:20px;
+      box-shadow:0 8px 24px rgba(49,39,27,.055);
+      overflow:hidden;
+    }
+
+    .notice-board-head{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 16px;
+      background:linear-gradient(135deg,#2a2118,#4b351f);
+      color:white;
+    }
+
+    .notice-board-title{
+      font-size:15px;font-weight:950;letter-spacing:.02em;
+    }
+
+    .notice-board-time{
+      font-size:11px;color:#f0dca9;font-weight:850;
+    }
+
+    .notice-live{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:start;
+      padding:14px 16px;
+      background:#fff8ee;
+      border-bottom:1px solid rgba(61,47,30,.08);
+    }
+
+    .notice-live-badge{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-width:70px;
+      padding:6px 9px;
+      border-radius:999px;
+      background:#fff0f0;
+      color:#a12828;
+      border:1px solid rgba(161,40,40,.12);
+      font-size:11px;font-weight:950;
+      white-space:nowrap;
+    }
+
+    .notice-live-text{
+      color:#5e4b38;
+      font-size:13px;
+      line-height:1.65;
+      font-weight:850;
+    }
+
+    .notice-list{
+      display:grid;
+      gap:0;
+      padding:0 16px;
+    }
+
+    .notice-item{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:start;
+      padding:12px 0;
+      border-bottom:1px solid rgba(61,47,30,.07);
+    }
+
+    .notice-item:last-child{border-bottom:0}
+
+    .notice-item-icon{
+      width:28px;height:28px;
+      display:grid;place-items:center;
+      border-radius:9px;
+      background:#f7f1e5;
+      font-size:15px;
+    }
+
+    .notice-item-title{
+      font-size:13px;
+      color:#34261a;
+      font-weight:950;
+    }
+
+    .notice-item-desc{
+      margin-top:3px;
+      font-size:11.5px;
+      line-height:1.55;
+      color:#7a7066;
+      font-weight:750;
+    }
+
     .menu-head{
       display:flex;align-items:end;justify-content:space-between;gap:16px;
       margin:24px 2px 12px;
@@ -576,6 +669,11 @@
       .hero h1{font-size:30px}
       .hero p{font-size:13px;line-height:1.7}
       .menu-head{margin:21px 2px 10px;align-items:flex-start}
+      .notice-board{border-radius:17px;margin-top:12px}
+      .notice-board-head{padding:12px 13px}
+      .notice-live{grid-template-columns:1fr;padding:12px 13px;gap:7px}
+      .notice-live-badge{width:max-content}
+      .notice-list{padding:0 13px}
       .menu-head h2{font-size:20px}
       .menu-head .menu-note{display:none}
       .quick{grid-template-columns:1fr 1fr;gap:9px}
@@ -658,6 +756,46 @@
 
       <div id="liffStatus" class="liff-status warn">LIFF 狀態檢查中...</div>
     </header>
+
+    <section class="notice-board" aria-label="服務公告">
+      <div class="notice-board-head">
+        <div class="notice-board-title">📢 服務公告</div>
+        <div class="notice-board-time">維尼大台中</div>
+      </div>
+
+      <div class="notice-live">
+        <div class="notice-live-badge">🔴 即時公告</div>
+        <div class="notice-live-text">
+          目前正常服務中｜24H 派車。遇雨天、尖峰時段或特殊節日，實際等車時間與加成依當下派車狀況為準。
+        </div>
+      </div>
+
+      <div class="notice-list">
+        <div class="notice-item">
+          <div class="notice-item-icon">🎫</div>
+          <div>
+            <div class="notice-item-title">會員集點服務持續開放</div>
+            <div class="notice-item-desc">完成搭乘可累積點數，集滿 10 點可轉換 NT$60 乘車金。</div>
+          </div>
+        </div>
+
+        <div class="notice-item">
+          <div class="notice-item-icon">🌐</div>
+          <div>
+            <div class="notice-item-title">線上即時叫車功能建置中</div>
+            <div class="notice-item-desc">未來可查看派車進度、車牌車色、預計抵達時間與本次車輛即時動態。</div>
+          </div>
+        </div>
+
+        <div class="notice-item">
+          <div class="notice-item-icon">✈️</div>
+          <div>
+            <div class="notice-item-title">機場接送可提前預約</div>
+            <div class="notice-item-desc">桃園、松山、台中國際機場接送可提前填寫航班、航廈與車型需求。</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="menu-head">
       <div>
