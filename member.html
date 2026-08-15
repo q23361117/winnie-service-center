@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#3A2614" />
-  <title>維尼線上服務中心｜服務選單</title>
+  <title>會員中心｜維尼線上服務中心</title>
 
   <style>
     :root{
@@ -593,7 +593,7 @@
   </style>
 </head>
 
-<body>
+<body class="page-mode">
   <main class="app">
     <header class="hero">
       <div class="topline">
@@ -621,6 +621,11 @@
 
       <div id="liffStatus" class="liff-status warn">LIFF 狀態檢查中...</div>
     </header>
+
+    <div class="page-backbar">
+      <a class="page-back" href="index.html">← 返回服務首頁</a>
+      <div class="page-name">目前功能：會員中心</div>
+    </div>
 
     <div class="menu-head">
       <div>
@@ -1528,7 +1533,7 @@
       document.getElementById(id).classList.add("active");
       document.getElementById("floating").classList.add("show");
 
-      history.replaceState(null,"","#" + id);
+      // 多頁版保留乾淨網址，不寫入 hash。
 
       setTimeout(() => {
         document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"});
@@ -1557,10 +1562,7 @@
     }
 
     function goMenu(){
-      document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
-      document.getElementById("floating").classList.remove("show");
-      history.replaceState(null,"",location.pathname);
-      document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"});
+      location.href = "index.html";
     }
 
     function cleanText(value){
@@ -2065,6 +2067,13 @@
           "讀取 memberLineIndex 失敗，改用 members 反查：",
           indexError
         );
+
+        console.warn(
+          "memberLineIndex error code:",
+          indexError && indexError.code,
+          "message:",
+          indexError && indexError.message
+        );
       }
 
       // 第二順位：直接從 members.lineUserId 反查。
@@ -2208,8 +2217,20 @@
         }
 
         setMemberPanelState("join");
+
+        const errorCode = cleanText(
+          error && (error.code || error.name)
+        ) || "unknown";
+
+        const errorMessage = cleanText(
+          error && error.message
+        ) || "未知錯誤";
+
         showMemberError(
-          "目前無法讀取會員資料，請稍後再試。"
+          "會員資料讀取失敗｜錯誤代碼：" +
+          errorCode +
+          "｜" +
+          errorMessage
         );
       }
     }
@@ -2658,9 +2679,10 @@ ${REFERRAL_URL}
         const currentHash =
           location.hash.replace("#", "");
 
-        if(currentHash === "member"){
-          setTimeout(async () => {
-            await checkCurrentMember({
+        // 單頁舊版才依 #member 自動重查；多頁 member.html 由 load 流程統一處理，避免重複查詢。
+        if(currentHash === "member" && !location.pathname.endsWith("/member.html")){
+          setTimeout(() => {
+            checkCurrentMember({
               preserveExisting: true
             });
           }, 80);
@@ -2821,8 +2843,7 @@ ${REFERRAL_URL}`;
       return escapeHtml(str).replace(/`/g,"&#096;");
     }
 
-    window.addEventListener("load", () => {
-      initLiffApp();
+    window.addEventListener("load", async () => {
       renderPickupMemory();
 
       const qr = document.getElementById("referralQr");
@@ -2830,10 +2851,27 @@ ${REFERRAL_URL}`;
         qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(REFERRAL_URL);
       }
 
-      const hash = location.hash.replace("#","");
-      if(["ride","onlineRide","member","fare","airport","feedback","driver","share"].includes(hash)){
-        showPanel(hash);
+      // 多頁版會員頁：先顯示會員區塊，但不要搶先查詢會員。
+      document.querySelectorAll(".section").forEach(p => p.classList.remove("active"));
+      document.getElementById("member").classList.add("active");
+      document.getElementById("floating").classList.add("show");
+      setMemberPanelState("loading");
+
+      // 必須等 LIFF 完整初始化後，再取得 LINE 身分並查 Firestore。
+      await initLiffApp();
+
+      // 確認 LIFF 已初始化完成後，再取得 LINE Profile。
+      if(window.liff && liffReady && liff.isLoggedIn() && !liffProfile){
+        try{
+          liffProfile = await liff.getProfile();
+        }catch(profileError){
+          console.error("會員頁取得 LINE Profile 失敗：", profileError);
+        }
       }
+
+      await checkCurrentMember({
+        preserveExisting: true
+      });
     });
     document.addEventListener("DOMContentLoaded", function(){
       renderMemberCampaignBanner();
